@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Musingo</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="partner_site">http://www.partner.com</string>
+    <string name="site">http://www.goodworldgames.com</string>
+
+<!--  HowTo play -->
+    <string name="one">When you tap on PLAY, the countdown to the game will begin</string>
+    <string name="two">When the countdown ends, a 9-square gameboard will appear &amp; the first song of the game will start</string>
+    <string name="three">Tap on the song name that you think is playing</string>
+    <string name="four">Tho only way to advance to the next playlist is to beat the challenge score. How well do you know your tunes?</string>
+
+    // powerups
+    <string name="hint">The hint powerup highlights 3 options on the board with 1 of them being the correct one</string>
+    <string name="freeze">The freeze powerup pauses the song timer while still allowing tho song to play. Get a higher score with a shorter time!</string>
+    <string name="skip">Tho skip powerup lets you pass the current song, with the ability to come back to it later. Maybe it\'ll be clearer what it is at the end of the round </string>
+    <string name="replay">The replay poweup gives you another chance to hear the song</string>
+    <string name="longer_clip">Tho longer clip powerup adds on an extra 10 seconds to the song, giving you more to guess on</string>
+    <string name="help">The facebook powerup is FREE and lets you reach out to friends for help. Maybe they\'ll know the answer for you to move on!</string>
+    <string name="next_playlist">The next playlist powerup allows you to move on to the next playlist without having to conquer tho score to beat.</string>
+
+<!-- AboutUS -->
+    <string name="aboutUs">Good World Games os a pioneer of the Gaming for good movement.
+        We allow playes to make a difference while having fun.
+        We partner with non-profits to support causes through our games.\n\n
+        Games in and of themselves are great, but games that also do good are awesome.
+        We had the crazy idea that maybe games are more than about having fun and entrtaining your brain for a few minutes here, a few hours there.\n\n
+        What if games can change the way people behave in their lives? What if, through the power of games, we can leverage our collective wealth, intelligance, and energy to help solve hard problems?
+         Join our movement!\n\n
+        For more information visit:
+    </string>
+
+<!-- About our partners -->
+    <string name="our_aim">OUR AIM IS TO SUPPORT MARINE CONSERVATION EFFORTS THROUGH PLAY. LEARN MORE ABOUT OUR PARTNERS BELOW AND HOW THEY ARE HELPING OUR OCEANS!</string>
+    <string name="partners_title">Guy Harvey Ocean Foundation</string>
+    <string name="partners_text">The Guy Harvey Ocean Foundation funds inspired scientific research
+        and innovative educational programs to encourage conservation and best management practices for sustainable marine environments.
+        The Guy Harvey Ocean Foundation will help ensure that future generation can enjoy and benefit from a naturally balance marine ecosystem where fish and other wildwife flourish.\n <font fgcolor="#ffe85c8d">Learn more</font></string>
+</resources>
