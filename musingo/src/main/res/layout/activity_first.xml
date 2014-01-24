@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background">
+
     <ImageView
         android:id="@+id/settings"
         android:layout_height="wrap_content"
@@ -28,6 +29,15 @@
             android:layout_height="250dp"
             android:layout_below="@id/logoText"
             android:src="@drawable/first_image"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/buttonResults"
+            android:layout_below="@+id/playNow"
+            android:layout_centerHorizontal="true" />
+
         <ImageView
             android:id="@+id/playNow"
             android:layout_width="270dp"
@@ -36,11 +46,14 @@
             android:layout_centerHorizontal="true"
             android:onClick="goToGame"
             android:layout_below="@id/first"/>
-        </RelativeLayout>
+
+    </RelativeLayout>
+
     <ImageView
         android:id="@+id/bottom"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:src="@drawable/bottom"/>
+
 </RelativeLayout>
