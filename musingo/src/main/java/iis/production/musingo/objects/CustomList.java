@@ -15,28 +15,32 @@ import java.lang.Integer;import java.lang.Override;import java.lang.String;impor
  */
 public class CustomList extends ArrayAdapter<String> {
     private final Activity context;
-    private final String[] web;
-    private final String[] point;
+    private final String[] song;
+    private final String[] time;
+    private final String[] artist;
     private final Integer[] imageId;
-    public CustomList(Activity context, String[] web, Integer[] imageId, String[] point) {
-        super(context, R.layout.songs_list_view, web);
+    public CustomList(Activity context, String[] song, String[] artist, Integer[] imageId, String[] time) {
+        super(context, R.layout.songs_list_view, song);
         this.context = context;
-        this.web = web;
+        this.song = song;
+        this.artist = artist;
         this.imageId = imageId;
-        this.point = point;
+        this.time = time;
     }
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView= inflater.inflate(R.layout.songs_list_view, null, true);
 
-        TextView songName = (TextView) rowView.findViewById(R.id.textViewSongName);
-        TextView pointText = (TextView) rowView.findViewById(R.id.textViewTime);
+        TextView songName = (TextView) rowView.findViewById(R.id.songName);
+        TextView artistName = (TextView) rowView.findViewById(R.id.artistName);
+        TextView pointText = (TextView) rowView.findViewById(R.id.time);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.artistPic);
 
-        songName.setText(web[position]);
+        songName.setText(song[position]);
+        artistName.setText(artist[position]);
         imageView.setImageResource(imageId[position]);
-        pointText.setText(point[position]);
+        pointText.setText(time[position]);
         return rowView;
     }
 }

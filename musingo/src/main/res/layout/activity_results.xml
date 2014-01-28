@@ -6,7 +6,7 @@
 
     <RelativeLayout
         android:id="@+id/topBar"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="70dp"
         android:background="#3fb8cd">
 
@@ -41,45 +41,24 @@
         </RelativeLayout>
     </RelativeLayout>
 
-
-    <ExpandableListView
-        android:id="@+id/starCollection"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-    </ExpandableListView>
-
-    <ExpandableListView
-        android:id="@+id/score"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-    </ExpandableListView>
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:id="@+id/scrollView">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="#2c2c2c">
+            android:layout_height="fill_parent"
+            android:id="@+id/listViewScroll">
 
-            <iis.production.musingo.objects.TextViewArchitects
-                android:id="@+id/textViewSong"
-                android:layout_width="wrap_content"
+            <ListView
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:textSize="18sp"
-                android:textColor="#FFF"
-                android:textStyle="bold"
-                android:layout_gravity="center_horizontal"
-                android:text="THE 9 SONGS"/>
+                android:id="@+id/listViewSongs" />
+
         </LinearLayout>
-    </LinearLayout>
-    <ListView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/listViewSongs" />
+    </ScrollView>
 
 </LinearLayout>
