@@ -3,24 +3,17 @@ package iis.production.musingo.main;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
 import iis.production.musingo.R;
-import iis.production.musingo.objects.CustomList;
-import iis.production.musingo.objects.ExpListAdapter;
+import iis.production.musingo.main.adapter.ResultsCustomList;
 
 /**
  * Created by AGalkin on 1/18/14.
@@ -74,7 +67,7 @@ public class ResultsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
 
-        CustomList songsList = new CustomList(ResultsActivity.this, strSong, strArtist, imageId, strTime);
+        ResultsCustomList songsList = new ResultsCustomList(ResultsActivity.this, strSong, strArtist, imageId, strTime);
         list = (ListView)findViewById(R.id.listViewSongs);
 
         list.setOnTouchListener(new ListView.OnTouchListener() {
@@ -104,13 +97,6 @@ public class ResultsActivity extends Activity {
         list.addHeaderView(header, null, false);
 
         list.setAdapter(songsList);
-        //list.setAdapter(new ArrayAdapter<String>(ResultsActivity.this, android.R.layout.simple_expandable_list_item_1, web));
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(ResultsActivity.this, "You Clicked at " + strSong[+position], Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     public void starCollection(View v){
