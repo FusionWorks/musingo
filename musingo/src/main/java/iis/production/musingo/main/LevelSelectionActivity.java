@@ -38,6 +38,17 @@ public class LevelSelectionActivity extends Activity{
     ImageView level8;
     ImageView level9;
 
+    RelativeLayout song1;
+    RelativeLayout song2;
+    RelativeLayout song3;
+    RelativeLayout song4;
+    RelativeLayout song5;
+    RelativeLayout song6;
+    RelativeLayout song7;
+    RelativeLayout song8;
+    RelativeLayout song9;
+
+    //variables
     boolean opened;
     boolean beat;
     boolean complete;
@@ -48,8 +59,9 @@ public class LevelSelectionActivity extends Activity{
         setContentView(R.layout.activity_level_selection);
 
         opened = false;
-        levels = (LinearLayout)findViewById(R.id.levels);
         levelViews = new ArrayList<ImageView>();
+        //Views initialize
+        levels = (LinearLayout)findViewById(R.id.levels);
 
         level1 = (ImageView)findViewById(R.id.level1);
         level2 = (ImageView)findViewById(R.id.level2);
@@ -69,6 +81,16 @@ public class LevelSelectionActivity extends Activity{
         levelViews.add(level7);
         levelViews.add(level8);
         levelViews.add(level9);
+
+        song1 = (RelativeLayout) findViewById(R.id.song1);
+        song2 = (RelativeLayout) findViewById(R.id.song2);
+        song3 = (RelativeLayout) findViewById(R.id.song3);
+        song4 = (RelativeLayout) findViewById(R.id.song4);
+        song5 = (RelativeLayout) findViewById(R.id.song5);
+        song6 = (RelativeLayout) findViewById(R.id.song6);
+        song7 = (RelativeLayout) findViewById(R.id.song7);
+        song8 = (RelativeLayout) findViewById(R.id.song8);
+        song9 = (RelativeLayout) findViewById(R.id.song9);
 
         // temp
         beat = true;
@@ -159,7 +181,6 @@ public class LevelSelectionActivity extends Activity{
         params.height = pixels;
         params.width = pixels;
         imageView.setLayoutParams(params);
-//        imageView.setBackgroundResource(R.drawable.level_sel);
         imageView.setTag("selected");
         return imageView;
     }
@@ -172,9 +193,14 @@ public class LevelSelectionActivity extends Activity{
         params.height = pixels;
         params.width = pixels;
         imageView.setLayoutParams(params);
-//        imageView.setBackgroundResource(R.drawable.level_un);
         imageView.setTag("unselected");
         return imageView;
+    }
+
+    public void onLevelsSelectionClick(View view){
+        ImageView selectedView = (ImageView)levels.findViewWithTag("selected");
+        makeUnselected(selectedView);
+        makeSelected((ImageView)view);
     }
 
 }
