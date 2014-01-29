@@ -36,6 +36,7 @@
                 <RelativeLayout
                     android:id="@+id/song1"
                     android:layout_width="80dp"
+                    android:onClick="goToLevel"
                     android:layout_marginRight="10dp"
                     android:layout_height="match_parent">
                     <ImageView
@@ -86,6 +87,7 @@
                 <RelativeLayout
                     android:id="@+id/song2"
                     android:layout_width="80dp"
+                    android:onClick="goToLevel"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp">
@@ -137,6 +139,7 @@
                 <RelativeLayout
                     android:id="@+id/song3"
                     android:layout_width="80dp"
+                    android:onClick="goToLevel"
                     android:layout_marginLeft="10dp"
                     android:layout_height="match_parent">
                     <ImageView
@@ -195,6 +198,7 @@
                 <RelativeLayout
                     android:id="@+id/song4"
                     android:layout_width="80dp"
+                    android:onClick="goToLevel"
                     android:layout_marginRight="10dp"
                     android:layout_height="match_parent">
                     <ImageView
@@ -245,6 +249,7 @@
                 <RelativeLayout
                     android:id="@+id/song5"
                     android:layout_width="80dp"
+                    android:onClick="goToLevel"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp">
@@ -296,6 +301,7 @@
                 <RelativeLayout
                     android:id="@+id/song6"
                     android:layout_width="80dp"
+                    android:onClick="goToLevel"
                     android:layout_marginLeft="10dp"
                     android:layout_height="match_parent">
                     <ImageView
@@ -354,6 +360,7 @@
                 <RelativeLayout
                     android:id="@+id/song7"
                     android:layout_width="80dp"
+                    android:onClick="goToLevel"
                     android:layout_marginRight="10dp"
                     android:layout_height="match_parent">
                     <ImageView
@@ -404,6 +411,7 @@
                 <RelativeLayout
                     android:id="@+id/song8"
                     android:layout_width="80dp"
+                    android:onClick="goToLevel"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp">
@@ -455,6 +463,7 @@
                 <RelativeLayout
                     android:id="@+id/song9"
                     android:layout_width="80dp"
+                    android:onClick="goToLevel"
                     android:layout_marginLeft="10dp"
                     android:layout_height="match_parent">
                     <ImageView

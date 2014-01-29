@@ -1,6 +1,7 @@
 package iis.production.musingo.main;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -201,6 +202,13 @@ public class LevelSelectionActivity extends Activity{
         ImageView selectedView = (ImageView)levels.findViewWithTag("selected");
         makeUnselected(selectedView);
         makeSelected((ImageView)view);
+    }
+
+    public void goToLevel(View view){
+
+        Intent intent = new Intent();
+        intent.setClass(this, MainGameActivity.class);
+        startActivity(intent);
     }
 
 }
