@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:background="#ee5e91">
+
+
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/artistPic"
+        android:src="@drawable/ic_launcher"
+        android:layout_marginRight="5dp"/>
+
+    <iis.production.musingo.objects.TextViewPacifico
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/artistPic"
+        android:id="@+id/songName"
+        android:layout_gravity="center_vertical"
+        android:textSize="25sp"
+        android:textColor="#fff"
+        android:layout_weight="0.68"/>
+
+    <iis.production.musingo.objects.TextViewArchitects
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/artistPic"
+        android:layout_below="@+id/songName"
+        android:id="@+id/artistName"
+        android:layout_gravity="center_vertical"
+        android:textSize="18sp"
+        android:textColor="#fff"
+        android:layout_weight="0.68"/>
+
+    <iis.production.musingo.objects.TextViewPacifico
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:id="@+id/time"
+        android:background="@drawable/round_corner_time"
+        android:textSize="25sp"
+        android:textColor="#2c2c2c"
+        android:layout_gravity="center_vertical"/>
+
+</RelativeLayout>
