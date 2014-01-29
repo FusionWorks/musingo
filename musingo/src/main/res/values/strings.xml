@@ -39,4 +39,7 @@
     <string name="partners_text">The Guy Harvey Ocean Foundation funds inspired scientific research
         and innovative educational programs to encourage conservation and best management practices for sustainable marine environments.
         The Guy Harvey Ocean Foundation will help ensure that future generation can enjoy and benefit from a naturally balance marine ecosystem where fish and other wildwife flourish.\n <font fgcolor="#ffe85c8d">Learn more</font></string>
+
+    <string name="appIdChartboost">52e8d45f9ddc3556655f4a22</string>
+    <string name="appSignatureChartboost">502e57fa543ef4b8f5528f5043ebf85279d76dd1</string>
 </resources>
