@@ -17,11 +17,20 @@ public class FirstActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
 
-        Button button = (Button) findViewById(R.id.buttonResults);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button buttonResults = (Button) findViewById(R.id.buttonResults);
+        buttonResults.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent activityChangeIntent = new Intent(FirstActivity.this, ResultsActivity.class);
+                FirstActivity.this.startActivity(activityChangeIntent);
+            }
+        });
+
+        Button buttonPartner = (Button) findViewById(R.id.buttonPartner);
+        buttonPartner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent activityChangeIntent = new Intent(FirstActivity.this, PartnerActivity.class);
                 FirstActivity.this.startActivity(activityChangeIntent);
             }
         });
