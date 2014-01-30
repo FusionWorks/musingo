@@ -20,6 +20,6 @@ android {
 
 dependencies {
     compile 'com.android.support:appcompat-v7:+'
-    'com.mixpanel.android:mixpanel-android:4.0.0@aar'
     compile files('libs/MixPanel.jar')
+    compile files('libs/chartboost.jar')
 }
