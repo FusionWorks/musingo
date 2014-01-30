@@ -28,7 +28,6 @@
             android:orientation="vertical">
             <LinearLayout
                 android:id="@+id/line1"
-                android:layout_below="@id/songsTitle"
                 android:layout_width="match_parent"
                 android:layout_height="85dp"
                 android:layout_marginBottom="5dp"
@@ -190,7 +189,6 @@
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/line1"
-                android:layout_below="@id/songsTitle"
                 android:layout_width="match_parent"
                 android:layout_height="85dp"
                 android:layout_marginBottom="5dp"
@@ -352,7 +350,6 @@
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/line1"
-                android:layout_below="@id/songsTitle"
                 android:layout_width="match_parent"
                 android:layout_height="85dp"
                 android:layout_marginBottom="5dp"

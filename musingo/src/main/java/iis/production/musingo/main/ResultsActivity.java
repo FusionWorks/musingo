@@ -32,6 +32,8 @@ public class ResultsActivity extends Activity {
         ArrayList<Song> songsList = new ArrayList<Song>();
         songsList.add(new Song(R.drawable.bsb, "One Sweet Day", "BY: BACKSTREET BOYS", "21s"));
         songsList.add(new Song(R.drawable.lfo, "One Sweet Day", "BY: BACKSTREET BOYS", "21s"));
+        songsList.add(new Song(R.drawable.lfo, "One Sweet Day", "BY: BACKSTREET BOYS", "21s"));
+        songsList.add(new Song(R.drawable.lfo, "One Sweet Day", "BY: BACKSTREET BOYS", "21s"));
 
         ResultsCustomListAdapter songsListAdapter = new ResultsCustomListAdapter(ResultsActivity.this, songsList);
         list = (ListView)findViewById(R.id.listViewSongs);

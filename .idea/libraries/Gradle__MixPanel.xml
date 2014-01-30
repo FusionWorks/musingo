@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Gradle: MixPanel">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/musingo/libs/MixPanel.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

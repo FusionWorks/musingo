@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.mixpanel.android.mpmetrics.MixpanelAPI;
+
+import iis.production.musingo.MusingoApp;
 import iis.production.musingo.R;
 
 /**
@@ -17,6 +20,10 @@ public class FirstActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
 
+        MixpanelAPI mMixpanel = MixpanelAPI.getInstance(this, "YOUR_API_TOKEN");
+        MusingoApp app = (MusingoApp)getApplication();
+        app.setMixpanelAPI(mMixpanel);
+//<< TEMP, to bn removed
         Button button = (Button) findViewById(R.id.buttonResults);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -25,6 +32,7 @@ public class FirstActivity extends Activity {
                 FirstActivity.this.startActivity(activityChangeIntent);
             }
         });
+//>>
     }
 
     public void goToGame(View view){
