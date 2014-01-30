@@ -11,6 +11,7 @@ import iis.production.musingo.main.more.AboutActivity;
 import iis.production.musingo.main.more.HowToActivity;
 import iis.production.musingo.main.more.TokenShopActivity;
 import iis.production.musingo.objects.AlertViewFacebook;
+import iis.production.musingo.utility.FacebookManager;
 
 /**
  * Created by AGalkin on 1/18/14.
@@ -54,8 +55,13 @@ public class SettingsActivity extends Activity {
 
     public void toTellFriend(View view){
 
-        AlertViewFacebook dialog = new AlertViewFacebook(this, "login", "");
-        dialog.show();
+        if(!FacebookManager.userFb.isSessionValid()){
+            AlertViewFacebook dialog = new AlertViewFacebook(this, "login", "", SettingsActivity.this);
+            dialog.show();
+        }
+        else{
+            FacebookManager.PostFb(SettingsActivity.this);
+        }
     }
 
     public void toAboutUs(View view){
