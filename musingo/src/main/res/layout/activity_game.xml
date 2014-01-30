@@ -307,7 +307,6 @@
             <!--android:paddingRight="6dp"/>-->
         <LinearLayout
             android:id="@+id/songs"
-            android:layout_below="@id/songsTitle"
             android:layout_width="300dp"
             android:layout_height="300dp"
             android:layout_centerHorizontal="true"

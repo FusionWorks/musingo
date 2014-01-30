@@ -44,7 +44,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         RelativeLayout lay = (RelativeLayout)findViewById(R.id.song1);
         currentSong = (TextViewPacifico)lay.findViewById(R.id.title);
 
-        songProgressBar = (SeekBar)findViewById(R.id.songProgressBar);
+//        songProgressBar = (SeekBar)findViewById(R.id.songProgressBar);
 
         // Mediaplayer
         mp = new MediaPlayer();
