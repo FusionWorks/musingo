@@ -3,9 +3,7 @@ package iis.production.musingo.main;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.GestureDetector;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
@@ -17,7 +15,7 @@ import android.widget.RelativeLayout;
 import java.util.ArrayList;
 
 import iis.production.musingo.R;
-import iis.production.musingo.objects.OnSwipeTouchListener;
+import iis.production.musingo.utility.OnSwipeTouchListener;
 
 /**
  * Created by AGalkin on 1/18/14.

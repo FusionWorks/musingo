@@ -9,6 +9,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/musingo" />
+            <option value="$PROJECT_DIR$/musingo/libs" />
+            <option value="$PROJECT_DIR$/musingo/libs/facebook" />
           </set>
         </option>
       </GradleProjectSettings>
