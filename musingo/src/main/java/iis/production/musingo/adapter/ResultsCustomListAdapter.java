@@ -8,12 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import iis.production.musingo.R;
 import iis.production.musingo.objects.Song;
+import iis.production.musingo.objects.TextViewArchitects;
+import iis.production.musingo.objects.TextViewPacifico;
 import iis.production.musingo.utility.RoundedCornersDrawable;
 
 /**
@@ -34,9 +35,10 @@ public class ResultsCustomListAdapter extends ArrayAdapter<Song> {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView= inflater.inflate(R.layout.result_list_cell, parent, false);
 
-        TextView songName = (TextView) rowView.findViewById(R.id.songName);
-        TextView artistName = (TextView) rowView.findViewById(R.id.artistName);
-        TextView pointText = (TextView) rowView.findViewById(R.id.time);
+        TextViewPacifico songName = (TextViewPacifico) rowView.findViewById(R.id.songName);
+        TextViewArchitects artistName = (TextViewArchitects) rowView.findViewById(R.id.artistName);
+        TextViewPacifico timeView = (TextViewPacifico) rowView.findViewById(R.id.time);
+        TextViewPacifico noTimeView = (TextViewPacifico) rowView.findViewById(R.id.noTime);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.artistPic);
 
         Log.v("musingo", "adapter song list : " + songList.get(position).getArtistName());
@@ -45,8 +47,16 @@ public class ResultsCustomListAdapter extends ArrayAdapter<Song> {
 
         final RoundedCornersDrawable drawable = new RoundedCornersDrawable(context.getResources(), songList.get(position).getImage());
         imageView.setImageDrawable(drawable);
-//        Utility.setBackgroundBySDK(imageView, songList.get(position).getImage());
-        pointText.setText(songList.get(position).getTime());
+        String time = songList.get(position).getTime();
+        noTimeView.setVisibility(View.GONE);
+        timeView.setVisibility(View.GONE);
+        if (time.equals("-")){
+            noTimeView.setText(time);
+            noTimeView.setVisibility(View.VISIBLE);
+        }else{
+            timeView.setText(time+"s");
+            timeView.setVisibility(View.VISIBLE);
+        }
         return rowView;
     }
 }

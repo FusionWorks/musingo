@@ -1,1 +1,2 @@
 include ':musingo'
+include ':musingo:libs:facebook'

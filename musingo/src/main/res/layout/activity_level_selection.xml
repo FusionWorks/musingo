@@ -570,7 +570,7 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginRight="10dp"
-                    android:tag="1"
+                    android:tag="2"
                     android:onClick="onLevelsSelectionClick"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/level_black"/>
@@ -579,7 +579,7 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginRight="10dp"
-                    android:tag="2"
+                    android:tag="3"
                     android:onClick="onLevelsSelectionClick"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/level_black"/>
@@ -588,7 +588,7 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginRight="10dp"
-                    android:tag="3"
+                    android:tag="4"
                     android:onClick="onLevelsSelectionClick"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/level_black"/>
@@ -597,7 +597,7 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginRight="10dp"
-                    android:tag="4"
+                    android:tag="5"
                     android:onClick="onLevelsSelectionClick"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/level_black"/>
@@ -606,7 +606,7 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginRight="10dp"
-                    android:tag="5"
+                    android:tag="6"
                     android:onClick="onLevelsSelectionClick"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/level_black"/>
@@ -615,7 +615,7 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginRight="10dp"
-                    android:tag="6"
+                    android:tag="7"
                     android:onClick="onLevelsSelectionClick"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/level_black"/>
@@ -624,7 +624,7 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginRight="10dp"
-                    android:tag="7"
+                    android:tag="8"
                     android:onClick="onLevelsSelectionClick"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/level_black"/>
@@ -633,7 +633,7 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginRight="10dp"
-                    android:tag="8"
+                    android:tag="9"
                     android:onClick="onLevelsSelectionClick"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/level_black"/>

@@ -19,7 +19,6 @@ import java.util.HashMap;
 
 import iis.production.musingo.R;
 import iis.production.musingo.main.more.TokenShopActivity;
-import iis.production.musingo.objects.AlertViewFacebook;
 import iis.production.musingo.objects.AlertViewPink;
 import iis.production.musingo.objects.Song;
 import iis.production.musingo.objects.TextViewArchitects;
@@ -151,7 +150,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         songsList = songManager.getPlayList();
         if(songsList.size()<1){
 
-            AlertViewFacebook alert = new AlertViewFacebook(this, "Something went wrong","Prooblems on the server");
+            AlertViewPink alert = new AlertViewPink(this, "Something went wrong","Prooblems on the server");
             alert.show();
         }
         // By default play first song
@@ -339,7 +338,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     }
 
     public void toResultsList(){
-        AlertViewPink view new AlertViewPink(this, "Horray!", "you earned \n" + yourScore.getText());
+        AlertViewPink view = new AlertViewPink(this, "Horray!", "you earned \n" + yourScore.getText());
         Intent intent = new Intent();
         intent.setClass(this, ResultsActivity.class);
         intent.putExtra("title", barTitle.getText());

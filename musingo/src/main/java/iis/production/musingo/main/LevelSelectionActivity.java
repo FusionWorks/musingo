@@ -157,7 +157,7 @@ public class LevelSelectionActivity extends Activity{
                 }
             }
         });
-        selectedLevel = 0;
+        selectedLevel = 1;
         ArrayList<Song> songs = new ArrayList<Song>();
         String url = Endpoints.playlist_url + selectedLevel;
         ATSongs ATS = new ATSongs(this, url, loadingAnimation, false, songs);

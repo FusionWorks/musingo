@@ -11,6 +11,7 @@ import iis.production.musingo.main.more.AboutActivity;
 import iis.production.musingo.main.more.HowToActivity;
 import iis.production.musingo.main.more.TokenShopActivity;
 import iis.production.musingo.objects.AlertViewFacebook;
+import iis.production.musingo.utility.FacebookManager;
 
 /**
  * Created by AGalkin on 1/18/14.
@@ -21,25 +22,7 @@ public class SettingsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-//        Typeface font = Typeface.createFromAsset(getAssets(), "ArchitectsDaughter.ttf");
-//
-//        TextView barTitle = (TextView)findViewById(R.id.barTitle);
-//        TextView howTo = (TextView) findViewById(R.id.howTo);
-//        TextView tellFriend = (TextView) findViewById(R.id.tellFriend);
-//        TextView aboutUs = (TextView) findViewById(R.id.aboutUs);
-//        TextView aboutPartners = (TextView) findViewById(R.id.aboutPartners);
-//        TextView tokenShop = (TextView) findViewById(R.id.tokenShop);
-//        TextView sounds = (TextView) findViewById(R.id.sounds);
-//        TextView loggedIn = (TextView) findViewById(R.id.loggedIn);
-//
-//        barTitle.setTypeface(font);
-//        howTo.setTypeface(font);
-//        tellFriend.setTypeface(font);
-//        aboutUs.setTypeface(font);
-//        aboutPartners.setTypeface(font);
-//        tokenShop.setTypeface(font);
-//        sounds.setTypeface(font);
-//        loggedIn.setTypeface(font);
+
     }
 
     public void goBackButton(View view){
@@ -54,8 +37,13 @@ public class SettingsActivity extends Activity {
 
     public void toTellFriend(View view){
 
-        AlertViewFacebook dialog = new AlertViewFacebook(this, "login", "");
-        dialog.show();
+        if(!FacebookManager.userFb.isSessionValid()){
+            AlertViewFacebook dialog = new AlertViewFacebook(this, "Facebook", "Please ", SettingsActivity.this);
+            dialog.show();
+        }
+        else{
+            FacebookManager.PostFb(SettingsActivity.this);
+        }
     }
 
     public void toAboutUs(View view){
