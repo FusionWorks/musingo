@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 
 import com.facebook.android.Facebook;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
@@ -40,27 +39,6 @@ public class FirstActivity extends Activity {
         if(expires != 0){
             FacebookManager.userFb.setAccessExpires(expires);
         }
-
-//<< TEMP, to bn removed
-        Button buttonResults = (Button) findViewById(R.id.buttonResults);
-        buttonResults.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent activityChangeIntent = new Intent(FirstActivity.this, ResultsActivity.class);
-                FirstActivity.this.startActivity(activityChangeIntent);
-            }
-        });
-
-        Button buttonPartner = (Button) findViewById(R.id.buttonPartner);
-        buttonPartner.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent activityChangeIntent = new Intent(FirstActivity.this, PartnerActivity.class);
-                FirstActivity.this.startActivity(activityChangeIntent);
-            }
-        });
-
-//>>
     }
 
     public void goToGame(View view){

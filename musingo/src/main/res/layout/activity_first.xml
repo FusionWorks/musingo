@@ -48,24 +48,4 @@
         android:layout_alignParentBottom="true"
         android:src="@drawable/bottom"/>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Results"
-            android:id="@+id/buttonResults"
-            android:layout_below="@+id/playNow"
-            android:layout_centerHorizontal="true" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Partner"
-            android:id="@+id/buttonPartner" />
-    </LinearLayout>
-
 </RelativeLayout>
