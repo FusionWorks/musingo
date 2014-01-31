@@ -4,14 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Window;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import iis.production.musingo.R;
-
-import com.chartboost.sdk.*;
+import com.chartboost.sdk.Chartboost;
 import com.chartboost.sdk.ChartboostDelegate;
+
+import iis.production.musingo.R;
 
 /**
  * Created by AGalkin on 1/18/14.
@@ -167,9 +165,10 @@ public class PartnerActivity extends Activity {
             Log.i(TAG, "MORE APPS CLOSED");
             Toast.makeText(PartnerActivity.this, "Closed More Apps",
                     Toast.LENGTH_SHORT).show();
-
-            Intent activityChangeIntent = new Intent(PartnerActivity.this, FirstActivity.class);
-            PartnerActivity.this.startActivity(activityChangeIntent);
+            Intent intent = new Intent();
+            intent.setClass(PartnerActivity.this, FirstActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
 
         }
 

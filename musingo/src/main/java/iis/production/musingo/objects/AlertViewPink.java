@@ -11,10 +11,10 @@ import iis.production.musingo.R;
 /**
  * Created by AGalkin on 1/21/14.
  */
-public class AlertViewFacebook extends AlertDialog {
+public class AlertViewPink extends AlertDialog {
     String titleText;
     String bodyText;
-    public AlertViewFacebook(Context context, String title, String body)
+    public AlertViewPink(Context context, String title, String body)
     {
         super(context);
         this.titleText = title;
@@ -37,12 +37,8 @@ public class AlertViewFacebook extends AlertDialog {
         fbClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.v("Musingo", "fb login");
+                Log.v("Musingo", "click");
             }
         });
-    }
-
-    public void fbClick(View view){
-
     }
 }

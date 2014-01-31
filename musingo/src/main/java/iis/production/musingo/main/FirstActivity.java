@@ -4,12 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
 import iis.production.musingo.MusingoApp;
 import iis.production.musingo.R;
+import iis.production.musingo.utility.Utility;
 
 /**
  * Created by AGalkin on 1/18/14.
@@ -24,26 +24,7 @@ public class FirstActivity extends Activity {
         MusingoApp app = (MusingoApp)getApplication();
         app.setMixpanelAPI(mMixpanel);
 
-//<< TEMP, to bn removed
-        Button buttonResults = (Button) findViewById(R.id.buttonResults);
-        buttonResults.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent activityChangeIntent = new Intent(FirstActivity.this, ResultsActivity.class);
-                FirstActivity.this.startActivity(activityChangeIntent);
-            }
-        });
-
-        Button buttonPartner = (Button) findViewById(R.id.buttonPartner);
-        buttonPartner.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent activityChangeIntent = new Intent(FirstActivity.this, PartnerActivity.class);
-                FirstActivity.this.startActivity(activityChangeIntent);
-            }
-        });
-
-//>>
+        Utility.deleteMusingoDir();
     }
 
     public void goToGame(View view){

@@ -1,4 +1,4 @@
-package iis.production.musingo.objects;
+package iis.production.musingo.utility;
 
 import android.view.GestureDetector;
 import android.view.MotionEvent;

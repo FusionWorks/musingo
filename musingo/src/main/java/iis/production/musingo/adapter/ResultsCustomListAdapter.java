@@ -10,11 +10,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.lang.Integer;import java.lang.Override;import java.lang.String;
 import java.util.ArrayList;
 
 import iis.production.musingo.R;
 import iis.production.musingo.objects.Song;
+import iis.production.musingo.utility.RoundedCornersDrawable;
 
 /**
  * Created by dima on 1/24/14.
@@ -32,7 +32,7 @@ public class ResultsCustomListAdapter extends ArrayAdapter<Song> {
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView= inflater.inflate(R.layout.songs_list_view, parent, false);
+        View rowView= inflater.inflate(R.layout.result_list_cell, parent, false);
 
         TextView songName = (TextView) rowView.findViewById(R.id.songName);
         TextView artistName = (TextView) rowView.findViewById(R.id.artistName);
@@ -42,7 +42,10 @@ public class ResultsCustomListAdapter extends ArrayAdapter<Song> {
         Log.v("musingo", "adapter song list : " + songList.get(position).getArtistName());
         songName.setText(songList.get(position).getSongName());
         artistName.setText(songList.get(position).getArtistName());
-        imageView.setImageResource(songList.get(position).getImageId());
+
+        final RoundedCornersDrawable drawable = new RoundedCornersDrawable(context.getResources(), songList.get(position).getImage());
+        imageView.setImageDrawable(drawable);
+//        Utility.setBackgroundBySDK(imageView, songList.get(position).getImage());
         pointText.setText(songList.get(position).getTime());
         return rowView;
     }

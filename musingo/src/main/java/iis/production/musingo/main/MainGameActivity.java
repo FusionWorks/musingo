@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -16,8 +19,12 @@ import java.util.HashMap;
 
 import iis.production.musingo.R;
 import iis.production.musingo.main.more.TokenShopActivity;
+import iis.production.musingo.objects.AlertViewFacebook;
+import iis.production.musingo.objects.AlertViewPink;
+import iis.production.musingo.objects.Song;
 import iis.production.musingo.objects.TextViewArchitects;
 import iis.production.musingo.objects.TextViewPacifico;
+import iis.production.musingo.utility.RoundedCornersDrawable;
 import iis.production.musingo.utility.SongsManager;
 import iis.production.musingo.utility.Utility;
 
@@ -27,39 +34,128 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     TextView coins;
     TextViewArchitects scoreToBeat;
     TextViewArchitects yourScore;
-    SeekBar songProgressBar;
-    TextViewPacifico currentSong;
+    TextViewPacifico barTitle;
+    TextViewPacifico levelNumber;
+    RelativeLayout seekBar;
+    ImageView bar;
+    int cost = 0;
+    ArrayList<RelativeLayout> songTimes;
+    ArrayList<RelativeLayout> songThumbs;
+    ArrayList<Song> songs;
+    static ArrayList<Song> songsWithTime;
+    int currentSong;
+    int previousSongTime;
+    boolean userRight;
+    int score;
+
+    RelativeLayout song1;
+    RelativeLayout song2;
+    RelativeLayout song3;
+    RelativeLayout song4;
+    RelativeLayout song5;
+    RelativeLayout song6;
+    RelativeLayout song7;
+    RelativeLayout song8;
+    RelativeLayout song9;
+
+    RelativeLayout songThumb1;
+    RelativeLayout songThumb2;
+    RelativeLayout songThumb3;
+    RelativeLayout songThumb4;
+    RelativeLayout songThumb5;
+    RelativeLayout songThumb6;
+    RelativeLayout songThumb7;
+    RelativeLayout songThumb8;
+    RelativeLayout songThumb9;
 
     //Media Player vars
     MediaPlayer mp;
     SongsManager songManager;
     ArrayList<HashMap<String, String>> songsList = new ArrayList<HashMap<String, String>>();
     private Handler mHandler = new Handler();
-    private boolean isRepeat = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        RelativeLayout lay = (RelativeLayout)findViewById(R.id.song1);
-        currentSong = (TextViewPacifico)lay.findViewById(R.id.title);
+        seekBar = (RelativeLayout)findViewById(R.id.seekBar);
+        bar = (ImageView)seekBar.findViewById(R.id.bar);
+        barTitle = (TextViewPacifico)findViewById(R.id.barTitle);
+        scoreToBeat = (TextViewArchitects)findViewById(R.id.scoreToBeat);
+        yourScore = (TextViewArchitects)findViewById(R.id.yourScore);
+        levelNumber = (TextViewPacifico)findViewById(R.id.levelNumber);
+        songs = new ArrayList<Song>();
+        songsWithTime = new ArrayList<Song>();
 
-//        songProgressBar = (SeekBar)findViewById(R.id.songProgressBar);
+        //Song Thumbs layouts
+        RelativeLayout songThumb1 = (RelativeLayout)findViewById(R.id.songThumb1);
+        RelativeLayout songThumb2 = (RelativeLayout)findViewById(R.id.songThumb2);
+        RelativeLayout songThumb3 = (RelativeLayout)findViewById(R.id.songThumb3);
+        RelativeLayout songThumb4 = (RelativeLayout)findViewById(R.id.songThumb4);
+        RelativeLayout songThumb5 = (RelativeLayout)findViewById(R.id.songThumb5);
+        RelativeLayout songThumb6 = (RelativeLayout)findViewById(R.id.songThumb6);
+        RelativeLayout songThumb7 = (RelativeLayout)findViewById(R.id.songThumb7);
+        RelativeLayout songThumb8 = (RelativeLayout)findViewById(R.id.songThumb8);
+        RelativeLayout songThumb9 = (RelativeLayout)findViewById(R.id.songThumb9);
+
+        //Songs mini timing views
+        RelativeLayout song1 = (RelativeLayout)findViewById(R.id.song1);
+        RelativeLayout song2 = (RelativeLayout)findViewById(R.id.song2);
+        RelativeLayout song3 = (RelativeLayout)findViewById(R.id.song3);
+        RelativeLayout song4 = (RelativeLayout)findViewById(R.id.song4);
+        RelativeLayout song5 = (RelativeLayout)findViewById(R.id.song5);
+        RelativeLayout song6 = (RelativeLayout)findViewById(R.id.song6);
+        RelativeLayout song7 = (RelativeLayout)findViewById(R.id.song7);
+        RelativeLayout song8 = (RelativeLayout)findViewById(R.id.song8);
+        RelativeLayout song9 = (RelativeLayout)findViewById(R.id.song9);
+
+        songThumbs = new ArrayList<RelativeLayout>();
+        songThumbs.add(songThumb1);
+        songThumbs.add(songThumb2);
+        songThumbs.add(songThumb3);
+        songThumbs.add(songThumb4);
+        songThumbs.add(songThumb5);
+        songThumbs.add(songThumb6);
+        songThumbs.add(songThumb7);
+        songThumbs.add(songThumb8);
+        songThumbs.add(songThumb9);
+
+        songTimes = new ArrayList<RelativeLayout>();
+        songTimes.add(song1);
+        songTimes.add(song2);
+        songTimes.add(song3);
+        songTimes.add(song4);
+        songTimes.add(song5);
+        songTimes.add(song6);
+        songTimes.add(song7);
+        songTimes.add(song8);
+        songTimes.add(song9);
+
+        Intent intent = getIntent();
+        Log.v("Musingo", "score " + intent.getStringExtra("scoreTobeat"));
+        scoreToBeat.setText(intent.getStringExtra("scoreTobeat"));
+        barTitle.setText(intent.getStringExtra("name"));
+        cost = Integer.parseInt(intent.getStringExtra("cost"));
+        levelNumber.setText(intent.getStringExtra("level"));
+        fillSongThumbs();
 
         // Mediaplayer
         mp = new MediaPlayer();
         songManager = new SongsManager();
 
         // Listeners
-        songProgressBar.setOnSeekBarChangeListener(this); // Important
         mp.setOnCompletionListener(this); // Important
 
         // Getting all songs list
         songsList = songManager.getPlayList();
+        if(songsList.size()<1){
 
+            AlertViewFacebook alert = new AlertViewFacebook(this, "Something went wrong","Prooblems on the server");
+            alert.show();
+        }
         // By default play first song
         playSong(0);
-        isRepeat = true;
     }
 
     public void goBackButton(View view){
@@ -77,6 +173,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
      * @param songIndex - index of song
      * */
     public void  playSong(int songIndex){
+        currentSong = songIndex;
+        setSeekBaronPosition(songIndex);
         // Play song
         try {
             mp.reset();
@@ -88,8 +186,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 ////            songTitleLabel.setText(songTitle);
 
             // set Progress bar values
-            songProgressBar.setProgress(0);
-            songProgressBar.setMax(50);
+//            songProgressBar.setProgress(0);
+//            songProgressBar.setMax(50);
 
             // Updating progress bar
             updateProgressBar();
@@ -101,6 +199,12 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             e.printStackTrace();
         }
     }
+    /**
+     *  Move seek bar on position
+     * */
+    public void setSeekBaronPosition(int index){
+
+    }
 
     /**
      * Background Runnable thread
@@ -111,10 +215,18 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             long currentDuration = mp.getCurrentPosition();
 
             // Displaying time completed playing
-            currentSong.setText(""+ Utility.milliSecondsToTimer(currentDuration));
-
+            int currentPosition = Integer.parseInt(Utility.milliSecondsToTimer(currentDuration));
+            final float scale = getResources().getDisplayMetrics().density;
+            int pixels = (int) (5 * currentPosition * scale + 0.5f);
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bar.getLayoutParams();
+            params.width = pixels;
+            bar.setLayoutParams(params);
             // Running this thread after 100 milliseconds
             mHandler.postDelayed(this, 100);
+            previousSongTime = currentPosition;
+            if(currentPosition == 10){
+                playNext();
+            }
         }
     };
 
@@ -128,11 +240,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-        // check for repeat is ON or OFF
-        if(isRepeat){
-            // repeat is on play same song again
-            playSong(0);
-        }
+//        playSong(1);
+
     }
 
     @Override
@@ -156,4 +265,85 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         mHandler.removeCallbacks(mUpdateTimeTask);
         mp.release();
     }
+
+    public void playNext(){
+        RelativeLayout view = songTimes.get(currentSong);
+        if(previousSongTime == 10 || !userRight){
+            view.setBackgroundResource(R.drawable.round_song_wrong);
+            saveSongResult("-");
+            TextViewPacifico text = (TextViewPacifico)view.findViewById(R.id.title);
+            text.setText(String.valueOf(previousSongTime)+"s");
+        }else if(previousSongTime < 10 && userRight){
+            view.setBackgroundResource(R.drawable.round_song_right);
+            saveSongResult(String.valueOf(previousSongTime));
+            TextViewPacifico text = (TextViewPacifico)view.findViewById(R.id.title);
+            text.setText(String.valueOf(previousSongTime) + "s");
+        }
+        if(currentSong != 8){
+            final float scale = getResources().getDisplayMetrics().density;
+            int left = 35 * (currentSong + 1) + 20;
+            int pixels = (int) (left * scale + 0.5f);
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) seekBar.getLayoutParams();
+            params.setMargins(pixels, 0, 0, 0);
+            seekBar.setLayoutParams(params);
+            playSong(currentSong + 1);
+
+        }else{
+            mp.stop();
+            toResultsList();
+        }
+    }
+
+    public void fillSongThumbs(){
+        songs = LevelSelectionActivity.gameSongs;
+
+        for (int i = 0; i<songs.size(); i++){
+            Song song = songs.get(i);
+            RelativeLayout view = (RelativeLayout)songThumbs.get(i);
+            ImageView imageView = (ImageView)view.findViewById(R.id.image);
+            TextViewArchitects textView = (TextViewArchitects)view.findViewById(R.id.title);
+            view.setTag(song.getId());
+            final RoundedCornersDrawable drawable = new RoundedCornersDrawable(getResources(), song.getImage());
+            imageView.setImageDrawable(drawable);
+
+            textView.setText(song.getSongName());
+        }
+    }
+
+    public void tryToGuess(View view){
+        String id = songsList.get(currentSong).get("songTitle");
+        if(previousSongTime > 1){
+            if (view.getTag().toString().equals(id)){
+                view.setBackgroundResource(R.drawable.round_song_right);
+                userRight = true;
+                score += cost;
+                yourScore.setText(String.valueOf(score));
+            }else{
+                view.setBackgroundResource(R.drawable.round_song_wrong);
+                userRight = false;
+            }
+            playNext();
+        }
+    }
+
+    public void saveSongResult(String result){
+        String id = songsList.get(currentSong).get("songTitle");
+        for(int i=0; i < songs.size(); i++){
+            Song song = songs.get(i);
+            if(id.equals(song.getId())){
+                song.setTime(result);
+                songsWithTime.add(song);
+                break;
+            }
+        }
+    }
+
+    public void toResultsList(){
+        AlertViewPink view new AlertViewPink(this, "Horray!", "you earned \n" + yourScore.getText());
+        Intent intent = new Intent();
+        intent.setClass(this, ResultsActivity.class);
+        intent.putExtra("title", barTitle.getText());
+        startActivity(intent);
+    }
+
 }

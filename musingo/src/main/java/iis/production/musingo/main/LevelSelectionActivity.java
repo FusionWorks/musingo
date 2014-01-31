@@ -2,10 +2,9 @@ package iis.production.musingo.main;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.view.GestureDetector;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
@@ -17,7 +16,13 @@ import android.widget.RelativeLayout;
 import java.util.ArrayList;
 
 import iis.production.musingo.R;
-import iis.production.musingo.objects.OnSwipeTouchListener;
+import iis.production.musingo.async.ATSongs;
+import iis.production.musingo.objects.Song;
+import iis.production.musingo.objects.TextViewArchitects;
+import iis.production.musingo.utility.Endpoints;
+import iis.production.musingo.utility.OnSwipeTouchListener;
+import iis.production.musingo.utility.Reachability;
+import iis.production.musingo.utility.RoundedCornersDrawable;
 
 /**
  * Created by AGalkin on 1/18/14.
@@ -28,6 +33,8 @@ public class LevelSelectionActivity extends Activity{
     ImageView arrow;
     ArrayList<ImageView> levelViews;
     LinearLayout levels;
+    ArrayList<RelativeLayout> songViews;
+    RelativeLayout loadingAnimation;
 
     ImageView level1;
     ImageView level2;
@@ -54,6 +61,11 @@ public class LevelSelectionActivity extends Activity{
     boolean beat;
     boolean complete;
     boolean powerup;
+
+    boolean clickable;
+
+    static ArrayList<Song> gameSongs;
+    int selectedLevel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +73,10 @@ public class LevelSelectionActivity extends Activity{
 
         opened = false;
         levelViews = new ArrayList<ImageView>();
+        gameSongs = new ArrayList<Song>();
+
         //Views initialize
+        loadingAnimation = (RelativeLayout)findViewById(R.id.loadingAnimation);
         levels = (LinearLayout)findViewById(R.id.levels);
 
         level1 = (ImageView)findViewById(R.id.level1);
@@ -93,6 +108,17 @@ public class LevelSelectionActivity extends Activity{
         song8 = (RelativeLayout) findViewById(R.id.song8);
         song9 = (RelativeLayout) findViewById(R.id.song9);
 
+        songViews = new ArrayList<RelativeLayout>();
+        songViews.add(song1);
+        songViews.add(song2);
+        songViews.add(song3);
+        songViews.add(song4);
+        songViews.add(song5);
+        songViews.add(song6);
+        songViews.add(song7);
+        songViews.add(song8);
+        songViews.add(song9);
+
         // temp
         beat = true;
         complete = true;
@@ -111,7 +137,7 @@ public class LevelSelectionActivity extends Activity{
             public void onSwipeRight() {
                 for(int i = 0; i<levelViews.size(); i++){
                     ImageView imageView = levelViews.get(i);
-                    if(imageView.getTag().toString().equals("selected") && i!=levelViews.size()-1){
+                    if(imageView.getTag().toString().equals("selected") && i!=levelViews.size()-1 && clickable){
                         imageView = makeUnselected(imageView);
                         ImageView imageNext = levelViews.get(i+1);
                         imageNext = makeSelected(imageNext);
@@ -122,7 +148,7 @@ public class LevelSelectionActivity extends Activity{
             public void onSwipeLeft() {
                 for(int i = 0; i<levelViews.size(); i++){
                     ImageView imageView = levelViews.get(i);
-                    if(imageView.getTag().toString().equals("selected") && i!=0){
+                    if(imageView.getTag().toString().equals("selected") && i!=0 && clickable){
                         imageView = makeUnselected(imageView);
                         ImageView imageNext = levelViews.get(i-1);
                         imageNext = makeSelected(imageNext);
@@ -131,6 +157,16 @@ public class LevelSelectionActivity extends Activity{
                 }
             }
         });
+        selectedLevel = 0;
+        ArrayList<Song> songs = new ArrayList<Song>();
+        String url = Endpoints.playlist_url + selectedLevel;
+        ATSongs ATS = new ATSongs(this, url, loadingAnimation, false, songs);
+        Reachability a = new Reachability(this);
+        if(a.isOnline()){
+            ATS.execute();
+        }
+
+        clickable = false;
     }
 
     public void dropDown(View view){
@@ -177,38 +213,99 @@ public class LevelSelectionActivity extends Activity{
     public ImageView makeSelected(ImageView imageView){
         final float scale = getResources().getDisplayMetrics().density;
         int pixels = (int) (20 * scale + 0.5f);
-
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageView.getLayoutParams();
         params.height = pixels;
         params.width = pixels;
         imageView.setLayoutParams(params);
+        selectedLevel = Integer.parseInt(imageView.getTag().toString());
         imageView.setTag("selected");
+        changeLevel();
         return imageView;
     }
 
     public ImageView makeUnselected(ImageView imageView){
         final float scale = getResources().getDisplayMetrics().density;
         int pixels = (int) (15 * scale + 0.5f);
-
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageView.getLayoutParams();
         params.height = pixels;
         params.width = pixels;
         imageView.setLayoutParams(params);
-        imageView.setTag("unselected");
+        imageView.setTag(String.valueOf(selectedLevel));
         return imageView;
     }
 
     public void onLevelsSelectionClick(View view){
-        ImageView selectedView = (ImageView)levels.findViewWithTag("selected");
-        makeUnselected(selectedView);
-        makeSelected((ImageView)view);
+        if(clickable){
+            ImageView selectedView = (ImageView)levels.findViewWithTag("selected");
+            makeUnselected(selectedView);
+            makeSelected((ImageView)view);
+        }
     }
 
     public void goToLevel(View view){
-
-        Intent intent = new Intent();
-        intent.setClass(this, MainGameActivity.class);
-        startActivity(intent);
+        if(clickable){
+            String url = Endpoints.playlist_url + selectedLevel;
+            ATSongs ATS = new ATSongs(this, url, loadingAnimation, true, gameSongs);
+            Reachability a = new Reachability(this);
+            if(a.isOnline()){
+                ATS.execute();
+            }
+            clickable = false;
+        }
     }
 
+    public void downloadResultForLevels(ArrayList<Song> songs, String name){
+        TextViewArchitects songsTitle = (TextViewArchitects)findViewById(R.id.songsTitle);
+        songsTitle.setTextColor(Color.parseColor("#9ad74c"));
+        songsTitle.setText("UNLOCK: "+name);
+        if (isUnlocked()){
+            songsTitle.setTextColor(Color.parseColor("#ffffff"));
+            songsTitle.setText("Unlocked "+name);
+        }
+
+        for (int i = 0; i<songs.size(); i++){
+            Song song = songs.get(i);
+            RelativeLayout view = (RelativeLayout)songViews.get(i);
+            ImageView imageView = (ImageView)view.findViewById(R.id.image);
+            TextViewArchitects textView = (TextViewArchitects)view.findViewById(R.id.title);
+
+            final RoundedCornersDrawable drawable = new RoundedCornersDrawable(getResources(), song.getImage());
+            imageView.setImageDrawable(drawable);
+
+//            Utility.setBackgroundBySDK(imageView, song.getImage());
+            textView.setText(song.getSongName());
+        }
+        gameSongs = songs;
+        clickable = true;
+    }
+
+    public void downloadResultForGame(ArrayList<Song> songs, String scoreToBeat, String name, String cost){
+        gameSongs = songs;
+        Intent intent = new Intent();
+        intent.setClass(this, MainGameActivity.class);
+        intent.putExtra("scoreTobeat", scoreToBeat);
+        intent.putExtra("name", name);
+        intent.putExtra("cost", cost);
+        intent.putExtra("levelNumber", selectedLevel);
+        startActivity(intent);
+        clickable = true;
+    }
+
+    public void changeLevel(){
+        ArrayList<Song> songs = new ArrayList<Song>();
+        String url = Endpoints.playlist_url + selectedLevel;
+        ATSongs ATS = new ATSongs(this, url, loadingAnimation, false, songs);
+        Reachability a = new Reachability(this);
+        if(a.isOnline()){
+            ATS.execute();
+        }
+        clickable = false;
+    }
+
+    public boolean isUnlocked(){
+        if(selectedLevel == 0)
+            return true;
+        else
+            return false;
+    }
 }

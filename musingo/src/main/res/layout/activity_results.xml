@@ -30,12 +30,13 @@
                 android:layout_alignParentRight="true">
 
                 <ImageView
-                    android:id="@+id/backButton"
+                    android:id="@+id/nextButton"
                     android:layout_width="80dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_centerVertical="true"
                     android:layout_height="wrap_content"
+                    android:onClick="toPartnerActivity"
                     android:src="@drawable/next_button"/>
             </LinearLayout>
         </RelativeLayout>
