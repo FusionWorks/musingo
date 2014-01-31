@@ -40,7 +40,33 @@
         and innovative educational programs to encourage conservation and best management practices for sustainable marine environments.
         The Guy Harvey Ocean Foundation will help ensure that future generation can enjoy and benefit from a naturally balance marine ecosystem where fish and other wildwife flourish.\n <font fgcolor="#ffe85c8d">Learn more</font></string>
 
+    <!-- Facenook and Chartboost App id -->
     <string name="appIdChartboost">52e8d45f9ddc3556655f4a22</string>
     <string name="appSignatureChartboost">502e57fa543ef4b8f5528f5043ebf85279d76dd1</string>
     <string name="appIdFacebook">564077767013631</string>
+
+    <!-- Tutorial -->
+    <string name="tutorial1">YOU HAVE 10 SECONDS TO GUESS THE SONG</string>
+    <string name="tutorial2">TAP THE ALBUM COVER OF THE SONG YOU THINK IS PLAYNG. TRY IT NOW!</string>
+    <string name="tutorial3">NICE TRY!</string>
+    <string name="tutorial4">NICE TRY! YOUR SCORE REFLECTS HOW FAST YOU GUESSED THE SONG</string>
+    <string name="tutorial5">YOU'R DOING GREAT! TO BEAT THIS LEVEL, SCORE HIGHER THAN THE OBJECTIVE! LET'S PLAY</string>
+    <string name="tutorial6">IF YOURE EVER STUCK AND NEED THE KNOWLEDGE OF YOUR FRIEND ON FB!</string>
+
+    <!-- Powerup -->
+    <string name="hint_powerup_title">You've unlocked the HINT POWERUP.</string>
+    <string name="hint_powerup_body">IT HIGHLIGHTS 3 SQUARES ON THE BOARD FOR YOU TO CHOOSE FROM.</string>
+    <string name="skip_powerup_title">You've unlocked the SKIP POWERUP.</string>
+    <string name="skip_powerup_body">PASS THE CURRENT SONG, WITH THE CHANCE TO COME BACK TO IT LATER.</string>
+    <string name="replay_powerup_title">You've unlocked the REPLAY POWERUP.</string>
+    <string name="replay_powerup_body">IT GIVES YOU ANOTHER CHANCE TO HEAR THE SONG.</string>
+    <string name="freeze_powerup_title">You've unlocked the FREEZE POWERUP.</string>
+    <string name="freeze_powerup_body">PAUSE THE SONG TIMER WHILE LISTENING TO THE SONG. GET A HIGHER SCORE!</string>
+    <string name="longer_clip_powerup_title">You've unlocked the LONGER CLIP POWERUP.</string>
+    <string name="longer_clip_powerup_body">IT ADDS AN EXTRA IO SECS TO THE SONG TO GIVE YOU MORE TO GO ON.</string>
+    <string name="next_playlist_powerup_title">You've unlocked the NEXT PLAYLIST POWERUP.</string>
+    <string name="next_playlist_powerup_body">GET TO THE NEXT PLAYLIST WIRHOUR HAVING TO CONQUER THE SCORE T BEAT.</string>
+
+    <string name="replay_alert">HEAR THE SONG AGAIN</string>
+    <string name="longer_clip_alert">YOU GET AN EXTRA IO SECONDS1</string>
 </resources>
