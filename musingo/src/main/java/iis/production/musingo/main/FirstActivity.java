@@ -24,7 +24,6 @@ public class FirstActivity extends Activity {
         MixpanelAPI mMixpanel = MixpanelAPI.getInstance(this, "YOUR_API_TOKEN");
         MusingoApp app = (MusingoApp)getApplication();
         app.setMixpanelAPI(mMixpanel);
-
         String appIdFacebook = getString(R.string.appIdFacebook);
         FacebookManager.userFb = new Facebook(appIdFacebook);
 

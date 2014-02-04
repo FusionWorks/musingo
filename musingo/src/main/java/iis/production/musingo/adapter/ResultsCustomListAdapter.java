@@ -8,13 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import java.lang.Integer;import java.lang.Override;import java.lang.String;
 import java.util.ArrayList;
 
 import iis.production.musingo.R;
 import iis.production.musingo.objects.Song;
+import iis.production.musingo.objects.TextViewArchitects;
+import iis.production.musingo.objects.TextViewPacifico;
+import iis.production.musingo.utility.RoundedCornersDrawable;
 
 /**
  * Created by dima on 1/24/14.
@@ -32,18 +33,30 @@ public class ResultsCustomListAdapter extends ArrayAdapter<Song> {
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView= inflater.inflate(R.layout.songs_list_view, parent, false);
+        View rowView= inflater.inflate(R.layout.result_list_cell, parent, false);
 
-        TextView songName = (TextView) rowView.findViewById(R.id.songName);
-        TextView artistName = (TextView) rowView.findViewById(R.id.artistName);
-        TextView pointText = (TextView) rowView.findViewById(R.id.time);
+        TextViewPacifico songName = (TextViewPacifico) rowView.findViewById(R.id.songName);
+        TextViewArchitects artistName = (TextViewArchitects) rowView.findViewById(R.id.artistName);
+        TextViewPacifico timeView = (TextViewPacifico) rowView.findViewById(R.id.time);
+        TextViewPacifico noTimeView = (TextViewPacifico) rowView.findViewById(R.id.noTime);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.artistPic);
 
         Log.v("musingo", "adapter song list : " + songList.get(position).getArtistName());
         songName.setText(songList.get(position).getSongName());
         artistName.setText(songList.get(position).getArtistName());
-        imageView.setImageResource(songList.get(position).getImageId());
-        pointText.setText(songList.get(position).getTime());
+
+        final RoundedCornersDrawable drawable = new RoundedCornersDrawable(context.getResources(), songList.get(position).getImage());
+        imageView.setImageDrawable(drawable);
+        String time = songList.get(position).getTime();
+        noTimeView.setVisibility(View.GONE);
+        timeView.setVisibility(View.GONE);
+        if (time.equals("-")){
+            noTimeView.setText(time);
+            noTimeView.setVisibility(View.VISIBLE);
+        }else{
+            timeView.setText(time+"s");
+            timeView.setVisibility(View.VISIBLE);
+        }
         return rowView;
     }
 }

@@ -2,6 +2,7 @@ package iis.production.musingo.main;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -15,6 +16,8 @@ import java.util.ArrayList;
 import iis.production.musingo.R;
 import iis.production.musingo.adapter.ResultsCustomListAdapter;
 import iis.production.musingo.objects.Song;
+import iis.production.musingo.objects.TextViewPacifico;
+import iis.production.musingo.utility.Utility;
 
 /**
  * Created by AGalkin on 1/18/14.
@@ -29,12 +32,18 @@ public class ResultsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
 
-        ArrayList<Song> songsList = new ArrayList<Song>();
-        songsList.add(new Song(R.drawable.bsb, "One Sweet Day", "BY: BACKSTREET BOYS", "21s"));
-        songsList.add(new Song(R.drawable.lfo, "One Sweet Day", "BY: BACKSTREET BOYS", "21s"));
-        songsList.add(new Song(R.drawable.lfo, "One Sweet Day", "BY: BACKSTREET BOYS", "21s"));
-        songsList.add(new Song(R.drawable.lfo, "One Sweet Day", "BY: BACKSTREET BOYS", "21s"));
+        TextViewPacifico barTitle = (TextViewPacifico)findViewById(R.id.barTitle);
+        barTitle.setText(getIntent().getStringExtra("title"));
 
+        Utility.deleteMusingoDir();
+        ArrayList<Song> songsList = MainGameActivity.songsWithTime;
+//        //<< Temp
+//        Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.no_album_photo);
+//        songsList.add(new Song("backstreet", image, "One Sweet Day", "BY: BACKSTREET BOYS", "21s", "url"));
+//        songsList.add(new Song("backstreet", image, "One Sweet Day", "BY: BACKSTREET BOYS", "21s","url"));
+//        songsList.add(new Song("backstreet", image, "One Sweet Day", "BY: BACKSTREET BOYS", "21s","url"));
+//        songsList.add(new Song("backstreet", image, "One Sweet Day", "BY: BACKSTREET BOYS", "21s","url"));
+//        //>>
         ResultsCustomListAdapter songsListAdapter = new ResultsCustomListAdapter(ResultsActivity.this, songsList);
         list = (ListView)findViewById(R.id.listViewSongs);
 
@@ -57,7 +66,7 @@ public class ResultsActivity extends Activity {
         });
 
         LayoutInflater inflater = getLayoutInflater();
-        ViewGroup header = (ViewGroup)inflater.inflate(R.layout.result_view, list, false);
+        ViewGroup header = (ViewGroup)inflater.inflate(R.layout.result_header_opened, list, false);
         list.addHeaderView(header, null, false);
 
         list.setAdapter(songsListAdapter);
@@ -82,4 +91,11 @@ public class ResultsActivity extends Activity {
             score.setVisibility(View.VISIBLE);
         }
     }
+
+    public void toPartnerActivity(View view){
+        Intent intent = new Intent();
+        intent.setClass(this, PartnerActivity.class);
+        startActivity(intent);
+    }
+
 }

@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="17sp"
-            android:text="Unlocked : Mix &amp; Match"
+            android:text=""
             android:layout_marginTop="15dp"
             android:layout_marginBottom="0dp"
             android:gravity="center_horizontal"
@@ -36,14 +36,14 @@
                     android:id="@+id/song1"
                     android:layout_width="80dp"
                     android:onClick="goToLevel"
+                    android:tag="1"
                     android:layout_marginRight="10dp"
                     android:layout_height="match_parent">
                     <ImageView
                         android:id="@+id/image"
                         android:layout_width="75dp"
                         android:layout_height="75dp"
-                        android:layout_centerHorizontal="true"
-                        android:background="@drawable/song_temp1"/>
+                        android:layout_centerHorizontal="true"/>
                     <iis.production.musingo.objects.TextViewArchitects
                         android:id="@+id/title"
                         android:layout_width="match_parent"
@@ -52,9 +52,9 @@
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="15dp"
-                        android:text="HIT THE TOWN"
+                        android:text=""
                         android:gravity="center"
-                        android:textSize="10sp"
+                        android:textSize="9sp"
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
                         android:layout_marginRight="10dp"/>
@@ -87,6 +87,7 @@
                     android:id="@+id/song2"
                     android:layout_width="80dp"
                     android:onClick="goToLevel"
+                    android:tag="2"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp">
@@ -94,8 +95,7 @@
                         android:id="@+id/image"
                         android:layout_width="75dp"
                         android:layout_height="75dp"
-                        android:layout_centerHorizontal="true"
-                        android:background="@drawable/song_temp2"/>
+                        android:layout_centerHorizontal="true"/>
                     <iis.production.musingo.objects.TextViewArchitects
                         android:id="@+id/title"
                         android:layout_width="match_parent"
@@ -104,9 +104,9 @@
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="15dp"
-                        android:text="CATCHY 2000S"
+                        android:text=""
                         android:gravity="center"
-                        android:textSize="10sp"
+                        android:textSize="9sp"
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
                         android:layout_marginRight="10dp"/>
@@ -139,14 +139,14 @@
                     android:id="@+id/song3"
                     android:layout_width="80dp"
                     android:onClick="goToLevel"
+                    android:tag="3"
                     android:layout_marginLeft="10dp"
                     android:layout_height="match_parent">
                     <ImageView
                         android:id="@+id/image"
                         android:layout_width="75dp"
                         android:layout_height="75dp"
-                        android:layout_centerHorizontal="true"
-                        android:background="@drawable/song_temp1"/>
+                        android:layout_centerHorizontal="true"/>
                     <iis.production.musingo.objects.TextViewArchitects
                         android:id="@+id/title"
                         android:layout_width="match_parent"
@@ -155,9 +155,9 @@
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="15dp"
-                        android:text="HIT THE TOWN"
+                        android:text=""
                         android:gravity="center"
-                        android:textSize="10sp"
+                        android:textSize="9sp"
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
                         android:layout_marginRight="10dp"/>
@@ -197,14 +197,14 @@
                     android:id="@+id/song4"
                     android:layout_width="80dp"
                     android:onClick="goToLevel"
+                    android:tag="4"
                     android:layout_marginRight="10dp"
                     android:layout_height="match_parent">
                     <ImageView
                         android:id="@+id/image"
                         android:layout_width="75dp"
                         android:layout_height="75dp"
-                        android:layout_centerHorizontal="true"
-                        android:background="@drawable/song_temp1"/>
+                        android:layout_centerHorizontal="true"/>
                     <iis.production.musingo.objects.TextViewArchitects
                         android:id="@+id/title"
                         android:layout_width="match_parent"
@@ -213,9 +213,9 @@
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="15dp"
-                        android:text="HIT THE TOWN"
+                        android:text=""
                         android:gravity="center"
-                        android:textSize="10sp"
+                        android:textSize="9sp"
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
                         android:layout_marginRight="10dp"/>
@@ -248,6 +248,7 @@
                     android:id="@+id/song5"
                     android:layout_width="80dp"
                     android:onClick="goToLevel"
+                    android:tag="5"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp">
@@ -255,8 +256,7 @@
                         android:id="@+id/image"
                         android:layout_width="75dp"
                         android:layout_height="75dp"
-                        android:layout_centerHorizontal="true"
-                        android:background="@drawable/song_temp1"/>
+                        android:layout_centerHorizontal="true"/>
                     <iis.production.musingo.objects.TextViewArchitects
                         android:id="@+id/title"
                         android:layout_width="match_parent"
@@ -265,9 +265,9 @@
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="15dp"
-                        android:text="HIT THE TOWN"
+                        android:text=""
                         android:gravity="center"
-                        android:textSize="10sp"
+                        android:textSize="9sp"
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
                         android:layout_marginRight="10dp"/>
@@ -300,14 +300,14 @@
                     android:id="@+id/song6"
                     android:layout_width="80dp"
                     android:onClick="goToLevel"
+                    android:tag="6"
                     android:layout_marginLeft="10dp"
                     android:layout_height="match_parent">
                     <ImageView
                         android:id="@+id/image"
                         android:layout_width="75dp"
                         android:layout_height="75dp"
-                        android:layout_centerHorizontal="true"
-                        android:background="@drawable/song_temp1"/>
+                        android:layout_centerHorizontal="true"/>
                     <iis.production.musingo.objects.TextViewArchitects
                         android:id="@+id/title"
                         android:layout_width="match_parent"
@@ -316,9 +316,9 @@
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="15dp"
-                        android:text="HIT THE TOWN"
+                        android:text=""
                         android:gravity="center"
-                        android:textSize="10sp"
+                        android:textSize="9sp"
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
                         android:layout_marginRight="10dp"/>
@@ -358,14 +358,14 @@
                     android:id="@+id/song7"
                     android:layout_width="80dp"
                     android:onClick="goToLevel"
+                    android:tag="7"
                     android:layout_marginRight="10dp"
                     android:layout_height="match_parent">
                     <ImageView
                         android:id="@+id/image"
                         android:layout_width="75dp"
                         android:layout_height="75dp"
-                        android:layout_centerHorizontal="true"
-                        android:background="@drawable/song_temp1"/>
+                        android:layout_centerHorizontal="true"/>
                     <iis.production.musingo.objects.TextViewArchitects
                         android:id="@+id/title"
                         android:layout_width="match_parent"
@@ -374,9 +374,9 @@
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="15dp"
-                        android:text="HIT THE TOWN"
+                        android:text=""
                         android:gravity="center"
-                        android:textSize="10sp"
+                        android:textSize="9sp"
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
                         android:layout_marginRight="10dp"/>
@@ -409,6 +409,7 @@
                     android:id="@+id/song8"
                     android:layout_width="80dp"
                     android:onClick="goToLevel"
+                    android:tag="8"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp">
@@ -416,8 +417,7 @@
                         android:id="@+id/image"
                         android:layout_width="75dp"
                         android:layout_height="75dp"
-                        android:layout_centerHorizontal="true"
-                        android:background="@drawable/song_temp1"/>
+                        android:layout_centerHorizontal="true"/>
                     <iis.production.musingo.objects.TextViewArchitects
                         android:id="@+id/title"
                         android:layout_width="match_parent"
@@ -426,9 +426,9 @@
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="15dp"
-                        android:text="HIT THE TOWN"
+                        android:text=""
                         android:gravity="center"
-                        android:textSize="10sp"
+                        android:textSize="9sp"
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
                         android:layout_marginRight="10dp"/>
@@ -460,6 +460,7 @@
                 <RelativeLayout
                     android:id="@+id/song9"
                     android:layout_width="80dp"
+                    android:tag="9"
                     android:onClick="goToLevel"
                     android:layout_marginLeft="10dp"
                     android:layout_height="match_parent">
@@ -467,8 +468,7 @@
                         android:id="@+id/image"
                         android:layout_width="75dp"
                         android:layout_height="75dp"
-                        android:layout_centerHorizontal="true"
-                        android:background="@drawable/song_temp1"/>
+                        android:layout_centerHorizontal="true"/>
                     <iis.production.musingo.objects.TextViewArchitects
                         android:id="@+id/title"
                         android:layout_width="match_parent"
@@ -477,9 +477,9 @@
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="15dp"
-                        android:text="HIT THE TOWN"
+                        android:text=""
                         android:gravity="center"
-                        android:textSize="10sp"
+                        android:textSize="9sp"
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
                         android:layout_marginRight="10dp"/>
@@ -570,7 +570,7 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginRight="10dp"
-                    android:tag="unselected"
+                    android:tag="2"
                     android:onClick="onLevelsSelectionClick"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/level_black"/>
@@ -579,7 +579,7 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginRight="10dp"
-                    android:tag="unselected"
+                    android:tag="3"
                     android:onClick="onLevelsSelectionClick"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/level_black"/>
@@ -588,7 +588,7 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginRight="10dp"
-                    android:tag="unselected"
+                    android:tag="4"
                     android:onClick="onLevelsSelectionClick"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/level_black"/>
@@ -597,7 +597,7 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginRight="10dp"
-                    android:tag="unselected"
+                    android:tag="5"
                     android:onClick="onLevelsSelectionClick"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/level_black"/>
@@ -606,7 +606,7 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginRight="10dp"
-                    android:tag="unselected"
+                    android:tag="6"
                     android:onClick="onLevelsSelectionClick"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/level_black"/>
@@ -615,7 +615,7 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginRight="10dp"
-                    android:tag="unselected"
+                    android:tag="7"
                     android:onClick="onLevelsSelectionClick"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/level_black"/>
@@ -624,7 +624,7 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginRight="10dp"
-                    android:tag="unselected"
+                    android:tag="8"
                     android:onClick="onLevelsSelectionClick"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/level_black"/>
@@ -633,7 +633,7 @@
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginRight="10dp"
-                    android:tag="unselected"
+                    android:tag="9"
                     android:onClick="onLevelsSelectionClick"
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/level_black"/>
@@ -775,6 +775,20 @@
                     android:layout_gravity="center_vertical"
                     android:textColor="#ffffff"/>
                 </LinearLayout>
+            </RelativeLayout>
         </RelativeLayout>
-    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/loadingAnimation"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#cccccccc"
+        android:visibility="gone">
+        <ProgressBar
+            android:id="@+id/animationLoading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:attr/progressBarStyleLarge"
+            android:indeterminate="true"
+            android:layout_centerInParent="true"/>
+        </RelativeLayout>
 </RelativeLayout>

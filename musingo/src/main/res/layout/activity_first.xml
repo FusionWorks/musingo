@@ -39,6 +39,14 @@
             android:onClick="goToGame"
             android:layout_below="@id/first"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/textViewTest"
+            android:layout_alignTop="@+id/first"
+            android:layout_centerHorizontal="true" />
+
     </RelativeLayout>
 
     <ImageView
