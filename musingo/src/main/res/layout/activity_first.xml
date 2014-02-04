@@ -39,6 +39,14 @@
             android:onClick="goToGame"
             android:layout_below="@id/first"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/textViewTest"
+            android:layout_alignTop="@+id/first"
+            android:layout_centerHorizontal="true" />
+
     </RelativeLayout>
 
     <ImageView
@@ -47,12 +55,5 @@
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:src="@drawable/bottom"/>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-
-    </LinearLayout>
 
 </RelativeLayout>

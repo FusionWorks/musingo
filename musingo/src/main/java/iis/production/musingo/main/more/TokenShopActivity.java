@@ -1,7 +1,10 @@
 package iis.production.musingo.main.more;
 
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -78,4 +81,19 @@ public class TokenShopActivity extends Activity {
 
         lastClickedImage = (ImageView)view;
     }
+
+    //IInAppBillingService mService;
+
+    ServiceConnection mServiceConn = new ServiceConnection() {
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            //mService = null;
+        }
+
+        @Override
+        public void onServiceConnected(ComponentName name,
+                                       IBinder service) {
+            //mService = IInAppBillingService.Stub.asInterface(service);
+        }
+    };
 }
