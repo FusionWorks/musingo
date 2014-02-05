@@ -48,4 +48,33 @@
 
 <!-- MixPanel TOKEN -->
     <string name="mixPanel_token">52d86a1905e48f9f0bb6b10b8ff2f0cd</string>
+
+    <!-- Tutorial -->
+    <string name="tutorial1">YOU HAVE 10 SECONDS TO GUESS THE SONG</string>
+    <string name="tutorial2">TAP THE ALBUM COVER OF THE SONG YOU THINK IS PLAYNG. TRY IT NOW!</string>
+    <string name="tutorial3">NICE TRY!</string>
+    <string name="tutorial4">NICE TRY! YOUR SCORE REFLECTS HOW FAST YOU GUESSED THE SONG</string>
+    <string name="tutorial5">YOU\'R DOING GREAT! TO BEAT THIS LEVEL, SCORE HIGHER THAN THE OBJECTIVE! LET\'S PLAY</string>
+    <string name="tutorial6">IF YOURE EVER STUCK AND NEED THE KNOWLEDGE OF YOUR FRIEND ON FB!</string>
+
+    <!-- Powerup -->
+    <string name="hint_powerup_title">You ve unlocked the HINT POWERUP.</string>
+    <string name="hint_powerup_body">IT HIGHLIGHTS 3 SQUARES ON THE BOARD FOR YOU TO CHOOSE FROM.</string>
+    <string name="skip_powerup_title">You\'ve unlocked the SKIP POWERUP.</string>
+    <string name="skip_powerup_body">PASS THE CURRENT SONG, WITH THE CHANCE TO COME BACK TO IT LATER.</string>
+    <string name="replay_powerup_title">You ve unlocked the REPLAY POWERUP.</string>
+    <string name="replay_powerup_body">IT\'GIVES YOU ANOTHER CHANCE TO HEAR THE SONG.</string>
+    <string name="freeze_powerup_title">You ve unlocked the FREEZE POWERUP.</string>
+    <string name="freeze_powerup_body">PAUSE THE SONG TIMER WHILE LISTENING TO THE SONG. GET A HIGHER SCORE!</string>
+    <string name="longer_clip_powerup_title">You ve unlocked the LONGER CLIP POWERUP.</string>
+    <string name="longer_clip_powerup_body">IT ADDS AN EXTRA IO SECS TO THE SONG TO GIVE YOU MORE TO GO ON.</string>
+    <string name="next_playlist_powerup_title">You\'ve unlocked the NEXT PLAYLIST POWERUP.</string>
+    <string name="next_playlist_powerup_body">GET TO THE NEXT PLAYLIST WIRHOUR HAVING TO CONQUER THE SCORE T BEAT.</string>
+
+    <string name="replay_alert">HEAR THE SONG AGAIN</string>
+    <string name="longer_clip_alert">YOU GET AN EXTRA IO SECONDS1</string>
+
+    <!--Did you know-->
+    <string name="did_you_know_1">We have explored only about 5 percent of the ocean. Humans have better maps of Mars than of the ocean floor!</string>
+    <string name="did_you_know_2">Teenage boys are paying $150 to get bieber's hairstyle!</string>
 </resources>

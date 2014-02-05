@@ -43,7 +43,6 @@ public class FirstActivity extends Activity {
         if(expires != 0){
             FacebookManager.userFb.setAccessExpires(expires);
         }
-
     }
 
     public void goToGame(View view){

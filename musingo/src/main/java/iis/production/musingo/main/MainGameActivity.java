@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -84,6 +85,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         seekBar = (RelativeLayout)findViewById(R.id.seekBar);
         bar = (ImageView)seekBar.findViewById(R.id.bar);
         barTitle = (TextViewPacifico)findViewById(R.id.barTitle);
