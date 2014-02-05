@@ -17,7 +17,7 @@ public class PlaySongsTable {
                 "(ID integer primary key autoincrement, " +
                 "PackageNr integer, " +
                 "PackageName VARCHAR(255), " +
-                "LevelNr integer, " +
+                "LevelNr integer UNIQUE, " +
                 "LevelName VARCHAR(255), " +
                 "BestResult integer, " +
                 "GreenStar integer, " +
@@ -46,12 +46,46 @@ public class PlaySongsTable {
 
     public int GetBestResult(Activity activity, Integer levelNr){
         int bestResult = 0;
-        SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
-        Cursor c = db.rawQuery("SELECT BestResult FROM play_songs WHERE LevelNr = " + levelNr, null);
-        int bestResultColumn = c.getColumnIndex("BestResult");
-        c.moveToFirst();
-        bestResult = c.getInt(bestResultColumn);
-        db.close();
+        try {
+            SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
+            Cursor c = db.rawQuery("SELECT BestResult FROM play_songs WHERE LevelNr = " + levelNr, null);
+            int bestResultColumn = c.getColumnIndex("BestResult");
+            c.moveToFirst();
+            bestResult = c.getInt(bestResultColumn);
+            db.close();
+        }
+        catch (Exception e){}
         return bestResult;
+    }
+
+    public int SumStar(Activity activity, Integer packageNr){
+        int sumStar = 0;
+        int column;
+        Cursor cursor;
+        SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
+
+        cursor = db.rawQuery("SELECT sum(GreenStar) FROM play_songs WHERE PackageNr = " + packageNr, null);
+        if(cursor.moveToFirst()) {
+            sumStar = sumStar + cursor.getInt(0);
+        }
+
+        cursor = db.rawQuery("SELECT sum(OrangeStar) FROM play_songs WHERE PackageNr = " + packageNr, null);
+        if(cursor.moveToFirst()) {
+            sumStar = sumStar + cursor.getInt(0);
+        }
+
+        cursor = db.rawQuery("SELECT sum(PinkStar) FROM play_songs WHERE PackageNr = " + packageNr, null);
+        if(cursor.moveToFirst()) {
+            sumStar = sumStar + cursor.getInt(0);
+        }
+
+        db.close();
+        return sumStar;
+    }
+
+    public void DeletePlaySongsTable(Activity activity){
+        SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
+        db.execSQL("DROP TABLE IF EXISTS play_songs");
+        db.close();
     }
 }

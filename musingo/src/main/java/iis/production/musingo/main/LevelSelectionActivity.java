@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -281,6 +282,7 @@ public class LevelSelectionActivity extends Activity{
 
     public void downloadResultForGame(ArrayList<Song> songs, String scoreToBeat, String name, String cost){
         gameSongs = songs;
+        Log.v("Musingo", "Level selection : " + selectedLevel);
         Intent intent = new Intent();
         intent.setClass(this, MainGameActivity.class);
         intent.putExtra("scoreTobeat", scoreToBeat);

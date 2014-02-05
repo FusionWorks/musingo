@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.facebook.android.Facebook;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
@@ -13,6 +14,7 @@ import org.json.JSONObject;
 
 import iis.production.musingo.MusingoApp;
 import iis.production.musingo.R;
+import iis.production.musingo.db.PlaySongsTable;
 import iis.production.musingo.utility.FacebookManager;
 
 /**
@@ -43,6 +45,19 @@ public class FirstActivity extends Activity {
         if(expires != 0){
             FacebookManager.userFb.setAccessExpires(expires);
         }
+
+        // <<<temp
+        PlaySongsTable playSongsTable = new PlaySongsTable(this);
+        try{
+            playSongsTable.InsertIntoPlaySongsTable(this, 1, "qwe", 1, "asd", 0, 1, 1, 1);
+            playSongsTable.InsertIntoPlaySongsTable(this, 1, "qwe", 2, "asd", 0, 1, 1, 1);
+            playSongsTable.InsertIntoPlaySongsTable(this, 1, "qwe", 3, "asd", 0, 1, 1, 1);
+        }
+        catch (Exception e){}
+        int sumStar = playSongsTable.SumStar(this, 1);
+        Toast.makeText(getApplicationContext(), "" + sumStar, Toast.LENGTH_LONG).show();
+        playSongsTable.DeletePlaySongsTable(this);
+        //>>>
     }
 
     public void goToGame(View view){
