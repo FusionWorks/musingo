@@ -37,7 +37,7 @@
         android:layout_weight="0.68"/>
 
     <iis.production.musingo.objects.TextViewPacifico
-        android:imeActionId="@+id/time"
+        android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
@@ -48,9 +48,10 @@
         android:background="@drawable/round_corner_time"
         android:textSize="25sp"
         android:textColor="#2c2c2c"
+        android:visibility="gone"
         android:layout_gravity="center_vertical"/>
     <iis.production.musingo.objects.TextViewPacifico
-        android:imeActionId="@+id/noTime"
+        android:id="@+id/noTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
@@ -58,9 +59,10 @@
         android:paddingRight="5dp"
         android:layout_alignParentRight="true"
         android:layout_centerInParent="true"
-        android:background="@drawable/round_corner_time_red"
+        android:background="@drawable/round_corner_time_black"
         android:textSize="25sp"
-        android:textColor="#2c2c2c"
+        android:textColor="#ffffff"
+        android:visibility="gone"
         android:layout_gravity="center_vertical"/>
 
 </RelativeLayout>

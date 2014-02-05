@@ -13,10 +13,15 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
+import iis.production.musingo.MusingoApp;
 import iis.production.musingo.R;
 import iis.production.musingo.main.more.TokenShopActivity;
 import iis.production.musingo.objects.AlertViewPink;
@@ -46,6 +51,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     int previousSongTime;
     boolean userRight;
     int score;
+    Runnable removeViewBorder;
 
     RelativeLayout song1;
     RelativeLayout song2;
@@ -136,7 +142,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         scoreToBeat.setText(intent.getStringExtra("scoreTobeat"));
         barTitle.setText(intent.getStringExtra("name"));
         cost = Integer.parseInt(intent.getStringExtra("cost"));
-        levelNumber.setText(intent.getStringExtra("level"));
+        levelNumber.setText(intent.getStringExtra("selectedLevel"));
         fillSongThumbs();
 
         // Mediaplayer
@@ -148,6 +154,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
         // Getting all songs list
         songsList = songManager.getPlayList();
+        songsList = shufleArray(songsList);
         if(songsList.size()<1){
 
             AlertViewPink alert = new AlertViewPink(this, "Something went wrong","Prooblems on the server");
@@ -155,6 +162,20 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         }
         // By default play first song
         playSong(0);
+
+        removeViewBorder=new Runnable() {
+
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+//                findViewById(R.id.border).setBackground(null);
+                LinearLayout songs = (LinearLayout)findViewById(R.id.songs);
+                ImageView image = (ImageView)songs.findViewWithTag("wrong");
+                image.setBackground(null);
+                image.setTag("");
+
+            }
+        };
     }
 
     public void goBackButton(View view){
@@ -239,7 +260,6 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-//        playSong(1);
 
     }
 
@@ -271,7 +291,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             view.setBackgroundResource(R.drawable.round_song_wrong);
             saveSongResult("-");
             TextViewPacifico text = (TextViewPacifico)view.findViewById(R.id.title);
-            text.setText(String.valueOf(previousSongTime)+"s");
+            text.setText("-");
         }else if(previousSongTime < 10 && userRight){
             view.setBackgroundResource(R.drawable.round_song_right);
             saveSongResult(String.valueOf(previousSongTime));
@@ -280,7 +300,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         }
         if(currentSong != 8){
             final float scale = getResources().getDisplayMetrics().density;
-            int left = 35 * (currentSong + 1) + 20;
+            int left = 35 * (currentSong + 1) + 10;
             int pixels = (int) (left * scale + 0.5f);
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) seekBar.getLayoutParams();
             params.setMargins(pixels, 0, 0, 0);
@@ -288,6 +308,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             playSong(currentSong + 1);
 
         }else{
+            mHandler.removeCallbacks(mUpdateTimeTask);
+            mHandler.removeCallbacks(removeViewBorder);
             mp.stop();
             toResultsList();
         }
@@ -313,13 +335,15 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         String id = songsList.get(currentSong).get("songTitle");
         if(previousSongTime > 1){
             if (view.getTag().toString().equals(id)){
-                view.setBackgroundResource(R.drawable.round_song_right);
+                view.setBackgroundResource(R.drawable.round_song_big_right);
                 userRight = true;
                 score += cost;
                 yourScore.setText(String.valueOf(score));
             }else{
-                view.setBackgroundResource(R.drawable.round_song_wrong);
+                view.findViewById(R.id.border).setBackgroundResource(R.drawable.round_song_big_wrong);
+                view.findViewById(R.id.border).setTag("wrong");
                 userRight = false;
+                mHandler.postDelayed(removeViewBorder,2* 1000);
             }
             playNext();
         }
@@ -332,17 +356,71 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             if(id.equals(song.getId())){
                 song.setTime(result);
                 songsWithTime.add(song);
+                Log.v("Musingo", "song " + id);
                 break;
             }
         }
     }
 
     public void toResultsList(){
-        AlertViewPink view = new AlertViewPink(this, "Horray!", "you earned \n" + yourScore.getText());
+//        AlertViewPink view = new AlertViewPink(this, "Horray!", "you earned \n" + yourScore.getText());
         Intent intent = new Intent();
         intent.setClass(this, ResultsActivity.class);
         intent.putExtra("title", barTitle.getText());
         startActivity(intent);
+    }
+
+    public void mixStartingPlaylist(String level, String title){
+        JSONObject props = new JSONObject();
+        try {
+            props.put("Level", "Level #"+level);
+            props.put("Title", title);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        MusingoApp app = (MusingoApp)getApplication();
+        app.getMixpanelobj().track("Starting a playlist", props);
+    }
+
+    public void mixCompletionPlaylist(boolean win, String title, boolean powerUpUsed, boolean tokenUsed, String level){
+        JSONObject props = new JSONObject();
+        try {
+            props.put("Win or lose", win);
+            props.put("Title", title);
+            if(powerUpUsed){
+                props.put("Power Ups", "Power up used");
+            }
+            if(tokenUsed){
+                props.put("Token used", "Token used");
+            }
+            props.put("Level", "Level #"+level);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        MusingoApp app = (MusingoApp)getApplication();
+        app.getMixpanelobj().track("Completing a playlist", props);
+    }
+
+    public ArrayList<HashMap<String, String>> shufleArray(ArrayList<HashMap<String, String>> array){
+        Log.v("Musingo", "before" + array.get(0) + "size -"+array.size());
+        ArrayList<HashMap<String, String>> newArray = new ArrayList<HashMap<String, String>>();
+        Random rnd = new Random();
+        HashMap<Integer, Integer> indexes = new HashMap<Integer, Integer>();
+        while(newArray.size() != 9){
+            int index = rnd.nextInt(9);
+            if(indexes.containsKey(index)){
+
+            }else{
+                Log.v("Musingo", "rand "+index);
+                HashMap<String, String> a = array.get(index);
+                newArray.add(a);
+                indexes.put(index, index);
+            }
+
+        }
+        Log.v("Musingo", "after" + newArray.get(0) + "size -"+newArray.size());
+        return newArray;
     }
 
 }

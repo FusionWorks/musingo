@@ -11,11 +11,11 @@ public class MusingoApp extends Application {
 
     private MixpanelAPI mixpanelAPI;
 
-    public MixpanelAPI getMixpanel(){
+    public MixpanelAPI getMixpanelobj(){
         return mixpanelAPI;
     }
 
-    public void setMixpanelAPI(MixpanelAPI mixpanelAPI){
+    public void setMixpanelobj(MixpanelAPI mixpanelAPI){
         this.mixpanelAPI = mixpanelAPI;
     }
 }

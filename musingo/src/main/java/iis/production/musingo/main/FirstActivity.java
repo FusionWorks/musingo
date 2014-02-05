@@ -8,6 +8,9 @@ import android.view.View;
 import com.facebook.android.Facebook;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import iis.production.musingo.MusingoApp;
 import iis.production.musingo.R;
 import iis.production.musingo.utility.FacebookManager;
@@ -16,14 +19,16 @@ import iis.production.musingo.utility.FacebookManager;
  * Created by AGalkin on 1/18/14.
  */
 public class FirstActivity extends Activity {
+    MixpanelAPI mMixpanel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
-
-        MixpanelAPI mMixpanel = MixpanelAPI.getInstance(this, "YOUR_API_TOKEN");
+        String token = getString(R.string.mixPanel_token);
+        mMixpanel = MixpanelAPI.getInstance(this, token);
         MusingoApp app = (MusingoApp)getApplication();
-        app.setMixpanelAPI(mMixpanel);
+        mixpanelSuperProps();
+        app.setMixpanelobj(mMixpanel);
         String appIdFacebook = getString(R.string.appIdFacebook);
         FacebookManager.userFb = new Facebook(appIdFacebook);
 
@@ -39,7 +44,6 @@ public class FirstActivity extends Activity {
             FacebookManager.userFb.setAccessExpires(expires);
         }
 
-
     }
 
     public void goToGame(View view){
@@ -52,6 +56,23 @@ public class FirstActivity extends Activity {
         Intent intent = new Intent();
         intent.setClass(this, SettingsActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        MusingoApp app = (MusingoApp)getApplication();
+        app.getMixpanelobj().flush();
+        super.onDestroy();
+    }
+
+    public void mixpanelSuperProps(){
+        JSONObject props = new JSONObject();
+        try {
+            props.put("Operating system", "Android");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        mMixpanel.registerSuperProperties(props);
     }
 
 }

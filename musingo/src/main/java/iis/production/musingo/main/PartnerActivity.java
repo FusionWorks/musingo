@@ -166,7 +166,7 @@ public class PartnerActivity extends Activity {
             Toast.makeText(PartnerActivity.this, "Closed More Apps",
                     Toast.LENGTH_SHORT).show();
             Intent intent = new Intent();
-            intent.setClass(PartnerActivity.this, FirstActivity.class);
+            intent.setClass(PartnerActivity.this, LevelSelectionActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
 

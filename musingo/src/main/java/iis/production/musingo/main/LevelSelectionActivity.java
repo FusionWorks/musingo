@@ -286,7 +286,7 @@ public class LevelSelectionActivity extends Activity{
         intent.putExtra("scoreTobeat", scoreToBeat);
         intent.putExtra("name", name);
         intent.putExtra("cost", cost);
-        intent.putExtra("levelNumber", selectedLevel);
+        intent.putExtra("selectedLevel", selectedLevel);
         startActivity(intent);
         clickable = true;
     }

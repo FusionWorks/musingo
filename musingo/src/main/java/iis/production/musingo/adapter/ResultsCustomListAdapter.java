@@ -48,8 +48,6 @@ public class ResultsCustomListAdapter extends ArrayAdapter<Song> {
         final RoundedCornersDrawable drawable = new RoundedCornersDrawable(context.getResources(), songList.get(position).getImage());
         imageView.setImageDrawable(drawable);
         String time = songList.get(position).getTime();
-        noTimeView.setVisibility(View.GONE);
-        timeView.setVisibility(View.GONE);
         if (time.equals("-")){
             noTimeView.setText(time);
             noTimeView.setVisibility(View.VISIBLE);
