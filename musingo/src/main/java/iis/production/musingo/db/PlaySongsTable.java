@@ -46,21 +46,17 @@ public class PlaySongsTable {
 
     public int GetBestResult(Activity activity, Integer levelNr){
         int bestResult = 0;
-        try {
             SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
             Cursor c = db.rawQuery("SELECT BestResult FROM play_songs WHERE LevelNr = " + levelNr, null);
-            int bestResultColumn = c.getColumnIndex("BestResult");
-            c.moveToFirst();
-            bestResult = c.getInt(bestResultColumn);
+            if(c.moveToFirst()) {
+                bestResult = c.getInt(0);
+            }
             db.close();
-        }
-        catch (Exception e){}
         return bestResult;
     }
 
     public int SumStar(Activity activity, Integer packageNr){
         int sumStar = 0;
-        int column;
         Cursor cursor;
         SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
 

@@ -74,8 +74,6 @@
     <string name="replay_alert">HEAR THE SONG AGAIN</string>
     <string name="longer_clip_alert">YOU GET AN EXTRA IO SECONDS1</string>
 
-<<<<<<< HEAD
-=======
     <!--Did you know-->
     <string name="did_you_know_1">We have explored only about 5 percent of the ocean. Humans have better maps of Mars than of the ocean floor!</string>
     <string name="did_you_know_2">Teenage boys are paying $150 to get bieber\'s hairstyle!</string>
@@ -122,5 +120,4 @@
     <string name="did_you_know_43">Some species of sharks have declined in population by 90% or more in regions where they were once abundant.</string>
     <string name="did_you_know_44">Some species of sharks take more than 15 years to reach reproductive maturity.</string>
     <string name="did_you_know_45">1 in 6 species that appear in the movie \"Finding Nemo\" are threatened with extinction.</string>
->>>>>>> bab76d86626232336d8a35e6001a2dd296cc7a76
 </resources>
