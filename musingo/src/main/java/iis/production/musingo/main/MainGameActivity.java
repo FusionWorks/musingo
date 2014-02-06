@@ -377,9 +377,9 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         intent.putExtra("levelNumber", level);
         intent.putExtra("packageNumber", packageNumber);
         intent.putExtra("packageName", packageName);
-        intent.putExtra("pinkStar", pinkStar);
-        intent.putExtra("orangeStar", orangeStar);
-        intent.putExtra("greenStar", greenStar);
+        intent.putExtra("boostStar", pinkStar);
+        intent.putExtra("beatStar", orangeStar);
+        intent.putExtra("completeStar", greenStar);
 
 
         startActivity(intent);
