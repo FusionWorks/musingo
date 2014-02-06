@@ -17,7 +17,9 @@ import java.util.ArrayList;
 import iis.production.musingo.MusingoApp;
 import iis.production.musingo.R;
 import iis.production.musingo.adapter.ResultsCustomListAdapter;
+import iis.production.musingo.db.PlaySongsTable;
 import iis.production.musingo.objects.Song;
+import iis.production.musingo.objects.TextViewArchitects;
 import iis.production.musingo.objects.TextViewPacifico;
 import iis.production.musingo.utility.Utility;
 
@@ -70,6 +72,32 @@ public class ResultsActivity extends Activity {
         LayoutInflater inflater = getLayoutInflater();
         ViewGroup header = (ViewGroup)inflater.inflate(R.layout.result_header_opened, list, false);
         list.addHeaderView(header, null, false);
+
+        String currentScoreStr = getIntent().getStringExtra("currentScore");
+        TextViewArchitects currentScoreTV = (TextViewArchitects) findViewById(R.id.currentScore);
+        currentScoreTV.setText(currentScoreStr);
+        TextViewArchitects bestResultTV = (TextViewArchitects) findViewById(R.id.bestScore);
+
+        int levelNumber = getIntent().getIntExtra("levelNumber", 0);
+
+        PlaySongsTable playSongsTable = new PlaySongsTable(this);
+
+        try{
+            playSongsTable.InsertIntoPlaySongsTable(this, 1, "qwe", levelNumber, "asd", 0, 0, 0, 0);
+        }
+        catch (Exception e){}
+
+        int bestResultInt = playSongsTable.GetBestResult(this, levelNumber);
+
+        int currentScoreInt = Integer.parseInt(currentScoreStr);
+
+        if(bestResultInt < currentScoreInt){
+            playSongsTable.UpdateBestResultInPlaySongsTable(this, currentScoreInt, levelNumber);
+            bestResultTV.setText(currentScoreStr);
+        }
+        else {
+            bestResultTV.setText("" + bestResultInt);
+        }
 
         list.setAdapter(songsListAdapter);
     }

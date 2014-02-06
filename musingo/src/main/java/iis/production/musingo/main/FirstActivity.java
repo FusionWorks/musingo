@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import iis.production.musingo.MusingoApp;
 import iis.production.musingo.R;
+import iis.production.musingo.db.PlaySongsTable;
 import iis.production.musingo.utility.FacebookManager;
 
 /**
@@ -44,7 +45,10 @@ public class FirstActivity extends Activity {
         if(expires != 0){
             FacebookManager.userFb.setAccessExpires(expires);
         }
-
+// <<<temp
+        PlaySongsTable playSongsTable = new PlaySongsTable(this);
+        playSongsTable.DeletePlaySongsTable(this);
+//>>>
     }
 
     public void goToGame(View view){

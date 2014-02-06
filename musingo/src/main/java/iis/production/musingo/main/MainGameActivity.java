@@ -79,6 +79,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     ArrayList<HashMap<String, String>> songsList = new ArrayList<HashMap<String, String>>();
     private Handler mHandler = new Handler();
     ImageView wrongSelected;
+    int level;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,6 +145,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         barTitle.setText(intent.getStringExtra("name"));
         cost = Integer.parseInt(intent.getStringExtra("cost"));
         levelNumber.setText(String.valueOf(intent.getIntExtra("selectedLevel", 0)));
+        level = intent.getIntExtra("selectedLevel", 0);
+        levelNumber.setText(String.valueOf(level));
         fillSongThumbs();
 
         // Mediaplayer
@@ -347,10 +350,12 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
     public void toResultsList(){
 //        AlertViewPink view = new AlertViewPink(this, "Horray!", "you earned \n" + yourScore.getText());
+        Log.v("Musingo", "Level toResult : " + level);
         Intent intent = new Intent();
         intent.setClass(this, ResultsActivity.class);
         intent.putExtra("title", barTitle.getText());
-
+        intent.putExtra("currentScore", String.valueOf(score));
+        intent.putExtra("levelNumber", level);
         startActivity(intent);
     }
 
