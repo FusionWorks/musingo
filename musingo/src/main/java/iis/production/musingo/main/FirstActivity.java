@@ -1,7 +1,9 @@
 package iis.production.musingo.main;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
@@ -20,34 +22,20 @@ import iis.production.musingo.utility.FacebookManager;
  * Created by AGalkin on 1/18/14.
  */
 public class FirstActivity extends Activity {
+    SharedPreferences mSettings;
+    public static final String APP_PREFERENCES = "settings";
     MixpanelAPI mMixpanel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
-        String token = getString(R.string.mixPanel_token);
-        mMixpanel = MixpanelAPI.getInstance(this, token);
-        MusingoApp app = (MusingoApp)getApplication();
-        app.loadSongs();
-        mixpanelSuperProps();
-        app.setMixpanelobj(mMixpanel);
-        String appIdFacebook = getString(R.string.appIdFacebook);
-        FacebookManager.userFb = new Facebook(appIdFacebook);
-
-        FacebookManager.sharedPreferences = getPreferences(MODE_PRIVATE);
-
-        String access_token = FacebookManager.sharedPreferences.getString("access_token", null);
-        long expires = FacebookManager.sharedPreferences.getLong("access_expires", 0);
-
-        if(access_token != null){
-            FacebookManager.userFb.setAccessToken(access_token);
-        }
-        if(expires != 0){
-            FacebookManager.userFb.setAccessExpires(expires);
-        }
+        mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+        setupMixpanel();
+        setupFacebook();
+        getMyTokens();
 // <<<temp
         PlaySongsTable playSongsTable = new PlaySongsTable(this);
-        playSongsTable.DeletePlaySongsTable(this);
+        playSongsTable.deletePlaySongsTable();
 //>>>
     }
 
@@ -81,6 +69,36 @@ public class FirstActivity extends Activity {
             e.printStackTrace();
         }
         mMixpanel.registerSuperProperties(props);
+    }
+
+    public void setupMixpanel(){
+        String token = getString(R.string.mixPanel_token);
+        mMixpanel = MixpanelAPI.getInstance(this, token);
+        MusingoApp app = (MusingoApp)getApplication();
+        app.loadSongs();
+        mixpanelSuperProps();
+        app.setMixpanelobj(mMixpanel);
+    }
+
+    public void setupFacebook(){
+        String appIdFacebook = getString(R.string.appIdFacebook);
+        FacebookManager.userFb = new Facebook(appIdFacebook);
+
+        FacebookManager.sharedPreferences = getPreferences(MODE_PRIVATE);
+
+        String access_token = FacebookManager.sharedPreferences.getString("access_token", null);
+        long expires = FacebookManager.sharedPreferences.getLong("access_expires", 0);
+
+        if(access_token != null){
+            FacebookManager.userFb.setAccessToken(access_token);
+        }
+        if(expires != 0){
+            FacebookManager.userFb.setAccessExpires(expires);
+        }
+    }
+
+    public void getMyTokens(){
+        mSettings.edit().putInt("tokens",100).commit();
     }
 
 }

@@ -19,7 +19,7 @@ public class DidYouKnow {
         Field[] fields = R.string.class.getFields();
         ArrayList<String> allStrings = new ArrayList<String>();
         for (int  i =0; i < fields.length; i++) {
-            if(fields[i].getName().contains("tutorial")){
+            if(fields[i].getName().contains("did_you_know_")){
                 allStrings.add(fields[i].getName());
                 Log.v("Musingo", "string " + fields[i].getName());
             }
@@ -34,12 +34,12 @@ public class DidYouKnow {
 
         view.setText(strValue);
         int l = strValue.length();
-        if(l < 30)
-            view.setTextSize(13);
-        else if(l > 30 && l < 60)
+        if(l < 50)
             view.setTextSize(11);
-        else if(l > 60 && l < 100)
+        else if(l > 50 && l < 80)
             view.setTextSize(9);
+        else if(l > 80 && l < 150)
+            view.setTextSize(8);
 
     }
 }

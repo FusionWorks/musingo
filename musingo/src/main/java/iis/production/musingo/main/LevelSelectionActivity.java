@@ -19,8 +19,10 @@ import java.util.ArrayList;
 import iis.production.musingo.MusingoApp;
 import iis.production.musingo.R;
 import iis.production.musingo.async.ATSongs;
+import iis.production.musingo.db.PlaySongsTable;
 import iis.production.musingo.objects.Song;
 import iis.production.musingo.objects.TextViewArchitects;
+import iis.production.musingo.objects.TextViewPacifico;
 import iis.production.musingo.utility.DidYouKnow;
 import iis.production.musingo.utility.Endpoints;
 import iis.production.musingo.utility.OnSwipeTouchListener;
@@ -39,6 +41,8 @@ public class LevelSelectionActivity extends Activity{
     ArrayList<RelativeLayout> songViews;
     RelativeLayout loadingAnimation;
     TextViewArchitects didyouknowText;
+    TextViewPacifico starNumber;
+
     ImageView level1;
     ImageView level2;
     ImageView level3;
@@ -59,6 +63,7 @@ public class LevelSelectionActivity extends Activity{
     RelativeLayout song8;
     RelativeLayout song9;
 
+
     //variables
     boolean opened;
     boolean beat;
@@ -73,7 +78,6 @@ public class LevelSelectionActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_level_selection);
-
         didyouknowText = (TextViewArchitects)findViewById(R.id.didyouknowText);
         DidYouKnow.random(didyouknowText, this);
         opened = false;
@@ -83,6 +87,7 @@ public class LevelSelectionActivity extends Activity{
         //Views initialize
         loadingAnimation = (RelativeLayout)findViewById(R.id.loadingAnimation);
         levels = (LinearLayout)findViewById(R.id.levels);
+        starNumber = (TextViewPacifico)findViewById(R.id.starNumber);
 
         level1 = (ImageView)findViewById(R.id.level1);
         level2 = (ImageView)findViewById(R.id.level2);
@@ -164,6 +169,8 @@ public class LevelSelectionActivity extends Activity{
                 }
             }
         });
+
+        getStarsCollected();
         selectedLevel = 1;
         ArrayList<Song> songs = new ArrayList<Song>();
         String url = Endpoints.playlist_url + selectedLevel;
@@ -299,6 +306,13 @@ public class LevelSelectionActivity extends Activity{
         intent.putExtra("name", name);
         intent.putExtra("cost", cost);
         intent.putExtra("selectedLevel", selectedLevel);
+//<--- temp
+        intent.putExtra("packageNumber", 2);
+        intent.putExtra("packageName", "Hits 90s");
+        intent.putExtra("pinkStar", true);
+        intent.putExtra("orangeStar", false);
+        intent.putExtra("greenStar", true);
+//--->>
         startActivity(intent);
         clickable = true;
     }
@@ -319,5 +333,10 @@ public class LevelSelectionActivity extends Activity{
             return true;
         else
             return false;
+    }
+
+    public void getStarsCollected(){
+        PlaySongsTable PST = new PlaySongsTable(this);
+        starNumber.setText(String.valueOf(PST.getSumStars()));
     }
 }
