@@ -27,6 +27,7 @@ public class FirstActivity extends Activity {
         String token = getString(R.string.mixPanel_token);
         mMixpanel = MixpanelAPI.getInstance(this, token);
         MusingoApp app = (MusingoApp)getApplication();
+        app.loadSongs();
         mixpanelSuperProps();
         app.setMixpanelobj(mMixpanel);
         String appIdFacebook = getString(R.string.appIdFacebook);
@@ -43,15 +44,19 @@ public class FirstActivity extends Activity {
         if(expires != 0){
             FacebookManager.userFb.setAccessExpires(expires);
         }
+
     }
 
     public void goToGame(View view){
+        MusingoApp.soundButton();
         Intent intent = new Intent();
         intent.setClass(this, LevelSelectionActivity.class);
         startActivity(intent);
     }
 
     public void goToSettings(View view){
+        view.playSoundEffect(0);
+        MusingoApp.soundButton();
         Intent intent = new Intent();
         intent.setClass(this, SettingsActivity.class);
         startActivity(intent);

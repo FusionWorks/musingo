@@ -15,10 +15,12 @@ import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
+import iis.production.musingo.MusingoApp;
 import iis.production.musingo.R;
 import iis.production.musingo.async.ATSongs;
 import iis.production.musingo.objects.Song;
 import iis.production.musingo.objects.TextViewArchitects;
+import iis.production.musingo.utility.DidYouKnow;
 import iis.production.musingo.utility.Endpoints;
 import iis.production.musingo.utility.OnSwipeTouchListener;
 import iis.production.musingo.utility.Reachability;
@@ -35,7 +37,7 @@ public class LevelSelectionActivity extends Activity{
     LinearLayout levels;
     ArrayList<RelativeLayout> songViews;
     RelativeLayout loadingAnimation;
-
+    TextViewArchitects didyouknowText;
     ImageView level1;
     ImageView level2;
     ImageView level3;
@@ -71,6 +73,8 @@ public class LevelSelectionActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_level_selection);
 
+        didyouknowText = (TextViewArchitects)findViewById(R.id.didyouknowText);
+        DidYouKnow.random(didyouknowText, this);
         opened = false;
         levelViews = new ArrayList<ImageView>();
         gameSongs = new ArrayList<Song>();
@@ -135,6 +139,7 @@ public class LevelSelectionActivity extends Activity{
 
         levels.setOnTouchListener(new OnSwipeTouchListener(){
             public void onSwipeRight() {
+                MusingoApp.soundButton();
                 for(int i = 0; i<levelViews.size(); i++){
                     ImageView imageView = levelViews.get(i);
                     if(imageView.getTag().toString().equals("selected") && i!=levelViews.size()-1 && clickable){
@@ -146,6 +151,7 @@ public class LevelSelectionActivity extends Activity{
                 }
             }
             public void onSwipeLeft() {
+                MusingoApp.soundButton();
                 for(int i = 0; i<levelViews.size(); i++){
                     ImageView imageView = levelViews.get(i);
                     if(imageView.getTag().toString().equals("selected") && i!=0 && clickable){
@@ -170,6 +176,7 @@ public class LevelSelectionActivity extends Activity{
     }
 
     public void dropDown(View view){
+        MusingoApp.soundButton();
         if(opened)
             hideMenu();
         else
@@ -177,6 +184,7 @@ public class LevelSelectionActivity extends Activity{
     }
 
     public void goBackButton(View view){
+        MusingoApp.soundButton();
         if(opened)
            hideMenu();
         else
@@ -236,6 +244,7 @@ public class LevelSelectionActivity extends Activity{
 
     public void onLevelsSelectionClick(View view){
         if(clickable){
+            MusingoApp.soundButton();
             ImageView selectedView = (ImageView)levels.findViewWithTag("selected");
             makeUnselected(selectedView);
             makeSelected((ImageView)view);
@@ -244,6 +253,7 @@ public class LevelSelectionActivity extends Activity{
 
     public void goToLevel(View view){
         if(clickable){
+            MusingoApp.soundButton();
             String url = Endpoints.playlist_url + selectedLevel;
             ATSongs ATS = new ATSongs(this, url, loadingAnimation, true, gameSongs);
             Reachability a = new Reachability(this);

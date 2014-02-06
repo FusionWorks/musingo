@@ -31,39 +31,52 @@
                 android:src="@drawable/madonna"
                 android:layout_alignParentBottom="true"/>
             <RelativeLayout
-                android:id="@+id/didyouknowCloud"
-                android:layout_height="79dp"
-                android:layout_width="220dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
                 android:layout_marginTop="10dp"
-                android:layout_toRightOf="@id/madonna"
-                android:background="@drawable/didyouknow_cloud">
-                <iis.production.musingo.objects.TextViewArchitects
-                    android:id="@+id/didyouknowTitle"
+                android:layout_toRightOf="@id/madonna">
+                <ImageView
+                    android:id="@+id/didyouknowTail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="8sp"
-                    android:text="DID YOU KNOW?"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="3dp"
-                    android:textColor="#3fb8cd"/>
-                <iis.production.musingo.objects.TextViewArchitects
-                    android:id="@+id/didyouknowText"
-                    android:layout_width="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:src="@drawable/didyouknow_cloud_tail"/>
+                <RelativeLayout
+                    android:id="@+id/didyouknowCloud"
                     android:layout_height="match_parent"
-                    android:textSize="11sp"
-                    android:text="COWS GIVE MORE MILK WHEN LISTENING TO MUSIC "
-                    android:layout_marginLeft="10dp"
-                    android:paddingBottom="25dp"
-                    android:gravity="center"
-                    android:layout_below="@id/didyouknowTitle"
-                    android:textColor="#000000"/>
-            </RelativeLayout>
+                    android:layout_width="match_parent"
+                    android:layout_marginRight="10dp"
+                    android:layout_above="@id/didyouknowTail"
+                    android:background="@drawable/didyouknow_cloud">
+                    <iis.production.musingo.objects.TextViewArchitects
+                        android:id="@+id/didyouknowTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="10sp"
+                        android:text="DID YOU KNOW?"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="3dp"
+                        android:textColor="#3fb8cd"/>
+                    <iis.production.musingo.objects.TextViewArchitects
+                        android:id="@+id/didyouknowText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@id/didyouknowTitle"
+                        android:textSize="9sp"
+                        android:layout_marginLeft="15dp"
+                        android:gravity="center"
+                        android:textColor="#000000"/>
+                    </RelativeLayout>
+
+                </RelativeLayout>
             <LinearLayout
                 android:id="@+id/levels"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_below="@id/didyouknowCloud"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_alignParentBottom="true"
                 android:layout_toRightOf="@id/madonna">
                 <ImageView
                     android:id="@+id/level1"
@@ -183,7 +196,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="25dp"
+                        android:layout_marginBottom="20dp"
                         android:text=""
                         android:gravity="center"
                         android:textSize="9sp"
@@ -196,8 +209,8 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:layout_alignParentBottom="true"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp">
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp">
                         <ImageView
                             android:id="@+id/starOrange"
                             android:layout_width="0dp"
@@ -239,7 +252,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="25dp"
+                        android:layout_marginBottom="20dp"
                         android:text=""
                         android:gravity="center"
                         android:textSize="9sp"
@@ -294,7 +307,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="25dp"
+                        android:layout_marginBottom="20dp"
                         android:text=""
                         android:gravity="center"
                         android:textSize="9sp"
@@ -357,7 +370,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="25dp"
+                        android:layout_marginBottom="20dp"
                         android:text=""
                         android:gravity="center"
                         android:textSize="9sp"
@@ -413,7 +426,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="25dp"
+                        android:layout_marginBottom="20dp"
                         android:text=""
                         android:gravity="center"
                         android:textSize="9sp"
@@ -468,7 +481,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="25dp"
+                        android:layout_marginBottom="20dp"
                         android:text=""
                         android:gravity="center"
                         android:textSize="9sp"
@@ -531,7 +544,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="25dp"
+                        android:layout_marginBottom="20dp"
                         android:text=""
                         android:gravity="center"
                         android:textSize="9sp"
@@ -587,7 +600,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="25dp"
+                        android:layout_marginBottom="20dp"
                         android:text=""
                         android:gravity="center"
                         android:textSize="9sp"
@@ -642,7 +655,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="25dp"
+                        android:layout_marginBottom="20dp"
                         android:text=""
                         android:gravity="center"
                         android:textSize="9sp"

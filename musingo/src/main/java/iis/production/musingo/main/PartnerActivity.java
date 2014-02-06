@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.chartboost.sdk.Chartboost;
 import com.chartboost.sdk.ChartboostDelegate;
 
+import iis.production.musingo.MusingoApp;
 import iis.production.musingo.R;
 
 /**
@@ -163,6 +164,7 @@ public class PartnerActivity extends Activity {
         @Override
         public void didCloseMoreApps() {
             Log.i(TAG, "MORE APPS CLOSED");
+            MusingoApp.soundButton();
             Toast.makeText(PartnerActivity.this, "Closed More Apps",
                     Toast.LENGTH_SHORT).show();
             Intent intent = new Intent();

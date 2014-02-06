@@ -8,6 +8,7 @@ import android.os.IBinder;
 import android.view.View;
 import android.widget.ImageView;
 
+import iis.production.musingo.MusingoApp;
 import iis.production.musingo.R;
 
 /**
@@ -23,10 +24,10 @@ public class TokenShopActivity extends Activity {
         lastClickedImage = new ImageView(this.getApplicationContext());
         lastClickedImage.setTag("0");
         removeFocus = false;
-
     }
 
     public void goBackButton(View view){
+        MusingoApp.soundButton();
         finish();
     }
 
@@ -34,22 +35,27 @@ public class TokenShopActivity extends Activity {
         ImageView img = (ImageView)view;
         switch (Integer.parseInt(view.getTag().toString())){
             case 50:
+                MusingoApp.soundButton();
                 img.setImageResource(R.drawable.fifty);
                 break;
 
             case 120:
+                MusingoApp.soundButton();
                 img.setImageResource(R.drawable.hundred);
                 break;
 
             case 300:
+                MusingoApp.soundButton();
                 img.setImageResource(R.drawable.three_hundred);
                 break;
 
             case 650:
+                MusingoApp.soundButton();
                 img.setImageResource(R.drawable.sixty);
                 break;
 
             case 3000:
+                MusingoApp.soundButton();
                 img.setImageResource(R.drawable.three_thousend);
                 break;
         }

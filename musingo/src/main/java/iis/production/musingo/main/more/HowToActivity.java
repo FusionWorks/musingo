@@ -1,12 +1,10 @@
 package iis.production.musingo.main.more;
 
 import android.app.Activity;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
+import iis.production.musingo.MusingoApp;
 import iis.production.musingo.R;
 
 /**
@@ -22,6 +20,7 @@ public class HowToActivity  extends Activity {
     }
 
     public void goBackButton(View view){
+        MusingoApp.soundButton();
         finish();
     }
 }

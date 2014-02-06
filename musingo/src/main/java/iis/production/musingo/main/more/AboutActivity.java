@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import iis.production.musingo.MusingoApp;
 import iis.production.musingo.R;
 import iis.production.musingo.objects.TextViewArchitects;
 import iis.production.musingo.objects.TextViewPacifico;
@@ -55,6 +56,7 @@ public class AboutActivity extends Activity {
     }
 
     public void goBackButton(View view){
+        MusingoApp.soundButton();
         finish();
     }
 

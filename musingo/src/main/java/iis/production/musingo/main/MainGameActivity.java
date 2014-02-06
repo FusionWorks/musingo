@@ -52,7 +52,6 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     int previousSongTime;
     boolean userRight;
     int score;
-    Runnable removeViewBorder;
 
     RelativeLayout song1;
     RelativeLayout song2;
@@ -79,7 +78,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     SongsManager songManager;
     ArrayList<HashMap<String, String>> songsList = new ArrayList<HashMap<String, String>>();
     private Handler mHandler = new Handler();
-
+    ImageView wrongSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,7 +143,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         scoreToBeat.setText(intent.getStringExtra("scoreTobeat"));
         barTitle.setText(intent.getStringExtra("name"));
         cost = Integer.parseInt(intent.getStringExtra("cost"));
-        levelNumber.setText(intent.getStringExtra("selectedLevel"));
+        levelNumber.setText(String.valueOf(intent.getIntExtra("selectedLevel", 0)));
         fillSongThumbs();
 
         // Mediaplayer
@@ -164,27 +163,15 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         }
         // By default play first song
         playSong(0);
-
-        removeViewBorder=new Runnable() {
-
-            @Override
-            public void run() {
-                // TODO Auto-generated method stub
-//                findViewById(R.id.border).setBackground(null);
-                LinearLayout songs = (LinearLayout)findViewById(R.id.songs);
-                ImageView image = (ImageView)songs.findViewWithTag("wrong");
-                image.setBackground(null);
-                image.setTag("");
-
-            }
-        };
     }
 
     public void goBackButton(View view){
+        MusingoApp.soundButton();
         finish();
     }
 
     public void toTokenShop(View view){
+        MusingoApp.soundButton();
         Intent intent = new Intent();
         intent.setClass(this, TokenShopActivity.class);
         startActivity(intent);
@@ -203,15 +190,6 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             mp.setDataSource(songsList.get(songIndex).get("songPath"));
             mp.prepare();
             mp.start();
-            // Displaying Song title
-//            String songTitle = songsList.get(songIndex).get("songTitle");
-////            songTitleLabel.setText(songTitle);
-
-            // set Progress bar values
-//            songProgressBar.setProgress(0);
-//            songProgressBar.setMax(50);
-
-            // Updating progress bar
             updateProgressBar();
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
@@ -246,6 +224,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             // Running this thread after 100 milliseconds
             mHandler.postDelayed(this, 100);
             previousSongTime = currentPosition;
+            if(currentPosition == 2 && currentSong != 0)
+                Utility.setBackgroundBySDK(wrongSelected,null);
             if(currentPosition == 10){
                 playNext();
             }
@@ -302,7 +282,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         }
         if(currentSong != 8){
             final float scale = getResources().getDisplayMetrics().density;
-            int left = 35 * (currentSong + 1) + 10;
+            int left = 35 * (currentSong + 1);
             int pixels = (int) (left * scale + 0.5f);
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) seekBar.getLayoutParams();
             params.setMargins(pixels, 0, 0, 0);
@@ -311,7 +291,6 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
         }else{
             mHandler.removeCallbacks(mUpdateTimeTask);
-            mHandler.removeCallbacks(removeViewBorder);
             mp.stop();
             toResultsList();
         }
@@ -335,20 +314,22 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
     public void tryToGuess(View view){
         String id = songsList.get(currentSong).get("songTitle");
-        if(previousSongTime > 1){
-            if (view.getTag().toString().equals(id)){
-                view.setBackgroundResource(R.drawable.round_song_big_right);
-                userRight = true;
-                score += cost;
-                yourScore.setText(String.valueOf(score));
-            }else{
-                view.findViewById(R.id.border).setBackgroundResource(R.drawable.round_song_big_wrong);
-                view.findViewById(R.id.border).setTag("wrong");
-                userRight = false;
-                mHandler.postDelayed(removeViewBorder,2* 1000);
-            }
-            playNext();
+        if(currentSong != 0 && !userRight){
+            Utility.setBackgroundBySDK(wrongSelected,null);
         }
+        if (view.getTag().toString().equals(id)){
+            MusingoApp.soundCorrect();
+            view.setBackgroundResource(R.drawable.round_song_big_right);
+            userRight = true;
+            score += cost;
+            yourScore.setText(String.valueOf(score));
+        }else{
+            MusingoApp.soundWrong();
+            view.findViewById(R.id.border).setBackgroundResource(R.drawable.round_song_big_wrong);
+            wrongSelected = (ImageView)view.findViewById(R.id.border);
+            userRight = false;
+        }
+        playNext();
     }
 
     public void saveSongResult(String result){
@@ -369,6 +350,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         Intent intent = new Intent();
         intent.setClass(this, ResultsActivity.class);
         intent.putExtra("title", barTitle.getText());
+
         startActivity(intent);
     }
 
@@ -424,5 +406,6 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         Log.v("Musingo", "after" + newArray.get(0) + "size -"+newArray.size());
         return newArray;
     }
+
 
 }

@@ -14,6 +14,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import iis.production.musingo.MusingoApp;
 import iis.production.musingo.R;
 import iis.production.musingo.adapter.ResultsCustomListAdapter;
 import iis.production.musingo.objects.Song;
@@ -94,6 +95,7 @@ public class ResultsActivity extends Activity {
     }
 
     public void toPartnerActivity(View view){
+        MusingoApp.soundButton();
         Intent intent = new Intent();
         intent.setClass(this, PartnerActivity.class);
         startActivity(intent);

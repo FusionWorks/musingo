@@ -74,7 +74,4 @@
     <string name="replay_alert">HEAR THE SONG AGAIN</string>
     <string name="longer_clip_alert">YOU GET AN EXTRA IO SECONDS1</string>
 
-    <!--Did you know-->
-    <string name="did_you_know_1">We have explored only about 5 percent of the ocean. Humans have better maps of Mars than of the ocean floor!</string>
-    <string name="did_you_know_2">Teenage boys are paying $150 to get bieber's hairstyle!</string>
 </resources>
