@@ -30,6 +30,8 @@ public class ResultsActivity extends Activity {
 
     ListView list;
     LinearLayout starCollection, score;
+    int levelNumber;
+    String currentScoreStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,7 @@ public class ResultsActivity extends Activity {
         setContentView(R.layout.activity_results);
 
         TextViewPacifico barTitle = (TextViewPacifico)findViewById(R.id.barTitle);
-        barTitle.setText(getIntent().getStringExtra("title"));
+        barTitle.setText(getIntent().getStringExtra("levelName"));
 
         Utility.deleteMusingoDir();
         ArrayList<Song> songsList = MainGameActivity.songsWithTime;
@@ -73,31 +75,13 @@ public class ResultsActivity extends Activity {
         ViewGroup header = (ViewGroup)inflater.inflate(R.layout.result_header_opened, list, false);
         list.addHeaderView(header, null, false);
 
-        String currentScoreStr = getIntent().getStringExtra("currentScore");
+        currentScoreStr = getIntent().getStringExtra("currentScore");
         TextViewArchitects currentScoreTV = (TextViewArchitects) findViewById(R.id.currentScore);
         currentScoreTV.setText(currentScoreStr);
-        TextViewArchitects bestResultTV = (TextViewArchitects) findViewById(R.id.bestScore);
 
-        int levelNumber = getIntent().getIntExtra("levelNumber", 0);
+        levelNumber = getIntent().getIntExtra("levelNumber", 0);
 
-        PlaySongsTable playSongsTable = new PlaySongsTable(this);
-
-        try{
-            playSongsTable.InsertIntoPlaySongsTable(this, 1, "qwe", levelNumber, "asd", 0, 0, 0, 0);
-        }
-        catch (Exception e){}
-
-        int bestResultInt = playSongsTable.GetBestResult(this, levelNumber);
-
-        int currentScoreInt = Integer.parseInt(currentScoreStr);
-
-        if(bestResultInt < currentScoreInt){
-            playSongsTable.UpdateBestResultInPlaySongsTable(this, currentScoreInt, levelNumber);
-            bestResultTV.setText(currentScoreStr);
-        }
-        else {
-            bestResultTV.setText("" + bestResultInt);
-        }
+        setBestResult();
 
         list.setAdapter(songsListAdapter);
     }
@@ -135,6 +119,29 @@ public class ResultsActivity extends Activity {
 
         }
         return false;
+    }
+
+    public void setBestResult(){
+        TextViewArchitects bestResultTV = (TextViewArchitects) findViewById(R.id.bestScore);
+        PlaySongsTable playSongsTable = new PlaySongsTable(this);
+
+        try{
+            playSongsTable.insertIntoPlaySongsTable(1, "qwe", levelNumber, "asd", 0, 0, 0, 0);
+        }
+        catch (Exception e){}
+
+        int bestResultInt = playSongsTable.getBestResult(levelNumber);
+
+        int currentScoreInt = Integer.parseInt(currentScoreStr);
+
+        if(bestResultInt < currentScoreInt){
+            playSongsTable.updateBestResultInPlaySongsTable(currentScoreInt, levelNumber);
+            bestResultTV.setText(currentScoreStr);
+        }
+        else {
+            bestResultTV.setText("" + bestResultInt);
+        }
+
     }
 
 }

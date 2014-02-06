@@ -10,8 +10,9 @@ import android.database.sqlite.SQLiteDatabase;
  */
 public class PlaySongsTable {
     private String dbName = "musingo.db";
-
+    private Activity activity;
     public PlaySongsTable(Activity activity){
+        this.activity = activity;
         SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
         db.execSQL("CREATE TABLE IF NOT EXISTS play_songs " +
                 "(ID integer primary key autoincrement, " +
@@ -26,25 +27,25 @@ public class PlaySongsTable {
         db.close();
     }
 
-    public void InsertIntoPlaySongsTable(Activity activity, Integer packageNr, String packageName, Integer levelNr, String levelName, Integer bestResult, Integer greenStar, Integer orangeStar, Integer pinkStar){
+    public void insertIntoPlaySongsTable(Integer packageNr, String packageName, Integer levelNr, String levelName, Integer bestResult, Integer greenStar, Integer orangeStar, Integer pinkStar){
         SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
         db.execSQL("INSERT INTO play_songs " + "(PackageNr, PackageName, LevelNr, LevelName, BestResult, GreenStar, OrangeStar, PinkStar) VALUES (" + packageNr + ",'" + packageName + "'," + levelNr + ",'" + levelName + "'," + bestResult + "," + greenStar + "," + orangeStar + "," + pinkStar +");");
         db.close();
     }
 
-    public void UpdateBestResultInPlaySongsTable(Activity activity, Integer newBestResult, Integer levelNr){
+    public void updateBestResultInPlaySongsTable(Integer newBestResult, Integer levelNr){
         SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
         db.execSQL("UPDATE play_songs SET BestResult = " + newBestResult + " WHERE LevelNr = " + levelNr);
         db.close();
     }
 
-    public void UpdateStarInPlaySongsTable(Activity activity, Integer greenStar, Integer orangeStar, Integer pinkStar, Integer levelNr){
+    public void updateStarInPlaySongsTable(Integer greenStar, Integer orangeStar, Integer pinkStar, Integer levelNr){
         SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
         db.execSQL("UPDATE play_songs SET GreenStar = " + greenStar + ", OrangeStar = "+ orangeStar + ", PinkStar = " + pinkStar + " WHERE LevelNr = " + levelNr);
         db.close();
     }
 
-    public int GetBestResult(Activity activity, Integer levelNr){
+    public int getBestResult(Integer levelNr){
         int bestResult = 0;
         try {
             SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
@@ -58,23 +59,22 @@ public class PlaySongsTable {
         return bestResult;
     }
 
-    public int SumStar(Activity activity, Integer packageNr){
+    public int getSumStars(){
         int sumStar = 0;
-        int column;
         Cursor cursor;
         SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
 
-        cursor = db.rawQuery("SELECT sum(GreenStar) FROM play_songs WHERE PackageNr = " + packageNr, null);
+        cursor = db.rawQuery("SELECT sum(GreenStar) FROM play_songs", null);
         if(cursor.moveToFirst()) {
             sumStar = sumStar + cursor.getInt(0);
         }
 
-        cursor = db.rawQuery("SELECT sum(OrangeStar) FROM play_songs WHERE PackageNr = " + packageNr, null);
+        cursor = db.rawQuery("SELECT sum(OrangeStar) FROM play_songs", null);
         if(cursor.moveToFirst()) {
             sumStar = sumStar + cursor.getInt(0);
         }
 
-        cursor = db.rawQuery("SELECT sum(PinkStar) FROM play_songs WHERE PackageNr = " + packageNr, null);
+        cursor = db.rawQuery("SELECT sum(PinkStar) FROM play_songs", null);
         if(cursor.moveToFirst()) {
             sumStar = sumStar + cursor.getInt(0);
         }
@@ -83,7 +83,7 @@ public class PlaySongsTable {
         return sumStar;
     }
 
-    public void DeletePlaySongsTable(Activity activity){
+    public void deletePlaySongsTable(){
         SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
         db.execSQL("DROP TABLE IF EXISTS play_songs");
         db.close();

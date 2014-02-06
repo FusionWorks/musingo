@@ -1,7 +1,9 @@
 package iis.production.musingo.main;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -36,7 +38,7 @@ import iis.production.musingo.utility.Utility;
 public class MainGameActivity extends Activity implements MediaPlayer.OnCompletionListener, SeekBar.OnSeekBarChangeListener{
 
     // Views vars
-    TextView coins;
+    TextView tokens;
     TextViewArchitects scoreToBeat;
     TextViewArchitects yourScore;
     TextViewPacifico barTitle;
@@ -74,6 +76,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     RelativeLayout songThumb9;
 
     //Media Player vars
+    SharedPreferences mSettings;
+    public static final String APP_PREFERENCES = "settings";
     MediaPlayer mp;
     SongsManager songManager;
     ArrayList<HashMap<String, String>> songsList = new ArrayList<HashMap<String, String>>();
@@ -81,10 +85,18 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     ImageView wrongSelected;
     int level;
 
+    int packageNumber;
+    String packageName;
+    boolean pinkStar;
+    boolean orangeStar;
+    boolean greenStar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         seekBar = (RelativeLayout)findViewById(R.id.seekBar);
         bar = (ImageView)seekBar.findViewById(R.id.bar);
@@ -94,6 +106,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         levelNumber = (TextViewPacifico)findViewById(R.id.levelNumber);
         songs = new ArrayList<Song>();
         songsWithTime = new ArrayList<Song>();
+        tokens = (TextView)findViewById(R.id.coins);
+        tokens.setText(String.valueOf(mSettings.getInt("tokens",0)));
 
         //Song Thumbs layouts
         RelativeLayout songThumb1 = (RelativeLayout)findViewById(R.id.songThumb1);
@@ -140,7 +154,12 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         songTimes.add(song9);
 
         Intent intent = getIntent();
-        Log.v("Musingo", "score " + intent.getStringExtra("scoreTobeat"));
+        packageNumber = intent.getIntExtra("packageNumber", 0);
+        packageName = intent.getStringExtra("packageName");
+        pinkStar = intent.getBooleanExtra("pinkStar", false);
+        orangeStar = intent.getBooleanExtra("orangeStar", false);
+        greenStar = intent.getBooleanExtra("greenStar", false);
+
         scoreToBeat.setText(intent.getStringExtra("scoreTobeat"));
         barTitle.setText(intent.getStringExtra("name"));
         cost = Integer.parseInt(intent.getStringExtra("cost"));
@@ -353,9 +372,16 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         Log.v("Musingo", "Level toResult : " + level);
         Intent intent = new Intent();
         intent.setClass(this, ResultsActivity.class);
-        intent.putExtra("title", barTitle.getText());
         intent.putExtra("currentScore", String.valueOf(score));
+        intent.putExtra("levelName", barTitle.getText());
         intent.putExtra("levelNumber", level);
+        intent.putExtra("packageNumber", packageNumber);
+        intent.putExtra("packageName", packageName);
+        intent.putExtra("pinkStar", pinkStar);
+        intent.putExtra("orangeStar", orangeStar);
+        intent.putExtra("greenStar", greenStar);
+
+
         startActivity(intent);
     }
 
