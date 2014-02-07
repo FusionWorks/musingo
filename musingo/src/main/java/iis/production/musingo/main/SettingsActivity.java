@@ -60,7 +60,7 @@ public class SettingsActivity extends Activity {
             dialog.show();
         }
         else{
-            FacebookManager.PostFb(SettingsActivity.this);
+            //FacebookManager.PostFb(SettingsActivity.this);
         }
     }
 

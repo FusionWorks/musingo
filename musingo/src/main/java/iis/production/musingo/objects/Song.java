@@ -11,15 +11,19 @@ public class Song {
     private String artistName;
     private Bitmap image;
     private String id;
+    private String uuid;
     private String mp3URL;
+    private String imageUrl;
 
-    public Song(String id, Bitmap image, String songName, String artistName, String time, String mp3URL){
+    public Song(String id, String uuid, Bitmap image, String songName, String artistName, String time, String mp3URL, String imageUrl){
         this.id = id;
         this.image = image;
         this.songName = songName;
         this.artistName = artistName;
         this.time = time;
+        this.uuid = uuid;
         this.mp3URL = mp3URL;
+        this.imageUrl = imageUrl;
     }
 
     public String getSongName(){
@@ -49,4 +53,11 @@ public class Song {
         return mp3URL;
     }
 
+    public String getUuid(){
+        return uuid;
+    }
+
+    public String getImageUrl(){
+        return imageUrl;
+    }
 }

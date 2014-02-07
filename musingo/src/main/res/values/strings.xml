@@ -6,6 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="partner_site">http://www.partner.com</string>
     <string name="site">http://www.goodworldgames.com</string>
+    <string name="fb_hint">http://www.goodworldgames.com/song/</string>
 
 <!--  HowTo play -->
     <string name="one">When you tap on PLAY, the countdown to the game will begin</string>
@@ -73,6 +74,7 @@
 
     <string name="replay_alert">HEAR THE SONG AGAIN</string>
     <string name="longer_clip_alert">YOU GET AN EXTRA IO SECONDS1</string>
+    <string name="sskip_alert">YOU\'LL GET A SECOND CHANCE AT THE END</string>
 
     <!--Did you know-->
     <string name="did_you_know_1">We have explored only about 5 percent of the ocean. Humans have better maps of Mars than of the ocean floor!</string>
@@ -125,4 +127,16 @@
     <string name="network_title">Offline</string>
     <string name="network_body">Hang tight,your internet\'s tune is not jiving!</string>
     <string name="network_detail">Make sure your internet is connected, it\'s tought job to spin music out of thin air!</string>
+
+<!--PowerUps costs-->
+    <string name="cost_hint">5</string>
+    <string name="cost_skip">5</string>
+    <string name="cost_replay">10</string>
+    <string name="cost_freeze">10</string>
+    <string name="cost_longer">15</string>
+    <string name="cost_next">50</string>
+
+<!--Alerts-->
+    <string name="alert_title">Oops</string>
+    <string name="alert_not_enough_money">Not enough money</string>
 </resources>
