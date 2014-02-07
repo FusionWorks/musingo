@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -31,7 +32,13 @@ public class ResultsActivity extends Activity {
     ListView list;
     LinearLayout starCollection, score;
     int levelNumber;
+    int packageNumber;
+    String levelName;
+    String packageName;
     String currentScoreStr;
+    boolean boostStar;
+    boolean beatStar;
+    boolean completeStar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +46,8 @@ public class ResultsActivity extends Activity {
         setContentView(R.layout.activity_results);
 
         TextViewPacifico barTitle = (TextViewPacifico)findViewById(R.id.barTitle);
-        barTitle.setText(getIntent().getStringExtra("levelName"));
+        levelName = getIntent().getStringExtra("levelName");
+        barTitle.setText(levelName);
 
         Utility.deleteMusingoDir();
         ArrayList<Song> songsList = MainGameActivity.songsWithTime;
@@ -80,7 +88,13 @@ public class ResultsActivity extends Activity {
         currentScoreTV.setText(currentScoreStr);
 
         levelNumber = getIntent().getIntExtra("levelNumber", 0);
+        packageNumber = getIntent().getIntExtra("packageNumber", 0);
+        packageName = getIntent().getStringExtra("packageName");
+        completeStar = getIntent().getBooleanExtra("completeStar", false);
+        beatStar = getIntent().getBooleanExtra("beatStar", false);
+        boostStar = getIntent().getBooleanExtra("boostStar", false);
 
+        setStar();
         setBestResult();
 
         list.setAdapter(songsListAdapter);
@@ -123,10 +137,11 @@ public class ResultsActivity extends Activity {
 
     public void setBestResult(){
         TextViewArchitects bestResultTV = (TextViewArchitects) findViewById(R.id.bestScore);
+        ImageView beatStarImg = (ImageView) findViewById(R.id.beatStar);
         PlaySongsTable playSongsTable = new PlaySongsTable(this);
 
         try{
-            playSongsTable.insertIntoPlaySongsTable(1, "qwe", levelNumber, "asd", 0, 0, 0, 0);
+            playSongsTable.insertIntoPlaySongsTable(packageNumber, packageName, levelNumber, levelName, 0, 0, 0, 0);
         }
         catch (Exception e){}
 
@@ -137,11 +152,34 @@ public class ResultsActivity extends Activity {
         if(bestResultInt < currentScoreInt){
             playSongsTable.updateBestResultInPlaySongsTable(currentScoreInt, levelNumber);
             bestResultTV.setText(currentScoreStr);
+            beatStarImg.setImageResource(R.drawable.star_orange);
+            playSongsTable.updateStarInPlaySongsTable(completeStar, true, boostStar, levelNumber);
         }
         else {
             bestResultTV.setText("" + bestResultInt);
+            beatStarImg.setImageResource(R.drawable.star_blank);
+            playSongsTable.updateStarInPlaySongsTable(completeStar, false, boostStar, levelNumber);
         }
 
+    }
+
+    public void setStar(){
+        ImageView completeStarImg = (ImageView) findViewById(R.id.completeStar);
+        ImageView boostStarImg = (ImageView) findViewById(R.id.boostStar);
+
+        if(completeStar){
+            completeStarImg.setImageResource(R.drawable.star_green);
+        }
+        else{
+            completeStarImg.setImageResource(R.drawable.star_blank);
+        }
+
+        if(boostStar){
+            boostStarImg.setImageResource(R.drawable.star_purple);
+        }
+        else{
+            boostStarImg.setImageResource(R.drawable.star_blank);
+        }
     }
 
 }

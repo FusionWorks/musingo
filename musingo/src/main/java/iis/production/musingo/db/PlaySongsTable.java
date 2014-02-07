@@ -21,15 +21,15 @@ public class PlaySongsTable {
                 "LevelNr integer UNIQUE, " +
                 "LevelName VARCHAR(255), " +
                 "BestResult integer, " +
-                "GreenStar integer, " +
-                "OrangeStar integer, " +
-                "PinkStar integer);");
+                "CompleteStar integer, " +
+                "BeatStar integer, " +
+                "BoostStar integer);");
         db.close();
     }
 
-    public void insertIntoPlaySongsTable(Integer packageNr, String packageName, Integer levelNr, String levelName, Integer bestResult, Integer greenStar, Integer orangeStar, Integer pinkStar){
+    public void insertIntoPlaySongsTable(Integer packageNr, String packageName, Integer levelNr, String levelName, Integer bestResult, Integer completeStar, Integer beatStar, Integer boostStar){
         SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
-        db.execSQL("INSERT INTO play_songs " + "(PackageNr, PackageName, LevelNr, LevelName, BestResult, GreenStar, OrangeStar, PinkStar) VALUES (" + packageNr + ",'" + packageName + "'," + levelNr + ",'" + levelName + "'," + bestResult + "," + greenStar + "," + orangeStar + "," + pinkStar +");");
+        db.execSQL("INSERT INTO play_songs " + "(PackageNr, PackageName, LevelNr, LevelName, BestResult, CompleteStar, BeatStar, BoostStar) VALUES (" + packageNr + ",'" + packageName + "'," + levelNr + ",'" + levelName + "'," + bestResult + "," + completeStar + "," + beatStar + "," + boostStar +");");
         db.close();
     }
 
@@ -39,23 +39,23 @@ public class PlaySongsTable {
         db.close();
     }
 
-    public void updateStarInPlaySongsTable(Integer greenStar, Integer orangeStar, Integer pinkStar, Integer levelNr){
+    public void updateStarInPlaySongsTable(Boolean completeStar, Boolean beatStar, Boolean boostStar, Integer levelNr){
+        int completeStarInt = (completeStar)? 1 : 0;
+        int beatStarInt = (beatStar)? 1 : 0;
+        int boostStarInt = (boostStar)? 1 : 0;
         SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
-        db.execSQL("UPDATE play_songs SET GreenStar = " + greenStar + ", OrangeStar = "+ orangeStar + ", PinkStar = " + pinkStar + " WHERE LevelNr = " + levelNr);
+        db.execSQL("UPDATE play_songs SET CompleteStar = " + completeStarInt + ", BeatStar = "+ beatStarInt + ", BoostStar = " + boostStarInt + " WHERE LevelNr = " + levelNr);
         db.close();
     }
 
     public int getBestResult(Integer levelNr){
         int bestResult = 0;
-        try {
             SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
             Cursor c = db.rawQuery("SELECT BestResult FROM play_songs WHERE LevelNr = " + levelNr, null);
-            int bestResultColumn = c.getColumnIndex("BestResult");
-            c.moveToFirst();
-            bestResult = c.getInt(bestResultColumn);
+            if(c.moveToFirst()) {
+                bestResult = c.getInt(0);
+            }
             db.close();
-        }
-        catch (Exception e){}
         return bestResult;
     }
 
@@ -64,17 +64,17 @@ public class PlaySongsTable {
         Cursor cursor;
         SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
 
-        cursor = db.rawQuery("SELECT sum(GreenStar) FROM play_songs", null);
+        cursor = db.rawQuery("SELECT sum(CompleteStar) FROM play_songs", null);
         if(cursor.moveToFirst()) {
             sumStar = sumStar + cursor.getInt(0);
         }
 
-        cursor = db.rawQuery("SELECT sum(OrangeStar) FROM play_songs", null);
+        cursor = db.rawQuery("SELECT sum(BeatStar) FROM play_songs", null);
         if(cursor.moveToFirst()) {
             sumStar = sumStar + cursor.getInt(0);
         }
 
-        cursor = db.rawQuery("SELECT sum(PinkStar) FROM play_songs", null);
+        cursor = db.rawQuery("SELECT sum(BoostStar) FROM play_songs", null);
         if(cursor.moveToFirst()) {
             sumStar = sumStar + cursor.getInt(0);
         }
