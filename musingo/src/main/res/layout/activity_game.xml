@@ -336,6 +336,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.142"
+                android:onClick="powerUpFB"
                 android:src="@drawable/hint_fb_vis"/>
             <ImageView
                 android:id="@+id/hintHint"
@@ -343,6 +344,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.142"
                 android:layout_marginLeft="5dp"
+                android:tag="inv"
+                android:onClick="powerUpHint"
                 android:src="@drawable/hint_hint_inv"/>
             <ImageView
                 android:id="@+id/hintSkip"
@@ -350,6 +353,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.142"
                 android:layout_marginLeft="5dp"
+                android:tag="inv"
+                android:onClick="powerUpSkip"
                 android:src="@drawable/hint_skip_inv"/>
             <ImageView
                 android:id="@+id/hintFreeze"
@@ -357,6 +362,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.142"
                 android:layout_marginLeft="5dp"
+                android:tag="inv"
+                android:onClick="powerUpFreeze"
                 android:src="@drawable/hint_freeze_inv"/>
             <ImageView
                 android:id="@+id/hintReplay"
@@ -364,6 +371,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.142"
                 android:layout_marginLeft="5dp"
+                android:tag="inv"
+                android:onClick="powerUpReplay"
                 android:src="@drawable/hint_replay_inv"/>
             <ImageView
                 android:id="@+id/hintLonger"
@@ -371,13 +380,17 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.142"
                 android:layout_marginLeft="5dp"
+                android:tag="inv"
+                android:onClick="powerUpLonger"
                 android:src="@drawable/hint_longer_inv"/>
             <ImageView
-                android:id="@+id/hintnextList"
+                android:id="@+id/hintNextList"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.142"
                 android:layout_marginLeft="5dp"
+                android:tag="inv"
+                android:onClick="powerUpNextList"
                 android:src="@drawable/hint_nextlist_inv"/>
             </LinearLayout>
         <LinearLayout

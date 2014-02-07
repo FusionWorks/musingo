@@ -59,6 +59,7 @@ public class ATSongs extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
 
+        Utility.deleteMusingoDir();
         HttpClient client = new DefaultHttpClient();
         HttpGet request = new HttpGet(url);
         HttpResponse response = null;

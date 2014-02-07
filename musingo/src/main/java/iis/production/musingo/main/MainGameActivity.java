@@ -2,6 +2,7 @@ package iis.production.musingo.main;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
@@ -27,6 +28,7 @@ import java.util.Random;
 import iis.production.musingo.MusingoApp;
 import iis.production.musingo.R;
 import iis.production.musingo.main.more.TokenShopActivity;
+import iis.production.musingo.objects.AlertViewOrange;
 import iis.production.musingo.objects.AlertViewPink;
 import iis.production.musingo.objects.Song;
 import iis.production.musingo.objects.TextViewArchitects;
@@ -75,6 +77,14 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     RelativeLayout songThumb8;
     RelativeLayout songThumb9;
 
+    ImageView hintfb;
+    ImageView hintHint;
+    ImageView hintSkip;
+    ImageView hintFreeze;
+    ImageView hintReplay;
+    ImageView hintLonger;
+    ImageView hintNextList;
+
     //Media Player vars
     SharedPreferences mSettings;
     public static final String APP_PREFERENCES = "settings";
@@ -96,7 +106,6 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         seekBar = (RelativeLayout)findViewById(R.id.seekBar);
         bar = (ImageView)seekBar.findViewById(R.id.bar);
@@ -109,27 +118,36 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         tokens = (TextView)findViewById(R.id.coins);
         tokens.setText(String.valueOf(mSettings.getInt("tokens",0)));
 
+        //Powerups icons
+        hintfb = (ImageView)findViewById(R.id.hintfb);
+        hintHint = (ImageView)findViewById(R.id.hintHint);
+        hintSkip = (ImageView)findViewById(R.id.hintSkip);
+        hintFreeze = (ImageView)findViewById(R.id.hintFreeze);
+        hintReplay = (ImageView)findViewById(R.id.hintReplay);
+        hintLonger = (ImageView)findViewById(R.id.hintLonger);
+        hintNextList = (ImageView)findViewById(R.id.hintNextList);
+
         //Song Thumbs layouts
-        RelativeLayout songThumb1 = (RelativeLayout)findViewById(R.id.songThumb1);
-        RelativeLayout songThumb2 = (RelativeLayout)findViewById(R.id.songThumb2);
-        RelativeLayout songThumb3 = (RelativeLayout)findViewById(R.id.songThumb3);
-        RelativeLayout songThumb4 = (RelativeLayout)findViewById(R.id.songThumb4);
-        RelativeLayout songThumb5 = (RelativeLayout)findViewById(R.id.songThumb5);
-        RelativeLayout songThumb6 = (RelativeLayout)findViewById(R.id.songThumb6);
-        RelativeLayout songThumb7 = (RelativeLayout)findViewById(R.id.songThumb7);
-        RelativeLayout songThumb8 = (RelativeLayout)findViewById(R.id.songThumb8);
-        RelativeLayout songThumb9 = (RelativeLayout)findViewById(R.id.songThumb9);
+        songThumb1 = (RelativeLayout)findViewById(R.id.songThumb1);
+        songThumb2 = (RelativeLayout)findViewById(R.id.songThumb2);
+        songThumb3 = (RelativeLayout)findViewById(R.id.songThumb3);
+        songThumb4 = (RelativeLayout)findViewById(R.id.songThumb4);
+        songThumb5 = (RelativeLayout)findViewById(R.id.songThumb5);
+        songThumb6 = (RelativeLayout)findViewById(R.id.songThumb6);
+        songThumb7 = (RelativeLayout)findViewById(R.id.songThumb7);
+        songThumb8 = (RelativeLayout)findViewById(R.id.songThumb8);
+        songThumb9 = (RelativeLayout)findViewById(R.id.songThumb9);
 
         //Songs mini timing views
-        RelativeLayout song1 = (RelativeLayout)findViewById(R.id.song1);
-        RelativeLayout song2 = (RelativeLayout)findViewById(R.id.song2);
-        RelativeLayout song3 = (RelativeLayout)findViewById(R.id.song3);
-        RelativeLayout song4 = (RelativeLayout)findViewById(R.id.song4);
-        RelativeLayout song5 = (RelativeLayout)findViewById(R.id.song5);
-        RelativeLayout song6 = (RelativeLayout)findViewById(R.id.song6);
-        RelativeLayout song7 = (RelativeLayout)findViewById(R.id.song7);
-        RelativeLayout song8 = (RelativeLayout)findViewById(R.id.song8);
-        RelativeLayout song9 = (RelativeLayout)findViewById(R.id.song9);
+        song1 = (RelativeLayout)findViewById(R.id.song1);
+        song2 = (RelativeLayout)findViewById(R.id.song2);
+        song3 = (RelativeLayout)findViewById(R.id.song3);
+        song4 = (RelativeLayout)findViewById(R.id.song4);
+        song5 = (RelativeLayout)findViewById(R.id.song5);
+        song6 = (RelativeLayout)findViewById(R.id.song6);
+        song7 = (RelativeLayout)findViewById(R.id.song7);
+        song8 = (RelativeLayout)findViewById(R.id.song8);
+        song9 = (RelativeLayout)findViewById(R.id.song9);
 
         songThumbs = new ArrayList<RelativeLayout>();
         songThumbs.add(songThumb1);
@@ -166,7 +184,11 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         levelNumber.setText(String.valueOf(intent.getIntExtra("selectedLevel", 0)));
         level = intent.getIntExtra("selectedLevel", 0);
         levelNumber.setText(String.valueOf(level));
+
+        wrongSelected = (ImageView)findViewById(R.id.border);
+
         fillSongThumbs();
+        showPowerups();
 
         // Mediaplayer
         mp = new MediaPlayer();
@@ -204,6 +226,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
      * @param songIndex - index of song
      * */
     public void  playSong(int songIndex){
+        Log.v("Musingo", "song now --  "+ songsList.get(songIndex).get("songPath"));
         currentSong = songIndex;
         setSeekBaronPosition(songIndex);
         // Play song
@@ -438,5 +461,120 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         return newArray;
     }
 
+    public void showPowerups(){
+        if(mSettings.getBoolean("hint",false)){
+            hintHint.setImageResource(R.drawable.hint_hint_vis);
+        }
+        if(mSettings.getBoolean("skip",false)){
+            hintSkip.setImageResource(R.drawable.hint_skip_vis);
+        }
+        if(mSettings.getBoolean("replay",false)){
+            hintReplay.setImageResource(R.drawable.hint_replay_vis);
+        }
+        if(mSettings.getBoolean("freeze",false)){
+            hintFreeze.setImageResource(R.drawable.hint_freeze_vis);
+        }
+        if(mSettings.getBoolean("longer",false)){
+            hintLonger.setImageResource(R.drawable.hint_longer_vis);
+        }
+        if(mSettings.getBoolean("next",false)){
+            hintNextList.setImageResource(R.drawable.hint_nextlist_vis);
+        }
 
+    }
+
+    public void powerUpFB(View view){
+
+    }
+    public void powerUpHint(View view){
+        int cost = 5;
+        if(view.getTag().toString().equals("inv")){
+            mSettings.edit().putBoolean("hint",true).commit();
+            hintHint.setImageResource(R.drawable.hint_hint_vis);
+            view.setTag("vis");
+        }else if(view.getTag().toString().equals("vis")){
+            mSettings.edit().putBoolean("hint",false).commit();
+            hintHint.setImageResource(R.drawable.hint_hint_inv);
+            view.setTag("inv");
+        }
+    }
+
+    public void powerUpSkip(View view){
+        int cost = 5;
+        if(view.getTag().toString().equals("inv")){
+            mSettings.edit().putBoolean("skip",true).commit();
+            hintSkip.setImageResource(R.drawable.hint_skip_vis);
+            view.setTag("vis");
+            String title = getString(R.string.skip_powerup_title);
+            String body = getString(R.string.skip_powerup_body);
+            AlertViewOrange dialog = new AlertViewOrange("Skip Playlist Powerup" , title, body, this);
+            dialog.show();
+            mp.pause();
+            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    mp.start();
+                }
+            });
+        }else if(view.getTag().toString().equals("vis")){
+            mSettings.edit().putBoolean("skip",false).commit();
+            hintSkip.setImageResource(R.drawable.hint_skip_inv);
+            view.setTag("inv");
+        }
+
+    }
+
+    public void powerUpReplay(View view){
+        int cost = 10;
+        if(view.getTag().toString().equals("inv")){
+            mSettings.edit().putBoolean("replay",true).commit();
+            hintReplay.setImageResource(R.drawable.hint_replay_vis);
+            view.setTag("vis");
+        }else if(view.getTag().toString().equals("vis")){
+            mSettings.edit().putBoolean("replay",false).commit();
+            hintReplay.setImageResource(R.drawable.hint_replay_inv);
+            view.setTag("inv");
+        }
+
+    }
+
+    public void powerUpFreeze(View view){
+        int cost = 10;
+        if(view.getTag().toString().equals("inv")){
+            mSettings.edit().putBoolean("freeze",true).commit();
+            hintFreeze.setImageResource(R.drawable.hint_freeze_vis);
+            view.setTag("vis");
+        }else if(view.getTag().toString().equals("vis")){
+            mSettings.edit().putBoolean("freeze",false).commit();
+            hintFreeze.setImageResource(R.drawable.hint_freeze_inv);
+        }
+
+    }
+
+    public void powerUpLonger(View view){
+        int cost = 15;
+        if(view.getTag().toString().equals("inv")){
+            mSettings.edit().putBoolean("longer",true).commit();
+            hintLonger.setImageResource(R.drawable.hint_longer_vis);
+            view.setTag("vis");
+        }else if(view.getTag().toString().equals("vis")){
+            mSettings.edit().putBoolean("longer",false).commit();
+            hintLonger.setImageResource(R.drawable.hint_longer_inv);
+            view.setTag("inv");
+        }
+
+    }
+    public void powerUpNextList(View view){
+        int cost = 50;
+        if(view.getTag().toString().equals("inv")){
+            mSettings.edit().putBoolean("next",true).commit();
+            hintNextList.setImageResource(R.drawable.hint_nextlist_vis);
+            view.setTag("vis");
+        }else if(view.getTag().toString().equals("vis")){
+            mSettings.edit().putBoolean("next",false).commit();
+            hintNextList.setImageResource(R.drawable.hint_nextlist_inv);
+            view.setTag("inv");
+        }
+
+    }
 }
