@@ -42,9 +42,9 @@ public class ATSongs extends AsyncTask<Void, Void, Void> {
     ArrayList<Song> songs;
     String url;
 
-    String scoreToBeat;
+    int scoreToBeat;
     String name;
-    String cost;
+    int cost;
 
     public ATSongs(LevelSelectionActivity activity, String url, RelativeLayout loadingView, boolean mp3Download, ArrayList<Song> songs){
         super();
@@ -69,8 +69,8 @@ public class ATSongs extends AsyncTask<Void, Void, Void> {
             Log.v("CL", "data" + data);
             this.name = data.getString("name");
             if (mp3Download){
-                this.cost = data.getString("cost");
-                this.scoreToBeat = data.getString("score_to_beat");
+                this.cost = data.getInt("cost");
+                this.scoreToBeat = data.getInt("score_to_beat");
                 for(Song song : songs){
                     Log.v("Musingo ","song.id "+song.getId());
                     String id = song.getId();
@@ -88,6 +88,7 @@ public class ATSongs extends AsyncTask<Void, Void, Void> {
                     String artistName = "";
                     String time = "";
                     String mp3URL = "";
+                    String uuid = "";
                     if(obj.getString("image_url").length()<1){
                         image = BitmapFactory.decodeResource(activity.getResources(),
                                 R.drawable.no_album_photo);
@@ -95,11 +96,12 @@ public class ATSongs extends AsyncTask<Void, Void, Void> {
                         image = Utility.bitmapFromUrl(activity, obj.getString("image_url"));
                     }
                     id = obj.getString("id");
+                    uuid = obj.getString("uuid");
                     songName = obj.getString("name");
                     artistName = obj.getString("artist");
                     time = "0";
                     mp3URL = obj.getString("mp3_url");
-                    Song song = new Song(id, image, songName, artistName, time, mp3URL);
+                    Song song = new Song(id, uuid, image, songName, artistName, time, mp3URL);
                     songs.add(song);
                  }
             }

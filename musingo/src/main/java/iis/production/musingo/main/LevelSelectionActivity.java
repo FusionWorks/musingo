@@ -297,7 +297,7 @@ public class LevelSelectionActivity extends Activity{
         clickable = true;
     }
 
-    public void downloadResultForGame(ArrayList<Song> songs, String scoreToBeat, String name, String cost){
+    public void downloadResultForGame(ArrayList<Song> songs, int scoreToBeat, String name, int cost){
         gameSongs = songs;
         Log.v("Musingo", "Level selection : " + selectedLevel);
         Intent intent = new Intent();
@@ -309,9 +309,6 @@ public class LevelSelectionActivity extends Activity{
 //<--- temp
         intent.putExtra("packageNumber", 2);
         intent.putExtra("packageName", "Hits 90s");
-        intent.putExtra("pinkStar", true);
-        intent.putExtra("orangeStar", false);
-        intent.putExtra("greenStar", true);
 //--->>
         startActivity(intent);
         clickable = true;
