@@ -89,11 +89,13 @@ public class ATSongs extends AsyncTask<Void, Void, Void> {
                     String time = "";
                     String mp3URL = "";
                     String uuid = "";
+                    String imageUrl = "";
                     if(obj.getString("image_url").length()<1){
                         image = BitmapFactory.decodeResource(activity.getResources(),
                                 R.drawable.no_album_photo);
                     }else{
                         image = Utility.bitmapFromUrl(activity, obj.getString("image_url"));
+                        imageUrl = obj.getString("image_url");
                     }
                     id = obj.getString("id");
                     uuid = obj.getString("uuid");
@@ -101,7 +103,7 @@ public class ATSongs extends AsyncTask<Void, Void, Void> {
                     artistName = obj.getString("artist");
                     time = "0";
                     mp3URL = obj.getString("mp3_url");
-                    Song song = new Song(id, uuid, image, songName, artistName, time, mp3URL);
+                    Song song = new Song(id, uuid, image, songName, artistName, time, mp3URL, imageUrl);
                     songs.add(song);
                  }
             }

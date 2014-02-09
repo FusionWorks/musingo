@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -63,6 +64,7 @@ public class LevelSelectionActivity extends Activity{
     RelativeLayout song8;
     RelativeLayout song9;
 
+    final static int NEXT_LEVEL = 1;
 
     //variables
     boolean opened;
@@ -72,12 +74,15 @@ public class LevelSelectionActivity extends Activity{
 
     boolean clickable;
 
+    boolean nextLevel = false;
+
     static ArrayList<Song> gameSongs;
     int selectedLevel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_level_selection);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         didyouknowText = (TextViewArchitects)findViewById(R.id.didyouknowText);
         DidYouKnow.random(didyouknowText, this);
         opened = false;
@@ -295,6 +300,12 @@ public class LevelSelectionActivity extends Activity{
         }
         gameSongs = songs;
         clickable = true;
+
+        if(nextLevel){
+            nextLevel = false;
+            goToLevel(null);
+
+        }
     }
 
     public void downloadResultForGame(ArrayList<Song> songs, int scoreToBeat, String name, int cost){
@@ -310,7 +321,7 @@ public class LevelSelectionActivity extends Activity{
         intent.putExtra("packageNumber", 2);
         intent.putExtra("packageName", "Hits 90s");
 //--->>
-        startActivity(intent);
+        startActivityForResult(intent, NEXT_LEVEL);
         clickable = true;
     }
 
@@ -335,5 +346,17 @@ public class LevelSelectionActivity extends Activity{
     public void getStarsCollected(){
         PlaySongsTable PST = new PlaySongsTable(this);
         starNumber.setText(String.valueOf(PST.getSumStars()));
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch(requestCode) {
+            case NEXT_LEVEL:
+                if (resultCode == NEXT_LEVEL) {
+                    nextLevel = true;
+                    selectedLevel +=1;
+                    changeLevel();
+                }
+                break;
+        }
     }
 }

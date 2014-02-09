@@ -12,6 +12,9 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -53,7 +56,9 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     ArrayList<RelativeLayout> songThumbs;
     ArrayList<Song> songs;
     static ArrayList<Song> songsWithTime;
+    ArrayList<Song> availableForHint;
     int currentSong;
+    int skippedSong;
     int previousSongTime;
     boolean userRight;
     int score;
@@ -85,6 +90,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     ImageView hintReplay;
     ImageView hintLonger;
     ImageView hintNextList;
+    ImageView hintTextImage;
 
     //Media Player vars
     SharedPreferences mSettings;
@@ -104,8 +110,13 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     boolean powerUpUsed;
     boolean scoreBeaten;
     boolean allSongsCorrect;
-
-    ArrayList<ImageView> hintSelected;
+    boolean skip;
+    boolean skipBorder;
+    boolean replay;
+    boolean freeze;
+    int maximumTime;
+    int freezeTime;
+    ArrayList<RelativeLayout> hintSelected;
 
     AlertDialog dialog;
 
@@ -121,15 +132,20 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         scoreToBeat = (TextViewArchitects)findViewById(R.id.scoreToBeat);
         yourScore = (TextViewArchitects)findViewById(R.id.yourScore);
         levelNumber = (TextViewPacifico)findViewById(R.id.levelNumber);
+        hintTextImage = (ImageView)findViewById(R.id.hintTextImage);
         songs = new ArrayList<Song>();
         songsWithTime = new ArrayList<Song>();
+        availableForHint = new ArrayList<Song>();
+        availableForHint = LevelSelectionActivity.gameSongs;
         tokens = (TextView)findViewById(R.id.coins);
         tokens.setText(String.valueOf(mSettings.getInt("tokens",0)));
         powerUpUsed = false;
         scoreBeaten = false;
         allSongsCorrect = false;
+        skip = false;
+        replay = false;
         correctSongs = 0;
-        hintSelected = new ArrayList<ImageView>();
+        hintSelected = new ArrayList<RelativeLayout>();
         //Powerups icons
         hintfb = (ImageView)findViewById(R.id.hintfb);
         hintHint = (ImageView)findViewById(R.id.hintHint);
@@ -243,6 +259,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
      * @param songIndex - index of song
      * */
     public void  playSong(int songIndex){
+        maximumTime = 10;
         Log.v("Musingo", "song now --  "+ songsList.get(songIndex).get("songPath"));
         currentSong = songIndex;
         setSeekBaronPosition(songIndex);
@@ -281,16 +298,17 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             final float scale = getResources().getDisplayMetrics().density;
             int pixels = (int) (5 * currentPosition * scale + 0.5f);
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bar.getLayoutParams();
-            params.width = pixels;
+            if(!freeze)
+                params.width = pixels;
             bar.setLayoutParams(params);
             // Running this thread after 100 milliseconds
             mHandler.postDelayed(this, 100);
             previousSongTime = currentPosition;
             if(currentPosition == 2 && currentSong != 0)
                 Utility.setBackgroundBySDK(wrongSelected,null);
-            if(currentPosition == 10){
+            if(currentPosition == maximumTime)
                 playNext();
-            }
+
         }
     };
 
@@ -330,19 +348,33 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     }
 
     public void playNext(){
-        RelativeLayout view = songTimes.get(currentSong);
-        if(previousSongTime == 10 || !userRight){
-            view.setBackgroundResource(R.drawable.round_song_wrong);
-            saveSongResult("-");
-            TextViewPacifico text = (TextViewPacifico)view.findViewById(R.id.title);
-            text.setText("-");
-        }else if(previousSongTime < 10 && userRight){
-            view.setBackgroundResource(R.drawable.round_song_right);
-            saveSongResult(String.valueOf(previousSongTime));
-            TextViewPacifico text = (TextViewPacifico)view.findViewById(R.id.title);
-            text.setText(String.valueOf(previousSongTime) + "s");
+        findViewById(R.id.pauseIndicator).setVisibility(View.GONE);
+        for(RelativeLayout hint : hintSelected){
+            Utility.setBackgroundBySDK(hint,null);
         }
-        if(currentSong != 8){
+        hintSelected = new ArrayList<RelativeLayout>();
+
+        RelativeLayout view = songTimes.get(currentSong);
+        if(!skipBorder){
+            if(previousSongTime == 10 || !userRight ){
+                view.setBackgroundResource(R.drawable.round_song_wrong);
+                saveSongResult("-");
+                TextViewPacifico text = (TextViewPacifico)view.findViewById(R.id.title);
+                text.setText("-");
+            }else if(previousSongTime < 10 && userRight){
+                view.setBackgroundResource(R.drawable.round_song_right);
+                TextViewPacifico text = (TextViewPacifico)view.findViewById(R.id.title);
+                if(freeze){
+                    previousSongTime = freezeTime;
+                    freeze = false;
+                    findViewById(R.id.pauseIndicator).setVisibility(View.GONE);
+                }
+                saveSongResult(String.valueOf(previousSongTime));
+                text.setText(String.valueOf(previousSongTime) + "s");
+            }
+        }
+        skipBorder = false;
+        if(currentSong != 8 && !replay){
             final float scale = getResources().getDisplayMetrics().density;
             int left = 35 * (currentSong + 1);
             int pixels = (int) (left * scale + 0.5f);
@@ -351,11 +383,32 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             seekBar.setLayoutParams(params);
             playSong(currentSong + 1);
 
+        }else if(skip && currentSong == 8){
+            final float scale = getResources().getDisplayMetrics().density;
+            int left = 35 * (skippedSong + 1);
+            int pixels = (int) (left * scale + 0.5f);
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) seekBar.getLayoutParams();
+            params.setMargins(pixels, 0, 0, 0);
+            seekBar.setLayoutParams(params);
+            playSong(skippedSong);
+            skip = false;
+            currentSong = 8;
+        }else if(replay){
+            final float scale = getResources().getDisplayMetrics().density;
+            int left = 35 * (currentSong);
+            int pixels = (int) (left * scale + 0.5f);
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) seekBar.getLayoutParams();
+            params.setMargins(pixels, 0, 0, 0);
+            seekBar.setLayoutParams(params);
+            playSong(currentSong);
+            replay = false;
         }else{
             mHandler.removeCallbacks(mUpdateTimeTask);
             mp.stop();
             toResultsList();
         }
+        freeze = false;
+        findViewById(R.id.pauseIndicator).setVisibility(View.GONE);
     }
 
     public void fillSongThumbs(){
@@ -375,13 +428,12 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     }
 
     public void tryToGuess(View view){
+        for(RelativeLayout hint : hintSelected){
+            Utility.setBackgroundBySDK(hint,null);
+        }
+        hintSelected = new ArrayList<RelativeLayout>();
         if(currentSong < 9){
             String id = songsList.get(currentSong).get("songTitle");
-
-            for(ImageView hint : hintSelected){
-                Utility.setBackgroundBySDK(hint,null);
-            }
-            hintSelected = new ArrayList<ImageView>();
 
             if(currentSong != 0 && !userRight){
                 Utility.setBackgroundBySDK(wrongSelected,null);
@@ -411,7 +463,13 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 song.setTime(result);
                 songsWithTime.add(song);
                 Log.v("Musingo", "song " + id);
-                break;
+                for(int y=0; y<availableForHint.size(); y++){
+                    Log.v("Musingo", "AAAAAAAAA "+availableForHint.get(y).getId());
+                    if(availableForHint.get(y).getId().equals(id) && !result.equals("-")){
+                        availableForHint.remove(y);
+                        break;
+                    }
+                }
             }
         }
     }
@@ -545,33 +603,13 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                     dialog = new AlertViewOrange("Next Playlist Powerup" , getString(R.string.alert_title), getString(R.string.alert_not_enough_money), this);
                 }
             }else if(view.getTag().toString().equals("vis")){
-                powerUpUsed = true;
-                mSettings.edit().putBoolean("hint",false).commit();
-                hintHint.setImageResource(R.drawable.hint_hint_inv);
-                view.setTag("inv");
-                int random1 = 0;
-                String id = songsList.get(currentSong).get("songTitle");
-                for(int i=0; i<songThumbs.size(); i++){
-                    if(songThumbs.get(i).getTag().toString().equals(id)){
-                        ImageView selected = (ImageView)findViewById(R.id.border);
-                        selected.setBackgroundResource(R.drawable.round_song_hint);
-                        random1 = i;
-                    }
+                if(availableForHint.size() > 4){
+                    powerUpUsed = true;
+                    mSettings.edit().putBoolean("hint",false).commit();
+                    hintHint.setImageResource(R.drawable.hint_hint_inv);
+                    view.setTag("inv");
+                    hintAction();
                 }
-                Random r = new Random();
-                int random2 = 0;
-                int random3 = 0;
-                while(random1 == random2 || random1 == random3){
-                    random1 = r.nextInt(9);
-                }
-                while(random2 == random1 || random2 == random3){
-                    random2 = r.nextInt(9);
-                }
-                songThumbs.get(random2).findViewById(R.id.border).setBackgroundResource(R.drawable.round_song_hint);
-                songThumbs.get(random3).findViewById(R.id.border).setBackgroundResource(R.drawable.round_song_hint);
-                hintSelected.add((ImageView)songThumbs.get(random1).findViewById(R.id.border));
-                hintSelected.add((ImageView)songThumbs.get(random2).findViewById(R.id.border));
-                hintSelected.add((ImageView)songThumbs.get(random3).findViewById(R.id.border));
             }
     }
 
@@ -601,6 +639,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             mSettings.edit().putBoolean("skip",false).commit();
             hintSkip.setImageResource(R.drawable.hint_skip_inv);
             view.setTag("inv");
+            skipAction();
         }
 
     }
@@ -631,6 +670,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             mSettings.edit().putBoolean("replay",false).commit();
             hintReplay.setImageResource(R.drawable.hint_replay_inv);
             view.setTag("inv");
+            replayAction();
         }
     }
 
@@ -661,6 +701,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             mSettings.edit().putBoolean("freeze",false).commit();
             hintFreeze.setImageResource(R.drawable.hint_freeze_inv);
             view.setTag("inv");
+            freezeAction();
         }
     }
 
@@ -690,6 +731,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             mSettings.edit().putBoolean("longer",false).commit();
             hintLonger.setImageResource(R.drawable.hint_longer_inv);
             view.setTag("inv");
+            longerAction();
         }
 
     }
@@ -720,7 +762,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             mSettings.edit().putBoolean("next",false).commit();
             hintNextList.setImageResource(R.drawable.hint_nextlist_inv);
             view.setTag("inv");
-
+            nextAction();
         }
 
     }
@@ -736,5 +778,111 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             tokens.setText(String.valueOf(mSettings.getInt("tokens",0)));
             return true;
         }
+    }
+
+    public void hintAction(){
+        for(RelativeLayout hint : hintSelected){
+            Utility.setBackgroundBySDK(hint,null);
+        }
+        hintSelected = new ArrayList<RelativeLayout>();
+
+        int random1 = 0;
+        String id = songsList.get(currentSong).get("songTitle");
+        for(int i=0; i<songThumbs.size(); i++){
+            if(songThumbs.get(i).getTag().toString().equals(id)){
+                random1 = i;
+            }
+        }
+        int random2 = 0;
+        int random3 = 0;
+        while(random2 == random1){
+            random2 = getRandomSong();
+        }
+        while(random3 == random1 || random3 == random2){
+            random3 = getRandomSong();
+        }
+        Log.v("Musingo", "random1 "+random1);
+        Log.v("Musingo", "random2 "+random2);
+        Log.v("Musingo", "random3 "+random3);
+        Log.v("Musingo", "ava "+availableForHint.size());
+
+        songThumbs.get(random1).setBackgroundResource(R.drawable.round_song_hint);
+        songThumbs.get(random2).setBackgroundResource(R.drawable.round_song_hint);
+        songThumbs.get(random3).setBackgroundResource(R.drawable.round_song_hint);
+        hintSelected.add(songThumbs.get(random1));
+        hintSelected.add(songThumbs.get(random2));
+        hintSelected.add(songThumbs.get(random3));
+    }
+
+    public int getRandomSong(){
+        Random r = new Random();
+        int random = r.nextInt(availableForHint.size());
+        for(int i=0; i<availableForHint.size(); i++){
+            Log.v("Musingo", "idddddd "+availableForHint.get(random).getId());
+            String rand1id = songThumbs.get(i).getTag().toString();
+            String thatId = availableForHint.get(random).getId();
+            if(rand1id.equals(thatId)){
+                return i;
+            }
+        }
+        return 0;
+    }
+    public void skipAction(){
+        skippedSong = currentSong;
+        skip = true;
+        skipBorder = true;
+        hintTextImage.setImageResource(R.drawable.skip_text_image);
+        hintTextImage.setVisibility(View.VISIBLE);
+        hintTextImage.setAnimation(inFromRightAnimation());
+        hintTextImage.startAnimation(inFromRightAnimation());
+        playNext();
+
+    }
+
+    public void replayAction(){
+
+        replay = true;
+        hintTextImage.setImageResource(R.drawable.replay_text_image);
+        hintTextImage.setVisibility(View.VISIBLE);
+        hintTextImage.setAnimation(inFromRightAnimation());
+        hintTextImage.startAnimation(inFromRightAnimation());
+        playNext();
+    }
+
+    public void longerAction(){
+        maximumTime +=10;
+        hintTextImage.setImageResource(R.drawable.longer_text_image);
+        hintTextImage.setVisibility(View.VISIBLE);
+        hintTextImage.setAnimation(inFromRightAnimation());
+        hintTextImage.startAnimation(inFromRightAnimation());
+    }
+
+    public void freezeAction(){
+        freeze = true;
+        freezeTime = Integer.parseInt(Utility.milliSecondsToTimer(mp.getCurrentPosition()));
+        findViewById(R.id.pauseIndicator).setVisibility(View.VISIBLE);
+
+    }
+
+    public void nextAction(){
+        Intent intent = new Intent();
+        setResult(LevelSelectionActivity.NEXT_LEVEL, intent);
+        finish();
+    }
+
+    private Animation inFromRightAnimation() {
+
+        Animation inFromRight = new TranslateAnimation(
+                Animation.RELATIVE_TO_PARENT, +1.0f,
+                Animation.RELATIVE_TO_PARENT, 0.0f,
+                Animation.RELATIVE_TO_PARENT, 0.0f,
+                Animation.RELATIVE_TO_PARENT, 0.0f);
+        inFromRight.setDuration(500);
+        inFromRight.setInterpolator(new AccelerateInterpolator());
+        return inFromRight;
+    }
+
+    public void hideHint(View view){
+        hintTextImage.setVisibility(View.GONE);
     }
 }
