@@ -1,8 +1,10 @@
 package iis.production.musingo.main;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -21,13 +23,14 @@ import iis.production.musingo.MusingoApp;
 import iis.production.musingo.R;
 import iis.production.musingo.async.ATSongs;
 import iis.production.musingo.db.PlaySongsTable;
+import iis.production.musingo.objects.AlertViewOrange;
 import iis.production.musingo.objects.Song;
 import iis.production.musingo.objects.TextViewArchitects;
 import iis.production.musingo.objects.TextViewPacifico;
 import iis.production.musingo.utility.DidYouKnow;
 import iis.production.musingo.utility.Endpoints;
+import iis.production.musingo.utility.NetworkInfo;
 import iis.production.musingo.utility.OnSwipeTouchListener;
-import iis.production.musingo.utility.Reachability;
 import iis.production.musingo.utility.RoundedCornersDrawable;
 
 /**
@@ -177,15 +180,14 @@ public class LevelSelectionActivity extends Activity{
 
         getStarsCollected();
         selectedLevel = 1;
-        ArrayList<Song> songs = new ArrayList<Song>();
-        String url = Endpoints.playlist_url + selectedLevel;
-        ATSongs ATS = new ATSongs(this, url, loadingAnimation, false, songs);
-        Reachability a = new Reachability(this);
-        if(a.isOnline()){
-            ATS.execute();
-        }
-
-        clickable = false;
+        //ArrayList<Song> songs = new ArrayList<Song>();
+        //String url = Endpoints.playlist_url + selectedLevel;
+        //ATSongs ATS = new ATSongs(this, url, loadingAnimation, false, songs);
+        //Reachability a = new Reachability(this);
+        //if(a.isOnline()){
+        //    ATS.execute();
+        //}
+        //clickable = false;
     }
 
     public void dropDown(View view){
@@ -269,10 +271,19 @@ public class LevelSelectionActivity extends Activity{
             MusingoApp.soundButton();
             String url = Endpoints.playlist_url + selectedLevel;
             ATSongs ATS = new ATSongs(this, url, loadingAnimation, true, gameSongs);
-            Reachability a = new Reachability(this);
-            if(a.isOnline()){
+            //Reachability a = new Reachability(this);
+            //if(a.isOnline()){
+            //    ATS.execute();
+            //}
+
+            NetworkInfo networkInfo = new NetworkInfo(this);
+            if(networkInfo.isConnect()){
                 ATS.execute();
             }
+            else {
+                networkAlert();
+            }
+
             clickable = false;
         }
     }
@@ -329,10 +340,19 @@ public class LevelSelectionActivity extends Activity{
         ArrayList<Song> songs = new ArrayList<Song>();
         String url = Endpoints.playlist_url + selectedLevel;
         ATSongs ATS = new ATSongs(this, url, loadingAnimation, false, songs);
-        Reachability a = new Reachability(this);
-        if(a.isOnline()){
+        //Reachability a = new Reachability(this);
+        //if(a.isOnline()){
+        //    ATS.execute();
+        //}
+
+        NetworkInfo networkInfo = new NetworkInfo(this);
+        if(networkInfo.isConnect()){
             ATS.execute();
         }
+        else {
+            networkAlert();
+        }
+
         clickable = false;
     }
 
@@ -346,6 +366,39 @@ public class LevelSelectionActivity extends Activity{
     public void getStarsCollected(){
         PlaySongsTable PST = new PlaySongsTable(this);
         starNumber.setText(String.valueOf(PST.getSumStars()));
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        ArrayList<Song> songs = new ArrayList<Song>();
+        String url = Endpoints.playlist_url + selectedLevel;
+        ATSongs ATS = new ATSongs(this, url, loadingAnimation, false, songs);
+
+        NetworkInfo networkInfo = new NetworkInfo(this);
+        if(networkInfo.isConnect()){
+            ATS.execute();
+        }
+        else {
+            networkAlert();
+        }
+
+        clickable = false;
+    }
+
+    public void networkAlert(){
+        String title = getString(R.string.network_title);
+        String body = getString(R.string.network_body);
+        String detail = getString(R.string.network_detail);
+
+        AlertViewOrange alertViewOrange =  new AlertViewOrange(title, body, detail, this);
+        alertViewOrange.show();
+        alertViewOrange.setOnDismissListener( new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                startActivity(new Intent(WifiManager.ACTION_PICK_WIFI_NETWORK));
+            }
+        });
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
