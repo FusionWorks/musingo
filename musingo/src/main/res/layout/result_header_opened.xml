@@ -45,11 +45,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
-                    android:text="Beate"
+                    android:text="BEAT"
                     android:id="@+id/textView"
                     android:layout_gravity="center_horizontal"
                     android:textColor="#000"
-                    android:textSize="16sp"/>
+                    android:textSize="15sp"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -72,11 +72,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
-                    android:text="Complete"
+                    android:text="COMPLETE"
                     android:id="@+id/textViewComplete"
                     android:layout_gravity="center_horizontal"
                     android:textColor="#000"
-                    android:textSize="16sp"/>
+                    android:textSize="15sp"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -99,11 +99,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
-                    android:text="Boost"
+                    android:text="BOOST"
                     android:id="@+id/textViewBoost"
                     android:layout_gravity="center_horizontal"
                     android:textColor="#000"
-                    android:textSize="16sp"/>
+                    android:textSize="15sp"/>
 
                 <ImageView
                     android:layout_width="wrap_content"

@@ -84,8 +84,6 @@ public class PartnerActivity extends Activity {
         @Override
         public void didFailToLoadInterstitial(String location) {
             Log.i(TAG, "INTERSTITIAL '"+location+"' REQUEST FAILED");
-            Toast.makeText(PartnerActivity.this, "Interstitial '" + location + "' Load Failed",
-                    Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -100,15 +98,11 @@ public class PartnerActivity extends Activity {
         @Override
         public void didCloseInterstitial(String location) {
             Log.i(TAG, "INSTERSTITIAL '"+location+"' CLOSED");
-            Toast.makeText(PartnerActivity.this, "Closed Interstitial '"+location+"'",
-                    Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void didClickInterstitial(String location) {
             Log.i(TAG, "DID CLICK INTERSTITIAL '"+location+"'");
-            Toast.makeText(PartnerActivity.this, "Clicked Interstitial '"+location+"'",
-                    Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -121,8 +115,6 @@ public class PartnerActivity extends Activity {
             // Show a house ad or do something else when a chartboost interstitial fails to load
 
             Log.i(TAG, "URL '"+url+"' REQUEST FAILED");
-            Toast.makeText(PartnerActivity.this, "URL '"+url+"' Load Failed",
-                    Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -145,8 +137,10 @@ public class PartnerActivity extends Activity {
         @Override
         public void didFailToLoadMoreApps() {
             Log.i(TAG, "MORE APPS REQUEST FAILED");
-            Toast.makeText(PartnerActivity.this, "More Apps Load Failed",
-                    Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent();
+            intent.setClass(PartnerActivity.this, LevelSelectionActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
         }
 
         @Override
@@ -157,16 +151,12 @@ public class PartnerActivity extends Activity {
         @Override
         public void didDismissMoreApps() {
             Log.i(TAG, "MORE APPS DISMISSED");
-            Toast.makeText(PartnerActivity.this, "Dismissed More Apps",
-                    Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void didCloseMoreApps() {
             Log.i(TAG, "MORE APPS CLOSED");
             MusingoApp.soundButton();
-            Toast.makeText(PartnerActivity.this, "Closed More Apps",
-                    Toast.LENGTH_SHORT).show();
             Intent intent = new Intent();
             intent.setClass(PartnerActivity.this, LevelSelectionActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -177,8 +167,6 @@ public class PartnerActivity extends Activity {
         @Override
         public void didClickMoreApps() {
             Log.i(TAG, "MORE APPS CLICKED");
-            Toast.makeText(PartnerActivity.this, "Clicked More Apps",
-                    Toast.LENGTH_SHORT).show();
         }
 
         @Override

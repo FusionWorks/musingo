@@ -67,6 +67,7 @@ public class LevelSelectionActivity extends Activity{
     RelativeLayout song8;
     RelativeLayout song9;
 
+    final static int NEXT_LEVEL = 1;
 
     //variables
     boolean opened;
@@ -75,6 +76,8 @@ public class LevelSelectionActivity extends Activity{
     boolean powerup;
 
     boolean clickable;
+
+    boolean nextLevel = false;
 
     static ArrayList<Song> gameSongs;
     int selectedLevel;
@@ -308,6 +311,12 @@ public class LevelSelectionActivity extends Activity{
         }
         gameSongs = songs;
         clickable = true;
+
+        if(nextLevel){
+            nextLevel = false;
+            goToLevel(null);
+
+        }
     }
 
     public void downloadResultForGame(ArrayList<Song> songs, int scoreToBeat, String name, int cost){
@@ -323,7 +332,7 @@ public class LevelSelectionActivity extends Activity{
         intent.putExtra("packageNumber", 2);
         intent.putExtra("packageName", "Hits 90s");
 //--->>
-        startActivity(intent);
+        startActivityForResult(intent, NEXT_LEVEL);
         clickable = true;
     }
 
@@ -390,5 +399,17 @@ public class LevelSelectionActivity extends Activity{
                 startActivity(new Intent(WifiManager.ACTION_PICK_WIFI_NETWORK));
             }
         });
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch(requestCode) {
+            case NEXT_LEVEL:
+                if (resultCode == NEXT_LEVEL) {
+                    nextLevel = true;
+                    selectedLevel +=1;
+                    changeLevel();
+                }
+                break;
+        }
     }
 }
