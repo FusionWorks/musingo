@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -69,6 +68,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     boolean userRight;
     int score;
     int width;
+    int height;
 
     RelativeLayout song1;
     RelativeLayout song2;
@@ -90,6 +90,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     RelativeLayout songThumb8;
     RelativeLayout songThumb9;
 
+    RelativeLayout leftView;
+
     ImageView hintfb;
     ImageView hintHint;
     ImageView hintSkip;
@@ -101,6 +103,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     ImageView tutorial1Arrow;
     ImageView tutorial3Arrow;
     ImageView tutorial4Arrow;
+    ImageView tutorial5Arrow;
 
     LinearLayout tutorial1;
     LinearLayout tutorial2;
@@ -227,7 +230,9 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         tutorial1Arrow = (ImageView) findViewById(R.id.tutorial1Arrow);
         tutorial3Arrow = (ImageView) findViewById(R.id.tutorial3Arrow);
         tutorial4Arrow = (ImageView) findViewById(R.id.tutorial4Arrow);
-        displayWidth();
+        tutorial5Arrow = (ImageView) findViewById(R.id.tutorial5Arrow);
+
+        leftView = (RelativeLayout) findViewById(R.id.leftView);
 
         Intent intent = getIntent();
         packageNumber = intent.getIntExtra("packageNumber", 0);
@@ -417,6 +422,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             params.setMargins(pixels, 0, 0, 0);
             seekBar.setLayoutParams(params);
 
+            pixels= (int) (30 * scale) + pixels;
             LinearLayout.LayoutParams tutorialParams = (LinearLayout.LayoutParams) tutorial1Arrow.getLayoutParams();
             tutorialParams.setMargins(pixels, 0, 0, 0);
             tutorial1Arrow.setLayoutParams(tutorialParams);
@@ -966,6 +972,11 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
     public void nextTutorial(View v){
         LinearLayout.LayoutParams params;
+        final float scale = getResources().getDisplayMetrics().density;
+        int marginLeft;
+        int marginRight;
+        int marginBottom;
+
         switch (v.getId()){
             case R.id.tutorial1 :
                 tutorial1.setVisibility(View.GONE);
@@ -976,7 +987,9 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 tutorial3.setVisibility(View.VISIBLE);
 
                 params = (LinearLayout.LayoutParams) tutorial3Arrow.getLayoutParams();
-                params.setMargins(width/6, 0, 0, 0);
+                marginLeft = leftView.getLeft() + leftView.getWidth()/2;
+                Log.v("Musingo", "margin left: " + marginLeft);
+                params.setMargins(marginLeft, 0, 0, 0);
                 tutorial3Arrow.setLayoutParams(params);
 
                 break;
@@ -984,13 +997,21 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 tutorial3.setVisibility(View.GONE);
                 tutorial4.setVisibility(View.VISIBLE);
 
+                marginRight = leftView.getLeft() + leftView.getWidth()/2;
                 params = (LinearLayout.LayoutParams) tutorial4Arrow.getLayoutParams();
-                params.setMargins(0, 0, width/6, 0);
+                params.setMargins(0, 0, marginRight, 0);
                 tutorial4Arrow.setLayoutParams(params);
                 break;
             case R.id.tutorial4 :
                 tutorial4.setVisibility(View.GONE);
                 tutorial5.setVisibility(View.VISIBLE);
+
+                marginRight = (int) (17 * scale);
+                marginBottom = (int) (53 * scale);
+                Log.v("Musingo", "scale: " + scale);
+                params = (LinearLayout.LayoutParams) tutorial5Arrow.getLayoutParams();
+                params.setMargins(marginRight, 0, 0, marginBottom);
+                tutorial5Arrow.setLayoutParams(params);
                 break;
             case R.id.tutorial5 :
                 tutorial5.setVisibility(View.GONE);
@@ -1005,11 +1026,5 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
                 break;
         }
-    }
-
-    public void displayWidth(){
-        DisplayMetrics displaymetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-        width = displaymetrics.widthPixels;
     }
 }
