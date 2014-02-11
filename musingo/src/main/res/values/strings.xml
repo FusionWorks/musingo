@@ -140,4 +140,10 @@
 <!--Alerts-->
     <string name="alert_title">Oops</string>
     <string name="alert_not_enough_money">Not enough money</string>
+
+    <!--SharedPreferences-->
+    <string name="access_token">access_token</string>
+    <string name="access_expires">access_expires</string>
+    <string name="user_id">user_id</string>
+    <string name="user_name">user_name</string>
 </resources>

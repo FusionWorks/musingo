@@ -995,6 +995,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 break;
             case R.id.tutorial3 :
                 tutorial3.setVisibility(View.GONE);
+                tutorial3.setVisibility(View.GONE);
                 tutorial4.setVisibility(View.VISIBLE);
 
                 marginRight = leftView.getLeft() + leftView.getWidth()/2;
