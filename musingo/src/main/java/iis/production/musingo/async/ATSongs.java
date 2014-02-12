@@ -38,7 +38,6 @@ import iis.production.musingo.utility.Utility;
 public class ATSongs extends AsyncTask<Void, Void, Void> {
     LevelSelectionActivity activity;
     RelativeLayout loadingView;
-    boolean mp3Download;
     ArrayList<Song> songs;
     String url;
 
@@ -46,11 +45,10 @@ public class ATSongs extends AsyncTask<Void, Void, Void> {
     String name;
     int cost;
 
-    public ATSongs(LevelSelectionActivity activity, String url, RelativeLayout loadingView, boolean mp3Download, ArrayList<Song> songs){
+    public ATSongs(LevelSelectionActivity activity, String url, RelativeLayout loadingView, ArrayList<Song> songs){
         super();
         this.activity = activity;
         this.loadingView = loadingView;
-        this.mp3Download = mp3Download;
         this.songs = songs;
         this.url = url;
 
@@ -68,48 +66,38 @@ public class ATSongs extends AsyncTask<Void, Void, Void> {
             JSONObject data = new JSONObject(EntityUtils.toString(response.getEntity()));
             Log.v("CL", "data" + data);
             this.name = data.getString("name");
-            if (mp3Download){
-                this.cost = data.getInt("cost");
-                this.scoreToBeat = data.getInt("score_to_beat");
-                for(Song song : songs){
-                    Log.v("Musingo ","song.id "+song.getId());
-                    String id = song.getId();
-                    String mp3url = song.getmp3Url();
-                    downloadASong(id, mp3url);
+            this.cost = data.getInt("cost");
+            this.scoreToBeat = data.getInt("score_to_beat");
+            JSONArray array = data.getJSONArray("songs");
+            for (int i=0; i<array.length(); i++){
+                JSONObject obj = array.getJSONObject(i);
+
+                String id = "";
+                Bitmap image = null;
+                String songName = "";
+                String artistName = "";
+                String time = "";
+                String mp3URL = "";
+                String uuid = "";
+                String imageUrl = "";
+                if(obj.getString("image_url").length()<1){
+                    image = BitmapFactory.decodeResource(activity.getResources(),
+                            R.drawable.no_album_photo);
+                }else{
+                    image = Utility.bitmapFromUrl(activity, obj.getString("image_url"));
+                    imageUrl = obj.getString("image_url");
                 }
-            }else{
-                JSONArray array = data.getJSONArray("songs");
-                for (int i=0; i<array.length(); i++){
-                    JSONObject obj = array.getJSONObject(i);
+                id = obj.getString("id");
+                uuid = obj.getString("uuid");
+                songName = obj.getString("name");
+                artistName = obj.getString("artist");
+                time = "0";
+                mp3URL = obj.getString("mp3_url");
+                Song song = new Song(id, uuid, image, songName, artistName, time, mp3URL, imageUrl);
+                songs.add(song);
+                downloadASong(id, mp3URL);
 
-                    String id = "";
-                    Bitmap image = null;
-                    String songName = "";
-                    String artistName = "";
-                    String time = "";
-                    String mp3URL = "";
-                    String uuid = "";
-                    String imageUrl = "";
-                    if(obj.getString("image_url").length()<1){
-                        image = BitmapFactory.decodeResource(activity.getResources(),
-                                R.drawable.no_album_photo);
-                    }else{
-                        image = Utility.bitmapFromUrl(activity, obj.getString("image_url"));
-                        imageUrl = obj.getString("image_url");
-                    }
-                    id = obj.getString("id");
-                    uuid = obj.getString("uuid");
-                    songName = obj.getString("name");
-                    artistName = obj.getString("artist");
-                    time = "0";
-                    mp3URL = obj.getString("mp3_url");
-                    Song song = new Song(id, uuid, image, songName, artistName, time, mp3URL, imageUrl);
-                    songs.add(song);
-                 }
             }
-
-
-
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -123,11 +111,8 @@ public class ATSongs extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void params) {
         loadingView.setVisibility(View.GONE);
-        if (mp3Download){
-            activity.downloadResultForGame(songs, scoreToBeat, name, cost);
-        }else{
-            activity.downloadResultForLevels(songs, name);
-        }
+        activity.downloadResultForGame(songs, scoreToBeat, name, cost);
+
     }
 
     @Override

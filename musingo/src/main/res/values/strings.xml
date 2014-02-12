@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Musingo</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="bottom_text">PLAY FOR GOOD.</string>
     <string name="action_settings">Settings</string>
     <string name="partner_site">http://www.partner.com</string>
     <string name="site">http://www.goodworldgames.com</string>
@@ -122,6 +122,11 @@
     <string name="did_you_know_43">Some species of sharks have declined in population by 90% or more in regions where they were once abundant.</string>
     <string name="did_you_know_44">Some species of sharks take more than 15 years to reach reproductive maturity.</string>
     <string name="did_you_know_45">1 in 6 species that appear in the movie \"Finding Nemo\" are threatened with extinction.</string>
+
+    <!-- Network alert -->
+    <string name="network_title">Offline</string>
+    <string name="network_body">Hang tight,your internet\'s tune is not jiving!</string>
+    <string name="network_detail">Make sure your internet is connected, it\'s tought job to spin music out of thin air!</string>
 
 <!--PowerUps costs-->
     <string name="cost_hint">5</string>

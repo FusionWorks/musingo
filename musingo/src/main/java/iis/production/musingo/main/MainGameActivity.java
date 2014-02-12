@@ -21,6 +21,10 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.facebook.android.DialogError;
+import com.facebook.android.Facebook;
+import com.facebook.android.FacebookError;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -37,6 +41,7 @@ import iis.production.musingo.objects.AlertViewPink;
 import iis.production.musingo.objects.Song;
 import iis.production.musingo.objects.TextViewArchitects;
 import iis.production.musingo.objects.TextViewPacifico;
+import iis.production.musingo.utility.FacebookManager;
 import iis.production.musingo.utility.RoundedCornersDrawable;
 import iis.production.musingo.utility.SongsManager;
 import iis.production.musingo.utility.Utility;
@@ -345,6 +350,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         super.onPause();
         mHandler.removeCallbacks(mUpdateTimeTask);
         mp.release();
+        finish();
     }
 
     public void playNext(){
@@ -361,6 +367,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 saveSongResult("-");
                 TextViewPacifico text = (TextViewPacifico)view.findViewById(R.id.title);
                 text.setText("-");
+                MusingoApp.soundWrong();
             }else if(previousSongTime < 10 && userRight){
                 view.setBackgroundResource(R.drawable.round_song_right);
                 TextViewPacifico text = (TextViewPacifico)view.findViewById(R.id.title);
@@ -571,7 +578,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             hintLonger.setImageResource(R.drawable.hint_longer_vis);
             hintLonger.setTag("vis");
         }
-        if(mSettings.getBoolean("next",false)){
+        if(mSettings.getBoolean("next", false)){
             hintNextList.setImageResource(R.drawable.hint_nextlist_vis);
             hintNextList.setTag("vis");
         }
@@ -579,8 +586,47 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     }
 
     public void powerUpFB(View view){
+        String id = songsList.get(currentSong).get("songTitle");
+        String uuid = "";
+        String image = null;
 
+        for (int i=0; i < songs.size(); i++){
+            if (id.equals(songs.get(i).getId())){
+                uuid = songs.get(i).getUuid();
+                image = songs.get(i).getImageUrl();
+            }
+        }
+        Bundle params = new Bundle();
+        params.putString("name", "Help!");
+        params.putString("caption", "Who can name this song from the playlist '" + packageName + "'");
+        params.putString("description", "Open this link to hear the tune.");
+        params.putString("link", getString(R.string.fb_hint) + uuid);
+        params.putString("picture", image);
+
+        mp.pause();
+        FacebookManager.PostFb(MainGameActivity.this, params, new Facebook.DialogListener() {
+            @Override
+            public void onComplete(Bundle values) {
+                mp.start();
+            }
+
+            @Override
+            public void onFacebookError(FacebookError e) {
+
+            }
+
+            @Override
+            public void onError(DialogError e) {
+
+            }
+
+            @Override
+            public void onCancel() {
+                mp.start();
+            }
+        });
     }
+
     public void powerUpHint(View view){
         int cost = Integer.parseInt(getString(R.string.cost_hint));
             if(view.getTag().toString().equals("inv")){

@@ -49,27 +49,7 @@ public class FacebookManager {
        }
    }
 
-   public static void PostFb(Activity activity){
-       FacebookManager.userFb.dialog(activity, "feed", new Facebook.DialogListener() {
-           @Override
-           public void onComplete(Bundle values) {
-
-           }
-
-           @Override
-           public void onFacebookError(FacebookError e) {
-
-           }
-
-           @Override
-           public void onError(DialogError e) {
-
-           }
-
-           @Override
-           public void onCancel() {
-
-           }
-       });
+   public static void PostFb(Activity activity, Bundle params, Facebook.DialogListener dialogListener){
+       FacebookManager.userFb.dialog(activity, "feed", params, dialogListener);
    }
 }

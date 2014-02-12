@@ -152,7 +152,7 @@ public class ResultsActivity extends Activity {
         if(bestResultInt < currentScoreInt){
             playSongsTable.updateBestResultInPlaySongsTable(currentScoreInt, levelNumber);
             bestResultTV.setText(currentScoreStr);
-            beatStarImg.setImageResource(R.drawable.star_orange);
+            beatStarImg.setImageResource(R.drawable.star_beat);
             playSongsTable.updateStarInPlaySongsTable(completeStar, true, boostStar, levelNumber);
         }
         else {
@@ -168,14 +168,14 @@ public class ResultsActivity extends Activity {
         ImageView boostStarImg = (ImageView) findViewById(R.id.boostStar);
 
         if(completeStar){
-            completeStarImg.setImageResource(R.drawable.star_green);
+            completeStarImg.setImageResource(R.drawable.star_complete);
         }
         else{
             completeStarImg.setImageResource(R.drawable.star_blank);
         }
 
         if(boostStar){
-            boostStarImg.setImageResource(R.drawable.star_purple);
+            boostStarImg.setImageResource(R.drawable.star_boost);
         }
         else{
             boostStarImg.setImageResource(R.drawable.star_blank);
