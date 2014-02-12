@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.facebook.android.Facebook;
@@ -36,6 +37,9 @@ public class FirstActivity extends Activity {
 // <<<temp
         PlaySongsTable playSongsTable = new PlaySongsTable(this);
         playSongsTable.deletePlaySongsTable();
+
+        Log.v("Musingo", "id: " + FacebookManager.sharedPreferences.getString(getString(R.string.user_id), "") +
+                " , name: " + FacebookManager.sharedPreferences.getString(getString(R.string.user_name), ""));
 //>>>
     }
 

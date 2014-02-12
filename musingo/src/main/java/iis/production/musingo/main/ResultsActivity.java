@@ -19,9 +19,11 @@ import iis.production.musingo.MusingoApp;
 import iis.production.musingo.R;
 import iis.production.musingo.adapter.ResultsCustomListAdapter;
 import iis.production.musingo.db.PlaySongsTable;
+import iis.production.musingo.objects.AlertViewFacebook;
 import iis.production.musingo.objects.Song;
 import iis.production.musingo.objects.TextViewArchitects;
 import iis.production.musingo.objects.TextViewPacifico;
+import iis.production.musingo.utility.FacebookManager;
 import iis.production.musingo.utility.Utility;
 
 /**
@@ -98,6 +100,8 @@ public class ResultsActivity extends Activity {
         setBestResult();
 
         list.setAdapter(songsListAdapter);
+
+        facebookLogin();
     }
 
     public void starCollection(View v){
@@ -179,6 +183,13 @@ public class ResultsActivity extends Activity {
         }
         else{
             boostStarImg.setImageResource(R.drawable.star_blank);
+        }
+    }
+
+    public void facebookLogin(){
+        if(!FacebookManager.userFb.isSessionValid()){
+            AlertViewFacebook dialog = new AlertViewFacebook(this, "Facebook", "Please ", ResultsActivity.this);
+            dialog.show();
         }
     }
 

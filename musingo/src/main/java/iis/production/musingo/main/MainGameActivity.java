@@ -67,6 +67,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     int previousSongTime;
     boolean userRight;
     int score;
+    int width;
+    int height;
 
     RelativeLayout song1;
     RelativeLayout song2;
@@ -88,6 +90,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     RelativeLayout songThumb8;
     RelativeLayout songThumb9;
 
+    RelativeLayout leftView;
+
     ImageView hintfb;
     ImageView hintHint;
     ImageView hintSkip;
@@ -96,6 +100,19 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     ImageView hintLonger;
     ImageView hintNextList;
     ImageView hintTextImage;
+    ImageView tutorial1Arrow;
+    ImageView tutorial3Arrow;
+    ImageView tutorial4Arrow;
+    ImageView tutorial5Arrow;
+
+    LinearLayout tutorial1;
+    LinearLayout tutorial2;
+    LinearLayout tutorial3;
+    LinearLayout tutorial4;
+    LinearLayout tutorial5;
+    LinearLayout tutorial6;
+
+    SharedPreferences firstRun = null;
 
     //Media Player vars
     SharedPreferences mSettings;
@@ -204,6 +221,19 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         songTimes.add(song8);
         songTimes.add(song9);
 
+        tutorial1 = (LinearLayout) findViewById(R.id.tutorial1);
+        tutorial2 = (LinearLayout) findViewById(R.id.tutorial2);
+        tutorial3 = (LinearLayout) findViewById(R.id.tutorial3);
+        tutorial4 = (LinearLayout) findViewById(R.id.tutorial4);
+        tutorial5 = (LinearLayout) findViewById(R.id.tutorial5);
+        tutorial6 = (LinearLayout) findViewById(R.id.tutorial6);
+        tutorial1Arrow = (ImageView) findViewById(R.id.tutorial1Arrow);
+        tutorial3Arrow = (ImageView) findViewById(R.id.tutorial3Arrow);
+        tutorial4Arrow = (ImageView) findViewById(R.id.tutorial4Arrow);
+        tutorial5Arrow = (ImageView) findViewById(R.id.tutorial5Arrow);
+
+        leftView = (RelativeLayout) findViewById(R.id.leftView);
+
         Intent intent = getIntent();
         packageNumber = intent.getIntExtra("packageNumber", 0);
         packageName = intent.getStringExtra("packageName");
@@ -245,6 +275,10 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         // By default play first song
         playSong(0);
 
+        firstRun = getSharedPreferences("iis.production.musingo.main", MODE_PRIVATE);
+        if(firstRun.getBoolean("firstRun", true)){
+            tutorial1.setVisibility(View.VISIBLE);
+        }
     }
 
     public void goBackButton(View view){
@@ -388,6 +422,11 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) seekBar.getLayoutParams();
             params.setMargins(pixels, 0, 0, 0);
             seekBar.setLayoutParams(params);
+
+            pixels= (int) (30 * scale) + pixels;
+            LinearLayout.LayoutParams tutorialParams = (LinearLayout.LayoutParams) tutorial1Arrow.getLayoutParams();
+            tutorialParams.setMargins(pixels, 0, 0, 0);
+            tutorial1Arrow.setLayoutParams(tutorialParams);
             playSong(currentSong + 1);
 
         }else if(skip && currentSong == 8){
@@ -930,5 +969,64 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
     public void hideHint(View view){
         hintTextImage.setVisibility(View.GONE);
+    }
+
+    public void nextTutorial(View v){
+        LinearLayout.LayoutParams params;
+        final float scale = getResources().getDisplayMetrics().density;
+        int marginLeft;
+        int marginRight;
+        int marginBottom;
+
+        switch (v.getId()){
+            case R.id.tutorial1 :
+                tutorial1.setVisibility(View.GONE);
+                tutorial2.setVisibility(View.VISIBLE);
+                break;
+            case R.id.tutorial2 :
+                tutorial2.setVisibility(View.GONE);
+                tutorial3.setVisibility(View.VISIBLE);
+
+                params = (LinearLayout.LayoutParams) tutorial3Arrow.getLayoutParams();
+                marginLeft = leftView.getLeft() + leftView.getWidth()/2;
+                Log.v("Musingo", "margin left: " + marginLeft);
+                params.setMargins(marginLeft, 0, 0, 0);
+                tutorial3Arrow.setLayoutParams(params);
+
+                break;
+            case R.id.tutorial3 :
+                tutorial3.setVisibility(View.GONE);
+                tutorial3.setVisibility(View.GONE);
+                tutorial4.setVisibility(View.VISIBLE);
+
+                marginRight = leftView.getLeft() + leftView.getWidth()/2;
+                params = (LinearLayout.LayoutParams) tutorial4Arrow.getLayoutParams();
+                params.setMargins(0, 0, marginRight, 0);
+                tutorial4Arrow.setLayoutParams(params);
+                break;
+            case R.id.tutorial4 :
+                tutorial4.setVisibility(View.GONE);
+                tutorial5.setVisibility(View.VISIBLE);
+
+                marginRight = (int) (17 * scale);
+                marginBottom = (int) (53 * scale);
+                Log.v("Musingo", "scale: " + scale);
+                params = (LinearLayout.LayoutParams) tutorial5Arrow.getLayoutParams();
+                params.setMargins(marginRight, 0, 0, marginBottom);
+                tutorial5Arrow.setLayoutParams(params);
+                break;
+            case R.id.tutorial5 :
+                tutorial5.setVisibility(View.GONE);
+                tutorial6.setVisibility(View.VISIBLE);
+                break;
+            case R.id.tutorial6 :
+                tutorial6.setVisibility(View.GONE);
+
+                SharedPreferences.Editor editor = firstRun.edit();
+                editor.putBoolean("firstRun", false);
+                editor.commit();
+
+                break;
+        }
     }
 }
