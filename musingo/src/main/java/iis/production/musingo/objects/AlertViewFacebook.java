@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import iis.production.musingo.R;
+import iis.production.musingo.main.ResultsActivity;
 import iis.production.musingo.utility.FacebookManager;
 
 /**
@@ -17,15 +18,15 @@ public class AlertViewFacebook extends AlertDialog {
     String titleText;
     String bodyText;
     Activity activity;
-    RelativeLayout loadingView;
+    Context context;
 
     public AlertViewFacebook(Context context, String title, String body, Activity activity)
     {
         super(context);
+        this.context = context;
         this.titleText = title;
         this.bodyText = body;
         this.activity = activity;
-        this.loadingView = loadingView;
     }
 
     @Override
@@ -40,6 +41,20 @@ public class AlertViewFacebook extends AlertDialog {
         body.setText(bodyText);
 
         //final FacebookManager fbUser = new FacebookManager();
+        if(activity instanceof ResultsActivity){
+            TextViewArchitects notNowFb = (TextViewArchitects) findViewById(R.id.notNowFb);
+            notNowFb.setVisibility(View.VISIBLE);
+
+            notNowFb.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dismiss();
+                }
+            });
+        } else {
+            TextViewArchitects loginFbDialog  = (TextViewArchitects) findViewById(R.id.loginFbDialog);
+            loginFbDialog.setText("FACEBOOK");
+        }
 
         final ImageView fbClick = (ImageView)findViewById(R.id.fb_click);
         fbClick.setOnClickListener(new View.OnClickListener() {
@@ -51,4 +66,5 @@ public class AlertViewFacebook extends AlertDialog {
             }
         });
     }
+
 }

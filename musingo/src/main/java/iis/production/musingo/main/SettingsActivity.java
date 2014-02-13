@@ -56,7 +56,7 @@ public class SettingsActivity extends Activity {
         MusingoApp.soundButton();
 
         if(!FacebookManager.userFb.isSessionValid()){
-            AlertViewFacebook dialog = new AlertViewFacebook(this, "Facebook", "Please ", SettingsActivity.this);
+            AlertViewFacebook dialog = new AlertViewFacebook(this, "login", "", SettingsActivity.this);
             dialog.show();
         }
         else{

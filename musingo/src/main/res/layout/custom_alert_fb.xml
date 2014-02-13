@@ -16,8 +16,10 @@
             android:textSize="35sp"
             android:text="Save Yo' self"
             android:gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:textColor="#000000"/>
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="8dp"
+            android:textColor="#000000"
+            style="@style/Shadow"/>
         </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,7 +29,7 @@
             android:id="@+id/body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:layout_gravity="center_horizontal"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -43,7 +45,7 @@
             android:layout_gravity="center_horizontal"
             android:background="@drawable/facebook_button"/>
         <iis.production.musingo.objects.TextViewArchitects
-            android:id="@+id/aboutPartners"
+            android:id="@+id/loginFbDialog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
@@ -54,5 +56,20 @@
             android:gravity="center_horizontal"
             android:layout_marginBottom="5dp"
             android:textColor="#000000"/>
+        <iis.production.musingo.objects.TextViewArchitects
+            android:id="@+id/notNowFb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_gravity="center_horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="NOT NOW"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="#000000"
+            android:visibility="gone"
+            android:onClick="loginLater"/>
         </LinearLayout>
 </LinearLayout>
