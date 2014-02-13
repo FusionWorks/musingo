@@ -279,6 +279,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         firstRun = getSharedPreferences("iis.production.musingo.main", MODE_PRIVATE);
         if(firstRun.getBoolean("firstRun", true)){
             tutorial1.setVisibility(View.VISIBLE);
+            mp.pause();
         }
     }
 
@@ -1108,12 +1109,11 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 tutorial6.setVisibility(View.VISIBLE);
                 break;
             case R.id.tutorial6 :
+                mp.start();
                 tutorial6.setVisibility(View.GONE);
-
                 SharedPreferences.Editor editor = firstRun.edit();
                 editor.putBoolean("firstRun", false);
                 editor.commit();
-
                 break;
         }
     }

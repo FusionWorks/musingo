@@ -133,6 +133,7 @@
             android:layout_weight="0.33"
             android:onClick="goToLevel"
             android:tag="3">
+
             <ImageView
                 android:id="@+id/image"
                 android:layout_width="match_parent"
@@ -198,6 +199,7 @@
             android:layout_weight="0.33"
             android:onClick="goToLevel"
             android:tag="4">
+
             <ImageView
                 android:id="@+id/image"
                 android:layout_width="match_parent"
@@ -379,6 +381,7 @@
             android:layout_weight="0.33"
             android:onClick="goToLevel"
             android:tag="7">
+
             <ImageView
                 android:id="@+id/image"
                 android:layout_width="match_parent"

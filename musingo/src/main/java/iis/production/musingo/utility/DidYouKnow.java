@@ -32,14 +32,13 @@ public class DidYouKnow {
         int strId = activity.getResources().getIdentifier(text, "string", activity.getPackageName());
         String strValue = activity.getString(strId);
 
-        view.setText(strValue);
+        view.setText(strValue.toUpperCase());
         int l = strValue.length();
         if(l < 50)
-            view.setTextSize(11);
-        else if(l > 50 && l < 80)
-            view.setTextSize(9);
-        else if(l > 80 && l < 150)
-            view.setTextSize(8);
-
+            view.setTextSize(14);
+        else if(l >= 50 && l < 80)
+            view.setTextSize(12);
+        else if(l >= 80 && l < 150)
+            view.setTextSize(10);
     }
 }
