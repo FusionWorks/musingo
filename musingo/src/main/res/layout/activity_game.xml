@@ -23,7 +23,8 @@
             android:textSize="17sp"
             android:text="BoyBands"
             android:layout_centerInParent="true"
-            android:textColor="#ffffff"/>
+            android:textColor="#ffffff"
+            style="@style/Shadow"/>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,7 +46,8 @@
                 android:textStyle="bold"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="5dp"
-                android:textColor="#ffffff"/>/>
+                android:textColor="#ffffff"
+                style="@style/Shadow"/>
             </LinearLayout>
         </RelativeLayout>
     <RelativeLayout
@@ -66,7 +68,8 @@
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:text="#"
-                android:textColor="#ffffff"/>
+                android:textColor="#ffffff"
+                style="@style/Shadow"/>
             <iis.production.musingo.objects.TextViewPacifico
                 android:id="@+id/levelNumber"
                 android:layout_width="wrap_content"
@@ -74,7 +77,8 @@
                 android:textSize="30sp"
                 android:text="1"
                 android:layout_marginBottom="5dp"
-                android:textColor="#ffffff"/>
+                android:textColor="#ffffff"
+                style="@style/Shadow"/>
             </LinearLayout>
         <RelativeLayout
             android:id="@+id/leftView"
@@ -445,7 +449,7 @@
                         android:layout_marginBottom="10dp"
                         android:text="HIT THE TOWN"
                         android:gravity="center"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/song_title"
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
                         android:layout_marginRight="5dp"/>
@@ -481,7 +485,7 @@
                         android:layout_marginBottom="10dp"
                         android:text="CATCHY 2000S"
                         android:gravity="center"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/song_title"
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
                         android:layout_marginRight="5dp"/>
@@ -516,7 +520,7 @@
                         android:layout_marginBottom="10dp"
                         android:text="HIT THE TOWN"
                         android:gravity="center"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/song_title"
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
                         android:layout_marginRight="5dp"/>
@@ -560,7 +564,7 @@
                         android:layout_marginBottom="10dp"
                         android:text="HIT THE TOWN"
                         android:gravity="center"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/song_title"
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
                         android:layout_marginRight="5dp"/>
@@ -596,7 +600,7 @@
                         android:layout_marginBottom="10dp"
                         android:text="HIT THE TOWN"
                         android:gravity="center"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/song_title"
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
                         android:layout_marginRight="5dp"/>
@@ -631,7 +635,7 @@
                         android:layout_marginBottom="10dp"
                         android:text="HIT THE TOWN"
                         android:gravity="center"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/song_title"
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
                         android:layout_marginRight="5dp"/>
@@ -674,7 +678,7 @@
                         android:layout_marginBottom="10dp"
                         android:text="HIT THE TOWN"
                         android:gravity="center"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/song_title"
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
                         android:layout_marginRight="5dp"/>
@@ -710,7 +714,7 @@
                         android:layout_marginBottom="10dp"
                         android:text="HIT THE TOWN"
                         android:gravity="center"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/song_title"
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
                         android:layout_marginRight="5dp"/>
@@ -745,7 +749,7 @@
                         android:layout_marginBottom="10dp"
                         android:text="HIT THE TOWN"
                         android:gravity="center"
-                        android:textSize="10sp"
+                        android:textSize="@dimen/song_title"
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
                         android:layout_marginRight="5dp"/>

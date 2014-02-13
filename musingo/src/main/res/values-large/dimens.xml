@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="did_you_know_text_size">16sp</dimen>
+    <dimen name="change_package">10sp</dimen>
+    <dimen name="song_title">14sp</dimen>
+    <dimen name="star">16sp</dimen>
 </resources>

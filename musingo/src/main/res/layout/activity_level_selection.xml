@@ -52,10 +52,10 @@
                         android:id="@+id/didyouknowTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="10sp"
+                        android:textSize="8sp"
                         android:text="DID YOU KNOW?"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="3dp"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="2dp"
                         android:textColor="#3fb8cd"/>
                     <iis.production.musingo.objects.TextViewArchitects
                         android:id="@+id/didyouknowText"
@@ -65,8 +65,11 @@
                         android:textSize="@dimen/did_you_know_text_size"
                         android:text="sdfsd fsd fsd fsd"
                         android:layout_marginLeft="15dp"
-                        android:gravity="center"
-                        android:textColor="#000000"/>
+                        android:layout_marginRight="12dp"
+                        android:layout_marginBottom="1dp"
+                        android:gravity="center|top"
+                        android:textColor="#000000"
+                        android:lineSpacingMultiplier="0.7"/>
                     </RelativeLayout>
 
                 </RelativeLayout>
@@ -169,11 +172,13 @@
                 android:layout_toRightOf="@id/madonna"
                 android:text="SWIPE LEfT AND RIGHT TO SWITCH PACKAGES"
                 android:gravity="center"
-                android:textSize="8sp"
+                android:textSize="@dimen/change_package"
                 android:background="#aa000000"
                 android:paddingBottom="1dp"
                 android:paddingTop="1dp"
-                android:layout_marginBottom="2dp"/>
+                android:layout_marginBottom="2dp"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"/>
         </RelativeLayout>
        <!--  Here  -->
         <android.support.v4.view.ViewPager
@@ -745,7 +750,8 @@
                 android:gravity="center_vertical"
                 android:layout_toRightOf="@id/orangeStar"
                 android:layout_gravity="center_vertical"
-                android:textColor="#ffffff"/>
+                android:textColor="#ffffff"
+                style="@style/Shadow"/>
             </LinearLayout>
         <LinearLayout
             android:id="@+id/green"
@@ -768,7 +774,8 @@
                 android:text="COMPLETE"
                 android:layout_toRightOf="@id/greenStar"
                 android:layout_gravity="center_vertical"
-                android:textColor="#ffffff"/>
+                android:textColor="#ffffff"
+                style="@style/Shadow"/>
             </LinearLayout>
 
         <LinearLayout
@@ -792,7 +799,8 @@
                 android:layout_marginLeft="3dp"
                 android:layout_toRightOf="@id/purpleStar"
                 android:layout_gravity="center_vertical"
-                android:textColor="#ffffff"/>
+                android:textColor="#ffffff"
+                style="@style/Shadow"/>
             </LinearLayout>
             <ImageView
                 android:id="@+id/arrow"
@@ -826,7 +834,8 @@
                 android:textSize="25sp"
                 android:text="Playlists"
                 android:layout_centerInParent="true"
-                android:textColor="#ffffff"/>
+                android:textColor="#ffffff"
+                style="@style/Shadow"/>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -846,8 +855,10 @@
                     android:text="22"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
+                    android:layout_marginBottom="8dp"
                     android:layout_gravity="center_vertical"
-                    android:textColor="#ffffff"/>
+                    android:textColor="#ffffff"
+                    style="@style/Shadow"/>
                 </LinearLayout>
             </RelativeLayout>
         </RelativeLayout>

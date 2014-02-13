@@ -4,6 +4,7 @@ package iis.production.musingo.main;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -96,6 +97,8 @@ public class ResultsActivity extends Activity {
         beatStar = getIntent().getBooleanExtra("beatStar", false);
         boostStar = getIntent().getBooleanExtra("boostStar", false);
 
+        Log.v("Musingo", "Level: " + levelNumber);
+
         setStar();
         setBestResult();
 
@@ -141,11 +144,10 @@ public class ResultsActivity extends Activity {
 
     public void setBestResult(){
         TextViewArchitects bestResultTV = (TextViewArchitects) findViewById(R.id.bestScore);
-        ImageView beatStarImg = (ImageView) findViewById(R.id.beatStar);
         PlaySongsTable playSongsTable = new PlaySongsTable(this);
 
         try{
-            playSongsTable.insertIntoPlaySongsTable(packageNumber, packageName, levelNumber, levelName, 0, 0, 0, 0);
+            playSongsTable.insertIntoPlaySongsTable(packageName, levelNumber, levelName, 0, 0, 0, 0);
         }
         catch (Exception e){}
 
@@ -154,22 +156,18 @@ public class ResultsActivity extends Activity {
         int currentScoreInt = Integer.parseInt(currentScoreStr);
 
         if(bestResultInt < currentScoreInt){
-            playSongsTable.updateBestResultInPlaySongsTable(currentScoreInt, levelNumber);
             bestResultTV.setText(currentScoreStr);
-            beatStarImg.setImageResource(R.drawable.star_beat);
-            playSongsTable.updateStarInPlaySongsTable(completeStar, true, boostStar, levelNumber);
         }
         else {
             bestResultTV.setText("" + bestResultInt);
-            beatStarImg.setImageResource(R.drawable.star_blank);
-            playSongsTable.updateStarInPlaySongsTable(completeStar, false, boostStar, levelNumber);
         }
-
+        playSongsTable.updateStarInPlaySongsTable(completeStar, beatStar, boostStar, levelNumber);
     }
 
     public void setStar(){
         ImageView completeStarImg = (ImageView) findViewById(R.id.completeStar);
         ImageView boostStarImg = (ImageView) findViewById(R.id.boostStar);
+        ImageView beatStarImg = (ImageView) findViewById(R.id.beatStar);
 
         if(completeStar){
             completeStarImg.setImageResource(R.drawable.star_complete);
@@ -184,11 +182,18 @@ public class ResultsActivity extends Activity {
         else{
             boostStarImg.setImageResource(R.drawable.star_blank);
         }
+
+        if(beatStar){
+            beatStarImg.setImageResource(R.drawable.star_beat);
+        }
+        else {
+            beatStarImg.setImageResource(R.drawable.star_blank);
+        }
     }
 
     public void facebookLogin(){
         if(!FacebookManager.userFb.isSessionValid()){
-            AlertViewFacebook dialog = new AlertViewFacebook(this, "Facebook", "Please ", ResultsActivity.this);
+            AlertViewFacebook dialog = new AlertViewFacebook(this, "Save Yo'self", "SAVE YOUT PROGRESS BY LOGGING INTO FACEBOOK NOW.", ResultsActivity.this);
             dialog.show();
         }
     }
