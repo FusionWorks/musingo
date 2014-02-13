@@ -62,7 +62,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_below="@id/didyouknowTitle"
-                        android:textSize="9sp"
+                        android:textSize="@dimen/did_you_know_text_size"
+                        android:text="sdfsd fsd fsd fsd"
                         android:layout_marginLeft="15dp"
                         android:gravity="center"
                         android:textColor="#000000"/>

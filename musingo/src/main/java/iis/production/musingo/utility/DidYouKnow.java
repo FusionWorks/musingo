@@ -33,13 +33,12 @@ public class DidYouKnow {
         String strValue = activity.getString(strId);
 
         view.setText(strValue);
-        int l = strValue.length();
-        if(l < 50)
-            view.setTextSize(11);
-        else if(l > 50 && l < 80)
-            view.setTextSize(9);
-        else if(l > 80 && l < 150)
-            view.setTextSize(8);
-
+//        int l = strValue.length();
+//        if(l < 50)
+//            view.setTextSize(11);
+//        else if(l > 50 && l < 80)
+//            view.setTextSize(9);
+//        else if(l > 80 && l < 150)
+//            view.setTextSize(8);
     }
 }
