@@ -35,6 +35,7 @@ import java.util.Random;
 
 import iis.production.musingo.MusingoApp;
 import iis.production.musingo.R;
+import iis.production.musingo.db.PlaySongsTable;
 import iis.production.musingo.main.more.TokenShopActivity;
 import iis.production.musingo.objects.AlertViewOrange;
 import iis.production.musingo.objects.AlertViewPink;
@@ -93,12 +94,12 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     RelativeLayout leftView;
 
     ImageView hintfb;
-    ImageView hintHint;
-    ImageView hintSkip;
-    ImageView hintFreeze;
-    ImageView hintReplay;
-    ImageView hintLonger;
-    ImageView hintNextList;
+    RelativeLayout hintHint;
+    RelativeLayout hintSkip;
+    RelativeLayout hintFreeze;
+    RelativeLayout hintReplay;
+    RelativeLayout hintLonger;
+    RelativeLayout hintNextList;
     ImageView hintTextImage;
     ImageView tutorial1Arrow;
     ImageView tutorial3Arrow;
@@ -170,12 +171,12 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         hintSelected = new ArrayList<RelativeLayout>();
         //Powerups icons
         hintfb = (ImageView)findViewById(R.id.hintfb);
-        hintHint = (ImageView)findViewById(R.id.hintHint);
-        hintSkip = (ImageView)findViewById(R.id.hintSkip);
-        hintFreeze = (ImageView)findViewById(R.id.hintFreeze);
-        hintReplay = (ImageView)findViewById(R.id.hintReplay);
-        hintLonger = (ImageView)findViewById(R.id.hintLonger);
-        hintNextList = (ImageView)findViewById(R.id.hintNextList);
+        hintHint = (RelativeLayout)findViewById(R.id.hintHint);
+        hintSkip = (RelativeLayout)findViewById(R.id.hintSkip);
+        hintFreeze = (RelativeLayout)findViewById(R.id.hintFreeze);
+        hintReplay = (RelativeLayout)findViewById(R.id.hintReplay);
+        hintLonger = (RelativeLayout)findViewById(R.id.hintLonger);
+        hintNextList = (RelativeLayout)findViewById(R.id.hintNextList);
 
         //Song Thumbs layouts
         songThumb1 = (RelativeLayout)findViewById(R.id.songThumb1);
@@ -298,6 +299,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
      * @param songIndex - index of song
      * */
     public void  playSong(int songIndex){
+        showPowerups();
         maximumTime = 10;
         Log.v("Musingo", "song now --  "+ songsList.get(songIndex).get("songPath"));
         currentSong = songIndex;
@@ -468,8 +470,12 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             view.setTag(song.getId());
             final RoundedCornersDrawable drawable = new RoundedCornersDrawable(getResources(), song.getImage());
             imageView.setImageDrawable(drawable);
-
             textView.setText(song.getSongName());
+
+//            imageView.getHeight()
+            ImageView border = (ImageView) view.findViewById(R.id.border);
+            border.setLayoutParams(new RelativeLayout.LayoutParams(imageView.getHeight(), imageView.getHeight()));
+
         }
     }
 
@@ -597,29 +603,92 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     }
 
     public void showPowerups(){
-        if(mSettings.getBoolean("hint",false)){
-            hintHint.setImageResource(R.drawable.hint_hint_vis);
-            hintHint.setTag("vis");
+        ImageView image;
+        PlaySongsTable table = new PlaySongsTable(this);
+        int levelsPlayed = table.getPlayedLevelsByPackage(packageName);
+        boolean needToShow = false;
+
+        String title = "";
+        String body = "";
+
+        if(levelsPlayed == 1){
+            image = (ImageView)hintHint.findViewById(R.id.hint);
+            image.setImageResource(R.drawable.hint_hint_vis);
+            image.setTag("vis");
+            image = (ImageView)hintHint.findViewById(R.id.lock);
+            image.setVisibility(View.VISIBLE);
+            needToShow = true;
+            title = getString(R.string.hint_powerup_title);
+            body = getString(R.string.hint_powerup_body);
         }
-        if(mSettings.getBoolean("skip",false)){
-            hintSkip.setImageResource(R.drawable.hint_skip_vis);
-            hintSkip.setTag("vis");
+
+        if(levelsPlayed == 2){
+            image = (ImageView)hintSkip.findViewById(R.id.hint);
+            image.setImageResource(R.drawable.hint_skip_vis);
+            image.setTag("vis");
+            image = (ImageView)hintSkip.findViewById(R.id.lock);
+            image.setVisibility(View.VISIBLE);
+            needToShow = true;
+            title = getString(R.string.skip_powerup_title);
+            body = getString(R.string.skip_powerup_body);
         }
-        if(mSettings.getBoolean("replay",false)){
-            hintReplay.setImageResource(R.drawable.hint_replay_vis);
-            hintReplay.setTag("vis");
+
+        if(levelsPlayed == 3){
+            image = (ImageView)hintReplay.findViewById(R.id.hint);
+            image.setImageResource(R.drawable.hint_replay_vis);
+            image.setTag("vis");
+            image = (ImageView)hintReplay.findViewById(R.id.lock);
+            image.setVisibility(View.VISIBLE);
+            needToShow = true;
+            title = getString(R.string.replay_powerup_title);
+            body = getString(R.string.replay_powerup_body);
         }
-        if(mSettings.getBoolean("freeze",false)){
-            hintFreeze.setImageResource(R.drawable.hint_freeze_vis);
-            hintFreeze.setTag("vis");
+
+        if(levelsPlayed == 5){
+            image = (ImageView)hintFreeze.findViewById(R.id.hint);
+            image.setImageResource(R.drawable.hint_freeze_vis);
+            image.setTag("vis");
+            image = (ImageView)hintFreeze.findViewById(R.id.lock);
+            image.setVisibility(View.VISIBLE);
+            needToShow = true;
+            title = getString(R.string.replay_powerup_title);
+            body = getString(R.string.replay_powerup_body);
+
         }
-        if(mSettings.getBoolean("longer",false)){
-            hintLonger.setImageResource(R.drawable.hint_longer_vis);
-            hintLonger.setTag("vis");
+
+        if(levelsPlayed == 7){
+            image = (ImageView)hintLonger.findViewById(R.id.hint);
+            image.setImageResource(R.drawable.hint_longer_vis);
+            image.setTag("vis");
+            image = (ImageView)hintLonger.findViewById(R.id.lock);
+            image.setVisibility(View.VISIBLE);
+            needToShow = true;
+            title = getString(R.string.longer_clip_powerup_title);
+            body = getString(R.string.longer_clip_powerup_body);
         }
-        if(mSettings.getBoolean("next", false)){
-            hintNextList.setImageResource(R.drawable.hint_nextlist_vis);
-            hintNextList.setTag("vis");
+
+        if(levelsPlayed == 8){
+            image = (ImageView)hintNextList.findViewById(R.id.hint);
+            image.setImageResource(R.drawable.hint_nextlist_vis);
+            image.setTag("vis");
+            image = (ImageView)hintNextList.findViewById(R.id.lock);
+            image.setVisibility(View.VISIBLE);
+            needToShow = true;
+            title = getString(R.string.next_playlist_powerup_title);
+            body = getString(R.string.next_playlist_powerup_body);
+        }
+
+        if(needToShow && !mSettings.getBoolean(title, false)){
+            dialog = new AlertViewOrange("Hint Powerup" , title, body, this);
+            dialog.show();
+            mSettings.edit().putBoolean(title,true).commit();
+            mp.pause();
+            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    mp.start();
+                }
+            });
         }
 
     }
@@ -668,34 +737,43 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
     public void powerUpHint(View view){
         int cost = Integer.parseInt(getString(R.string.cost_hint));
-            if(view.getTag().toString().equals("inv")){
-                if(powerupPurcase(cost)){
-                    mSettings.edit().putBoolean("hint",true).commit();
-                    hintHint.setImageResource(R.drawable.hint_hint_vis);
-                    view.setTag("vis");
-                    String title = getString(R.string.hint_powerup_title);
-                    String body = getString(R.string.hint_powerup_body);
-                    dialog = new AlertViewOrange("Hint Powerup" , title, body, this);
-                    dialog.show();
-                    mp.pause();
-                    dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialog) {
-                            mp.start();
-                        }
-                    });
-                }else{
-                    dialog = new AlertViewOrange("Next Playlist Powerup" , getString(R.string.alert_title), getString(R.string.alert_not_enough_money), this);
-                }
-            }else if(view.getTag().toString().equals("vis")){
-                if(availableForHint.size() > 4){
-                    powerUpUsed = true;
-                    mSettings.edit().putBoolean("hint",false).commit();
-                    hintHint.setImageResource(R.drawable.hint_hint_inv);
-                    view.setTag("inv");
-                    hintAction();
-                }
+//            if(view.getTag().toString().equals("inv")){
+//                if(powerupPurcase(cost)){
+//                    mSettings.edit().putBoolean("hint",true).commit();
+//                    hintHint.setImageResource(R.drawable.hint_hint_vis);
+//                    view.setTag("vis");
+//                    String title = getString(R.string.hint_powerup_title);
+//                    String body = getString(R.string.hint_powerup_body);
+//                    dialog = new AlertViewOrange("Hint Powerup" , title, body, this);
+//                    dialog.show();
+//                    mp.pause();
+//                    dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+//                        @Override
+//                        public void onDismiss(DialogInterface dialog) {
+//                            mp.start();
+//                        }
+//                    });
+//                }else{
+//                    dialog = new AlertViewOrange("Next Playlist Powerup" , getString(R.string.alert_title), getString(R.string.alert_not_enough_money), this);
+//                }
+//            }else if(view.getTag().toString().equals("vis")){
+//                if(availableForHint.size() > 4){
+//                    powerUpUsed = true;
+//                    mSettings.edit().putBoolean("hint",false).commit();
+//                    hintHint.setImageResource(R.drawable.hint_hint_inv);
+//                    view.setTag("inv");
+//                    hintAction();
+//                }
+//            }
+        if(view.getTag().toString().equals("vis")){
+            if(availableForHint.size() > 4 && powerupPurcase(cost)){
+                powerUpUsed = true;
+                ImageView image = (ImageView)hintHint.findViewById(R.id.hint);
+                image.setImageResource(R.drawable.hint_hint_inv);
+                view.setTag("inv");
+                hintAction();
             }
+        }
     }
 
     public void powerUpSkip(View view){
@@ -703,7 +781,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         if(view.getTag().toString().equals("inv")){
             if(powerupPurcase(cost)){
                 mSettings.edit().putBoolean("skip",true).commit();
-                hintSkip.setImageResource(R.drawable.hint_skip_vis);
+                ImageView image = (ImageView)hintSkip.findViewById(R.id.hint);
+                image.setImageResource(R.drawable.hint_skip_vis);
                 view.setTag("vis");
                 String title = getString(R.string.skip_powerup_title);
                 String body = getString(R.string.skip_powerup_body);
@@ -722,7 +801,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         }else if(view.getTag().toString().equals("vis")){
             powerUpUsed = true;
             mSettings.edit().putBoolean("skip",false).commit();
-            hintSkip.setImageResource(R.drawable.hint_skip_inv);
+            ImageView image = (ImageView)hintSkip.findViewById(R.id.hint);
+            image.setImageResource(R.drawable.hint_skip_inv);
             view.setTag("inv");
             skipAction();
         }
@@ -734,7 +814,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         if(view.getTag().toString().equals("inv")){
             if(powerupPurcase(cost)){
                 mSettings.edit().putBoolean("replay",true).commit();
-                hintReplay.setImageResource(R.drawable.hint_replay_vis);
+                ImageView image = (ImageView)hintReplay.findViewById(R.id.hint);
+                image.setImageResource(R.drawable.hint_replay_vis);
                 view.setTag("vis");
                 String title = getString(R.string.replay_powerup_title);
                 String body = getString(R.string.replay_powerup_body);
@@ -753,7 +834,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         }else if(view.getTag().toString().equals("vis")){
             powerUpUsed = true;
             mSettings.edit().putBoolean("replay",false).commit();
-            hintReplay.setImageResource(R.drawable.hint_replay_inv);
+            ImageView image = (ImageView)hintReplay.findViewById(R.id.hint);
+            image.setImageResource(R.drawable.hint_replay_inv);
             view.setTag("inv");
             replayAction();
         }
@@ -764,7 +846,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         if(view.getTag().toString().equals("inv")){
             if(powerupPurcase(cost)){
                 mSettings.edit().putBoolean("freeze",true).commit();
-                hintFreeze.setImageResource(R.drawable.hint_freeze_vis);
+                ImageView image = (ImageView)hintFreeze.findViewById(R.id.hint);
+                image.setImageResource(R.drawable.hint_freeze_vis);
                 view.setTag("vis");
                 String title = getString(R.string.freeze_powerup_title);
                 String body = getString(R.string.freeze_powerup_body);
@@ -784,7 +867,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         }else if(view.getTag().toString().equals("vis")){
             powerUpUsed = true;
             mSettings.edit().putBoolean("freeze",false).commit();
-            hintFreeze.setImageResource(R.drawable.hint_freeze_inv);
+            ImageView image = (ImageView)hintFreeze.findViewById(R.id.hint);
+            image.setImageResource(R.drawable.hint_freeze_inv);
             view.setTag("inv");
             freezeAction();
         }
@@ -795,7 +879,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         if(view.getTag().toString().equals("inv")){
             if(powerupPurcase(cost)){
                 mSettings.edit().putBoolean("longer",true).commit();
-                hintLonger.setImageResource(R.drawable.hint_longer_vis);
+                ImageView image = (ImageView)hintLonger.findViewById(R.id.hint);
+                image.setImageResource(R.drawable.hint_longer_vis);
                 view.setTag("vis");
                 String title = getString(R.string.longer_clip_powerup_title);
                 String body = getString(R.string.longer_clip_powerup_body);
@@ -814,7 +899,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         }else if(view.getTag().toString().equals("vis")){
             powerUpUsed = true;
             mSettings.edit().putBoolean("longer",false).commit();
-            hintLonger.setImageResource(R.drawable.hint_longer_inv);
+            ImageView image = (ImageView)hintLonger.findViewById(R.id.hint);
+            image.setImageResource(R.drawable.hint_longer_inv);
             view.setTag("inv");
             longerAction();
         }
@@ -825,7 +911,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         if(view.getTag().toString().equals("inv")){
             if(powerupPurcase(cost)){
                 mSettings.edit().putBoolean("next",true).commit();
-                hintNextList.setImageResource(R.drawable.hint_nextlist_vis);
+                ImageView image = (ImageView)hintNextList.findViewById(R.id.hint);
+                image.setImageResource(R.drawable.hint_nextlist_vis);
                 view.setTag("vis");
                 String title = getString(R.string.next_playlist_powerup_title);
                 String body = getString(R.string.next_playlist_powerup_body);
@@ -845,7 +932,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         }else if(view.getTag().toString().equals("vis")){
             powerUpUsed = true;
             mSettings.edit().putBoolean("next",false).commit();
-            hintNextList.setImageResource(R.drawable.hint_nextlist_inv);
+            ImageView image = (ImageView)hintNextList.findViewById(R.id.hint);
+            image.setImageResource(R.drawable.hint_nextlist_inv);
             view.setTag("inv");
             nextAction();
         }

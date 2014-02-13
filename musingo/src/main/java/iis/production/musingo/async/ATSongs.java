@@ -69,6 +69,8 @@ public class ATSongs extends AsyncTask<Void, Void, Void> {
             this.scoreToBeat = data.getInt("score_to_beat");
             JSONArray array = data.getJSONArray("songs");
             for (int i=0; i<array.length(); i++){
+                if(i>8)
+                    break;
                 JSONObject obj = array.getJSONObject(i);
 
                 String id = "";

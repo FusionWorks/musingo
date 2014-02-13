@@ -9,6 +9,7 @@ import android.os.Environment;
 import android.view.View;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -77,6 +78,8 @@ public class Utility {
         try {
             input = connection.getInputStream();
             x = BitmapFactory.decodeStream(input);
+        } catch (FileNotFoundException e){
+            x = BitmapFactory.decodeResource(activity.getResources(), R.drawable.no_album_photo);
         } catch (IOException e) {
             e.printStackTrace();
             x = BitmapFactory.decodeResource(activity.getResources(), R.drawable.no_album_photo);

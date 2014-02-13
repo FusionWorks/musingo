@@ -337,67 +337,151 @@
             android:layout_marginRight="5dp"
             android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true">
+
             <ImageView
                 android:id="@+id/hintfb"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="0.142"
                 android:onClick="powerUpFB"
                 android:src="@drawable/hint_fb_vis"/>
-            <ImageView
+
+            <RelativeLayout
                 android:id="@+id/hintHint"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="0.142"
-                android:layout_marginLeft="5dp"
-                android:tag="inv"
-                android:onClick="powerUpHint"
-                android:src="@drawable/hint_hint_inv"/>
-            <ImageView
+                android:layout_marginLeft="5dp">
+                <ImageView
+                    android:id="@+id/hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:tag="inv"
+                    android:onClick="powerUpHint"
+                    android:src="@drawable/hint_hint_inv"/>
+                <ImageView
+                    android:id="@+id/lock"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="5dp"
+                    android:paddingLeft="10dp"
+                    android:src="@drawable/lock"/>
+            </RelativeLayout>
+            <RelativeLayout
                 android:id="@+id/hintSkip"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="0.142"
-                android:layout_marginLeft="5dp"
-                android:tag="inv"
-                android:onClick="powerUpSkip"
-                android:src="@drawable/hint_skip_inv"/>
-            <ImageView
+                android:layout_marginLeft="5dp">
+                <ImageView
+                    android:id="@+id/hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:tag="inv"
+                    android:onClick="powerUpSkip"
+                    android:src="@drawable/hint_skip_inv"/>
+                <ImageView
+                    android:id="@+id/lock"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="5dp"
+                    android:paddingLeft="10dp"
+                    android:src="@drawable/lock"/>
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/hintFreeze"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="0.142"
-                android:layout_marginLeft="5dp"
-                android:tag="inv"
-                android:onClick="powerUpFreeze"
-                android:src="@drawable/hint_freeze_inv"/>
-            <ImageView
+                android:layout_marginLeft="5dp">
+                <ImageView
+                    android:id="@+id/hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:tag="inv"
+                    android:onClick="powerUpFreeze"
+                    android:src="@drawable/hint_freeze_inv"/>
+                <ImageView
+                    android:id="@+id/lock"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="5dp"
+                    android:paddingLeft="10dp"
+                    android:src="@drawable/lock"/>
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/hintReplay"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="0.142"
-                android:layout_marginLeft="5dp"
-                android:tag="inv"
-                android:onClick="powerUpReplay"
-                android:src="@drawable/hint_replay_inv"/>
-            <ImageView
+                android:layout_marginLeft="5dp">
+                <ImageView
+                    android:id="@+id/hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:tag="inv"
+                    android:onClick="powerUpReplay"
+                    android:src="@drawable/hint_replay_inv"/>
+                <ImageView
+                    android:id="@+id/lock"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="5dp"
+                    android:paddingLeft="10dp"
+                    android:src="@drawable/lock"/>
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/hintLonger"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="0.142"
-                android:layout_marginLeft="5dp"
-                android:tag="inv"
-                android:onClick="powerUpLonger"
-                android:src="@drawable/hint_longer_inv"/>
-            <ImageView
+                android:layout_marginLeft="5dp">
+                <ImageView
+                    android:id="@+id/hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:tag="inv"
+                    android:onClick="powerUpLonger"
+                    android:src="@drawable/hint_longer_inv"/>
+                <ImageView
+                    android:id="@+id/lock"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="5dp"
+                    android:paddingLeft="10dp"
+                    android:src="@drawable/lock"/>
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/hintNextList"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="0.142"
-                android:layout_marginLeft="5dp"
-                android:tag="inv"
-                android:onClick="powerUpNextList"
-                android:src="@drawable/hint_nextlist_inv"/>
+                android:layout_marginLeft="5dp">
+                <ImageView
+                    android:id="@+id/hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:tag="inv"
+                    android:onClick="powerUpNextList"
+                    android:src="@drawable/hint_nextlist_inv"/>
+                <ImageView
+                    android:id="@+id/lock"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="5dp"
+                    android:paddingLeft="10dp"
+                    android:src="@drawable/lock"/>
+            </RelativeLayout>
             </LinearLayout>
         <LinearLayout
             android:id="@+id/songs"
@@ -411,29 +495,26 @@
                 android:id="@+id/line1"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.3"
+                android:layout_weight="0.33"
                 android:layout_marginBottom="5dp"
                 android:orientation="horizontal">
                 <RelativeLayout
                     android:id="@+id/songThumb1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.3"
+                    android:layout_weight="0.33"
                     android:onClick="tryToGuess"
                     android:layout_marginRight="5dp">
                     <ImageView
                         android:id="@+id/image"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginTop="2dp"
+                        android:layout_margin="2dp"
                         android:layout_centerInParent="true"/>
                     <ImageView
                         android:id="@+id/border"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginTop="2dp"
                         android:layout_centerInParent="true"/>
                     <iis.production.musingo.objects.TextViewArchitects
                         android:id="@+id/title"
@@ -454,22 +535,19 @@
                     android:id="@+id/songThumb2"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.3"
+                    android:layout_weight="0.33"
                     android:onClick="tryToGuess"
                     android:layout_marginRight="5dp">
                     <ImageView
                         android:id="@+id/image"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginTop="2dp"
+                        android:layout_margin="2dp"
                         android:layout_centerInParent="true"/>
                     <ImageView
                         android:id="@+id/border"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginTop="2dp"
                         android:layout_centerInParent="true"/>
                     <iis.production.musingo.objects.TextViewArchitects
                         android:id="@+id/title"
@@ -490,21 +568,18 @@
                     android:id="@+id/songThumb3"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.3"
+                    android:layout_weight="0.33"
                     android:onClick="tryToGuess">
                     <ImageView
                         android:id="@+id/image"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginTop="2dp"
+                        android:layout_margin="2dp"
                         android:layout_centerInParent="true"/>
                     <ImageView
                         android:id="@+id/border"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginTop="2dp"
                         android:layout_centerInParent="true"/>
                     <iis.production.musingo.objects.TextViewArchitects
                         android:id="@+id/title"
@@ -526,29 +601,26 @@
                 android:id="@+id/line2"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.3"
+                android:layout_weight="0.33"
                 android:layout_marginBottom="5dp"
                 android:orientation="horizontal">
                 <RelativeLayout
                     android:id="@+id/songThumb4"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.3"
+                    android:layout_weight="0.33"
                     android:onClick="tryToGuess"
                     android:layout_marginRight="5dp">
                     <ImageView
                         android:id="@+id/image"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginTop="2dp"
+                        android:layout_margin="2dp"
                         android:layout_centerInParent="true"/>
                     <ImageView
                         android:id="@+id/border"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginTop="2dp"
                         android:layout_centerInParent="true"/>
                     <iis.production.musingo.objects.TextViewArchitects
                         android:id="@+id/title"
@@ -569,22 +641,19 @@
                     android:id="@+id/songThumb5"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.3"
+                    android:layout_weight="0.33"
                     android:onClick="tryToGuess"
                     android:layout_marginRight="5dp">
                     <ImageView
                         android:id="@+id/image"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginTop="2dp"
+                        android:layout_margin="2dp"
                         android:layout_centerInParent="true"/>
                     <ImageView
                         android:id="@+id/border"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginTop="2dp"
                         android:layout_centerInParent="true"/>
                     <iis.production.musingo.objects.TextViewArchitects
                         android:id="@+id/title"
@@ -605,21 +674,18 @@
                     android:id="@+id/songThumb6"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.3"
+                    android:layout_weight="0.33"
                     android:onClick="tryToGuess">
                     <ImageView
                         android:id="@+id/image"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginTop="2dp"
+                        android:layout_margin="2dp"
                         android:layout_centerInParent="true"/>
                     <ImageView
                         android:id="@+id/border"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginTop="2dp"
                         android:layout_centerInParent="true"/>
                     <iis.production.musingo.objects.TextViewArchitects
                         android:id="@+id/title"
@@ -641,28 +707,25 @@
                 android:id="@+id/line3"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.3"
+                android:layout_weight="0.33"
                 android:orientation="horizontal">
                 <RelativeLayout
                     android:id="@+id/songThumb7"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.3"
+                    android:layout_weight="0.33"
                     android:onClick="tryToGuess"
                     android:layout_marginRight="5dp">
                     <ImageView
                         android:id="@+id/image"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginTop="2dp"
+                        android:layout_margin="2dp"
                         android:layout_centerInParent="true"/>
                     <ImageView
                         android:id="@+id/border"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginTop="2dp"
                         android:layout_centerInParent="true"/>
                     <iis.production.musingo.objects.TextViewArchitects
                         android:id="@+id/title"
@@ -683,22 +746,19 @@
                     android:id="@+id/songThumb8"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.3"
+                    android:layout_weight="0.33"
                     android:onClick="tryToGuess"
                     android:layout_marginRight="5dp">
                     <ImageView
                         android:id="@+id/image"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginTop="2dp"
+                        android:layout_margin="2dp"
                         android:layout_centerInParent="true"/>
                     <ImageView
                         android:id="@+id/border"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginTop="2dp"
                         android:layout_centerInParent="true"/>
                     <iis.production.musingo.objects.TextViewArchitects
                         android:id="@+id/title"
@@ -719,21 +779,18 @@
                     android:id="@+id/songThumb9"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.3"
+                    android:layout_weight="0.33"
                     android:onClick="tryToGuess">
                     <ImageView
                         android:id="@+id/image"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginTop="2dp"
+                        android:layout_margin="2dp"
                         android:layout_centerInParent="true"/>
                     <ImageView
                         android:id="@+id/border"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginTop="2dp"
                         android:layout_centerInParent="true"/>
                     <iis.production.musingo.objects.TextViewArchitects
                         android:id="@+id/title"

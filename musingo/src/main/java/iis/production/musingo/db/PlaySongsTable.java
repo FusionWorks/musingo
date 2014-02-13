@@ -103,6 +103,17 @@ public class PlaySongsTable {
         return hash;
     }
 
+    public int getPlayedLevelsByPackage(String packageName){
+        int number = 0;
+        SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
+        Cursor c = db.rawQuery("SELECT * FROM play_songs WHERE PackageName = '" + packageName + "'", null);
+        if(c.moveToFirst()) {
+            number++;
+        }
+
+        return number;
+    }
+
     public void deletePlaySongsTable(){
         SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
         db.execSQL("DROP TABLE IF EXISTS play_songs");

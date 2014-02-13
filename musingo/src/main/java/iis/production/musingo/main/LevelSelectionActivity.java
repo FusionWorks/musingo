@@ -30,6 +30,7 @@ import iis.production.musingo.async.ATPackages;
 import iis.production.musingo.async.ATSongs;
 import iis.production.musingo.db.PlaySongsTable;
 import iis.production.musingo.objects.AlertViewOrange;
+import iis.production.musingo.objects.LevelViewPager;
 import iis.production.musingo.objects.Playlist;
 import iis.production.musingo.objects.Song;
 import iis.production.musingo.objects.TextViewArchitects;
@@ -53,10 +54,13 @@ public class LevelSelectionActivity extends Activity {
     TextViewArchitects didyouknowText;
     TextViewPacifico starNumber;
 
+    ATSongs ATS;
+    ATPackages ATP;
+
     int starsToUnlock;
     String packageName;
 
-    ViewPager viewPager;
+    LevelViewPager viewPager;
 
     ImageView level1;
     ImageView level2;
@@ -88,7 +92,7 @@ public class LevelSelectionActivity extends Activity {
     boolean complete;
     boolean powerup;
 
-    boolean clickable;
+    public static boolean clickable;
 
     boolean nextLevel = false;
 
@@ -100,6 +104,7 @@ public class LevelSelectionActivity extends Activity {
 
     boolean packageDownloading = true;
     boolean playlistDownloading = false;
+    ViewPager.OnPageChangeListener viewPagerListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,10 +165,11 @@ public class LevelSelectionActivity extends Activity {
         levelViews.add(level9);
 
         LevelPagerAdapter pagerAdapter = new LevelPagerAdapter(pages);
-        viewPager = (ViewPager)findViewById(R.id.pager);
+        viewPager = (LevelViewPager)findViewById(R.id.pager);
         viewPager.setAdapter(pagerAdapter);
         viewPager.setCurrentItem(0);
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+        viewPagerListener = new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i2) {
 
@@ -171,15 +177,15 @@ public class LevelSelectionActivity extends Activity {
 
             @Override
             public void onPageSelected(int i) {
-                selectedPackage = i+1;
+                selectedPackage = i + 1;
                 changePackage();
 
                 for (int y = 0; y < levelViews.size(); y++) {
                     ImageView imageView = levelViews.get(y);
-                    Log.v("Musingo", "level tagg tag "+imageView.getTag().toString());
+                    Log.v("Musingo", "level tagg tag " + imageView.getTag().toString());
                     if (imageView.getTag().toString().equals("selected")) {
                         imageView = makeUnselected(imageView);
-                        ImageView imageNext = levelViews.get(selectedPackage-1);
+                        ImageView imageNext = levelViews.get(selectedPackage - 1);
                         imageNext = makeSelected(imageNext);
                         break;
                     }
@@ -191,7 +197,9 @@ public class LevelSelectionActivity extends Activity {
             public void onPageScrollStateChanged(int i) {
 
             }
-        });
+        };
+
+        viewPager.setOnPageChangeListener(viewPagerListener);
 
         loadingAnimation = (RelativeLayout)findViewById(R.id.loadingAnimation);
         levels = (LinearLayout)findViewById(R.id.levels);
@@ -249,11 +257,13 @@ public class LevelSelectionActivity extends Activity {
     }
 
     public void dropDown(View view){
-        MusingoApp.soundButton();
-        if(opened)
-            hideMenu();
-        else
-            showMenu();
+        if(clickable){
+            MusingoApp.soundButton();
+            if(opened)
+                hideMenu();
+            else
+                showMenu();
+        }
     }
 
     public void goBackButton(View view){
@@ -261,6 +271,10 @@ public class LevelSelectionActivity extends Activity {
         if(opened)
            hideMenu();
         else
+            if(ATS != null)
+                ATS.cancel(true);
+            if(ATP != null)
+                ATP.cancel(true);
             finish();
     }
 
@@ -282,6 +296,7 @@ public class LevelSelectionActivity extends Activity {
         dropDown.startAnimation(anim);
     }
     public void hideMenu(){
+        MusingoApp.soundButton();
         opened = false;
         Animation anim = AnimationUtils.loadAnimation(this, R.anim.drop_up);
         anim.setInterpolator((new AccelerateDecelerateInterpolator()));
@@ -331,7 +346,7 @@ public class LevelSelectionActivity extends Activity {
             selectedLevel = Integer.valueOf(view.getTag().toString());
             Log.v("Musingo","tag tap " + view.getTag().toString());
             String url = Endpoints.playlist_url + selectedLevel;
-            ATSongs ATS = new ATSongs(this, url, loadingAnimation);
+            ATS = new ATSongs(this, url, loadingAnimation);
 
             NetworkInfo networkInfo = new NetworkInfo(this);
             if(networkInfo.isConnect()){
@@ -374,7 +389,7 @@ public class LevelSelectionActivity extends Activity {
             imageView.setImageDrawable(drawable);
 
 //            Utility.setBackgroundBySDK(imageView, song.getImage());
-            textView.setText(playList.getName());
+            textView.setText(playList.getName().toUpperCase());
             PlaySongsTable playSongsTable = new PlaySongsTable(this);
             HashMap<String, Integer> hash = new HashMap<String, Integer>();
             hash = playSongsTable.getSongByLevelNr(playList.getListNumber());
@@ -382,6 +397,7 @@ public class LevelSelectionActivity extends Activity {
             ImageView beatStar = (ImageView)view.findViewById(R.id.beatStar);
             ImageView boostStar = (ImageView)view.findViewById(R.id.boostStar);
             ImageView completeStar = (ImageView)view.findViewById(R.id.completeStar);
+
             if(hash.containsKey("beatStar") && hash.get("beatStar") == 1){
                 beatStar.setImageResource(R.drawable.star_beat);
             }
@@ -417,13 +433,14 @@ public class LevelSelectionActivity extends Activity {
     }
 
     public void changePackage(){
+
         packageDownloading = true;
         String url = Endpoints.package_url + selectedPackage;
-        ATPackages ATS = new ATPackages(this, url, loadingAnimation);
+        ATP = new ATPackages(this, url, loadingAnimation);
 
         NetworkInfo networkInfo = new NetworkInfo(this);
         if(networkInfo.isConnect()){
-            ATS.execute();
+            ATP.execute();
             packageDownloading = false;
         }
         else {
@@ -476,11 +493,11 @@ public class LevelSelectionActivity extends Activity {
         super.onResume();
         if (packageDownloading){
             String url = Endpoints.package_url + selectedPackage;
-            ATPackages ATS = new ATPackages(this, url, loadingAnimation);
+            ATP = new ATPackages(this, url, loadingAnimation);
 
             NetworkInfo networkInfo = new NetworkInfo(this);
             if(networkInfo.isConnect()){
-                ATS.execute();
+                ATP.execute();
                 packageDownloading = false;
             }
             else {
@@ -492,7 +509,7 @@ public class LevelSelectionActivity extends Activity {
         if (playlistDownloading){
             ArrayList<Song> songs = new ArrayList<Song>();
             String url = Endpoints.playlist_url + selectedLevel;
-            ATSongs ATS = new ATSongs(this, url, loadingAnimation);
+            ATS = new ATSongs(this, url, loadingAnimation);
 
             NetworkInfo networkInfo = new NetworkInfo(this);
             if(networkInfo.isConnect()){
@@ -531,7 +548,7 @@ public class LevelSelectionActivity extends Activity {
                         playlistDownloading = true;
                         MusingoApp.soundButton();
                         String url = Endpoints.playlist_url + selectedLevel;
-                        ATSongs ATS = new ATSongs(this, url, loadingAnimation);
+                        ATS = new ATSongs(this, url, loadingAnimation);
 
                         NetworkInfo networkInfo = new NetworkInfo(this);
                         if(networkInfo.isConnect()){
