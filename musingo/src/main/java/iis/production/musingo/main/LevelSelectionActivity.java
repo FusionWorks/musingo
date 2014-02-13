@@ -37,7 +37,6 @@ import iis.production.musingo.objects.TextViewPacifico;
 import iis.production.musingo.utility.DidYouKnow;
 import iis.production.musingo.utility.Endpoints;
 import iis.production.musingo.utility.NetworkInfo;
-import iis.production.musingo.utility.OnSwipeTouchListener;
 import iis.production.musingo.utility.RoundedCornersDrawable;
 
 /**
@@ -140,6 +139,26 @@ public class LevelSelectionActivity extends Activity {
         page = inflater.inflate(R.layout.package_page, null);
         pages.add(page);
 
+        level1 = (ImageView)findViewById(R.id.level1);
+        level2 = (ImageView)findViewById(R.id.level2);
+        level3 = (ImageView)findViewById(R.id.level3);
+        level4 = (ImageView)findViewById(R.id.level4);
+        level5 = (ImageView)findViewById(R.id.level5);
+        level6 = (ImageView)findViewById(R.id.level6);
+        level7 = (ImageView)findViewById(R.id.level7);
+        level8 = (ImageView)findViewById(R.id.level8);
+        level9 = (ImageView)findViewById(R.id.level9);
+        levelViews = new ArrayList<ImageView>();
+        levelViews.add(level1);
+        levelViews.add(level2);
+        levelViews.add(level3);
+        levelViews.add(level4);
+        levelViews.add(level5);
+        levelViews.add(level6);
+        levelViews.add(level7);
+        levelViews.add(level8);
+        levelViews.add(level9);
+
         LevelPagerAdapter pagerAdapter = new LevelPagerAdapter(pages);
         viewPager = (ViewPager)findViewById(R.id.pager);
         viewPager.setAdapter(pagerAdapter);
@@ -154,6 +173,17 @@ public class LevelSelectionActivity extends Activity {
             public void onPageSelected(int i) {
                 selectedPackage = i+1;
                 changePackage();
+
+                for (int y = 0; y < levelViews.size(); y++) {
+                    ImageView imageView = levelViews.get(y);
+                    Log.v("Musingo", "level tagg tag "+imageView.getTag().toString());
+                    if (imageView.getTag().toString().equals("selected")) {
+                        imageView = makeUnselected(imageView);
+                        ImageView imageNext = levelViews.get(selectedPackage-1);
+                        imageNext = makeSelected(imageNext);
+                        break;
+                    }
+                }
 
             }
 
@@ -180,34 +210,34 @@ public class LevelSelectionActivity extends Activity {
 
 
 
-        OnSwipeTouchListener swipe = new OnSwipeTouchListener() {
-            public void onSwipeRight() {
-                MusingoApp.soundButton();
-                for (int i = 0; i < levelViews.size(); i++) {
-                    ImageView imageView = levelViews.get(i);
-                    if (imageView.getTag().toString().equals("selected") && i != levelViews.size() - 1 && clickable) {
-                        imageView = makeUnselected(imageView);
-                        ImageView imageNext = levelViews.get(i + 1);
-                        imageNext = makeSelected(imageNext);
-                        break;
-                    }
-                }
-            }
-
-            public void onSwipeLeft() {
-                MusingoApp.soundButton();
-                for (int i = 0; i < levelViews.size(); i++) {
-                    ImageView imageView = levelViews.get(i);
-                    if (imageView.getTag().toString().equals("selected") && i != 0 && clickable) {
-                        imageView = makeUnselected(imageView);
-                        ImageView imageNext = levelViews.get(i - 1);
-                        imageNext = makeSelected(imageNext);
-                        break;
-                    }
-                }
-            }
-
-        };
+//        OnSwipeTouchListener swipe = new OnSwipeTouchListener() {
+//            public void onSwipeRight() {
+//                MusingoApp.soundButton();
+//                for (int i = 0; i < levelViews.size(); i++) {
+//                    ImageView imageView = levelViews.get(i);
+//                    if (imageView.getTag().toString().equals("selected") && i != levelViews.size() - 1 && clickable) {
+//                        imageView = makeUnselected(imageView);
+//                        ImageView imageNext = levelViews.get(i + 1);
+//                        imageNext = makeSelected(imageNext);
+//                        break;
+//                    }
+//                }
+//            }
+//
+//            public void onSwipeLeft() {
+//                MusingoApp.soundButton();
+//                for (int i = 0; i < levelViews.size(); i++) {
+//                    ImageView imageView = levelViews.get(i);
+//                    if (imageView.getTag().toString().equals("selected") && i != 0 && clickable) {
+//                        imageView = makeUnselected(imageView);
+//                        ImageView imageNext = levelViews.get(i - 1);
+//                        imageNext = makeSelected(imageNext);
+//                        break;
+//                    }
+//                }
+//            }
+//
+//        };
 
 //        RelativeLayout bottom_view = (RelativeLayout)findViewById(R.id.bottom_view);
 //        bottom_view.setOnTouchListener(swipe);
@@ -270,7 +300,6 @@ public class LevelSelectionActivity extends Activity {
         imageView.setLayoutParams(params);
         selectedPackage = Integer.parseInt(imageView.getTag().toString());
         imageView.setTag("selected");
-        changePackage();
         return imageView;
     }
 
@@ -281,7 +310,7 @@ public class LevelSelectionActivity extends Activity {
         params.height = pixels;
         params.width = pixels;
         imageView.setLayoutParams(params);
-        imageView.setTag(String.valueOf(selectedLevel));
+        imageView.setTag(String.valueOf(selectedPackage));
         return imageView;
     }
 
@@ -291,6 +320,7 @@ public class LevelSelectionActivity extends Activity {
             ImageView selectedView = (ImageView)levels.findViewWithTag("selected");
             makeUnselected(selectedView);
             makeSelected((ImageView)view);
+            viewPager.setCurrentItem(selectedPackage-1);
         }
     }
 
@@ -301,7 +331,7 @@ public class LevelSelectionActivity extends Activity {
             selectedLevel = Integer.valueOf(view.getTag().toString());
             Log.v("Musingo","tag tap " + view.getTag().toString());
             String url = Endpoints.playlist_url + selectedLevel;
-            ATSongs ATS = new ATSongs(this, url, loadingAnimation, gameSongs);
+            ATSongs ATS = new ATSongs(this, url, loadingAnimation);
 
             NetworkInfo networkInfo = new NetworkInfo(this);
             if(networkInfo.isConnect()){
@@ -404,26 +434,8 @@ public class LevelSelectionActivity extends Activity {
     }
 
     public void selectPageViews(int position){
+        Log.v("Musingo ", "position "+position);
         View page = pages.get(position);
-        level1 = (ImageView)page.findViewById(R.id.level1);
-        level2 = (ImageView)page.findViewById(R.id.level2);
-        level3 = (ImageView)page.findViewById(R.id.level3);
-        level4 = (ImageView)page.findViewById(R.id.level4);
-        level5 = (ImageView)page.findViewById(R.id.level5);
-        level6 = (ImageView)page.findViewById(R.id.level6);
-        level7 = (ImageView)page.findViewById(R.id.level7);
-        level8 = (ImageView)page.findViewById(R.id.level8);
-        level9 = (ImageView)page.findViewById(R.id.level9);
-        levelViews = new ArrayList<ImageView>();
-        levelViews.add(level1);
-        levelViews.add(level2);
-        levelViews.add(level3);
-        levelViews.add(level4);
-        levelViews.add(level5);
-        levelViews.add(level6);
-        levelViews.add(level7);
-        levelViews.add(level8);
-        levelViews.add(level9);
 
         playlist1 = (RelativeLayout) page.findViewById(R.id.playlist1);
         playlist2 = (RelativeLayout) page.findViewById(R.id.playlist2);
@@ -480,7 +492,7 @@ public class LevelSelectionActivity extends Activity {
         if (playlistDownloading){
             ArrayList<Song> songs = new ArrayList<Song>();
             String url = Endpoints.playlist_url + selectedLevel;
-            ATSongs ATS = new ATSongs(this, url, loadingAnimation, songs);
+            ATSongs ATS = new ATSongs(this, url, loadingAnimation);
 
             NetworkInfo networkInfo = new NetworkInfo(this);
             if(networkInfo.isConnect()){
@@ -514,13 +526,12 @@ public class LevelSelectionActivity extends Activity {
         switch(requestCode) {
             case NEXT_LEVEL:
                 if (resultCode == NEXT_LEVEL) {
-                    nextLevel = true;
                     selectedLevel +=1;
                     if(clickable){
                         playlistDownloading = true;
                         MusingoApp.soundButton();
                         String url = Endpoints.playlist_url + selectedLevel;
-                        ATSongs ATS = new ATSongs(this, url, loadingAnimation, gameSongs);
+                        ATSongs ATS = new ATSongs(this, url, loadingAnimation);
 
                         NetworkInfo networkInfo = new NetworkInfo(this);
                         if(networkInfo.isConnect()){

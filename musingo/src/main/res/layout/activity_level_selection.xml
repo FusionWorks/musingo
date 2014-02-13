@@ -74,7 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="20dp"
                 android:layout_marginLeft="5dp"
                 android:layout_alignParentBottom="true"
                 android:layout_toRightOf="@id/madonna">
@@ -160,6 +160,19 @@
                     android:layout_gravity="center_vertical"
                     android:background="@drawable/level_black"/>
             </LinearLayout>
+            <iis.production.musingo.objects.TextViewArchitects
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@id/madonna"
+                android:text="SWIPE LEfT AND RIGHT TO SWITCH PACKAGES"
+                android:gravity="center"
+                android:textSize="8sp"
+                android:background="#aa000000"
+                android:paddingBottom="1dp"
+                android:paddingTop="1dp"
+                android:layout_marginBottom="2dp"/>
         </RelativeLayout>
        <!--  Here  -->
         <android.support.v4.view.ViewPager
@@ -715,7 +728,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
-            android:visibility="gone"
             android:orientation="horizontal">
             <ImageView
                 android:id="@+id/orangeStar"
@@ -740,7 +752,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="3dp"
-            android:visibility="gone"
             android:layout_below="@id/orange">
             <ImageView
                 android:id="@+id/greenStar"
@@ -765,7 +776,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="3dp"
-            android:visibility="gone"
             android:layout_below="@id/green">
             <ImageView
                 android:id="@+id/purpleStar"

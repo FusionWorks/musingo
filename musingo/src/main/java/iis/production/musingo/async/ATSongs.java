@@ -45,11 +45,10 @@ public class ATSongs extends AsyncTask<Void, Void, Void> {
     String name;
     int cost;
 
-    public ATSongs(LevelSelectionActivity activity, String url, RelativeLayout loadingView, ArrayList<Song> songs){
+    public ATSongs(LevelSelectionActivity activity, String url, RelativeLayout loadingView){
         super();
         this.activity = activity;
         this.loadingView = loadingView;
-        this.songs = songs;
         this.url = url;
 
     }
@@ -117,6 +116,7 @@ public class ATSongs extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPreExecute() {
+        songs = new ArrayList<Song>();
         loadingView.setVisibility(View.VISIBLE);
     }
 
