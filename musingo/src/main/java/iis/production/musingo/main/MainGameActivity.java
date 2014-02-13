@@ -401,6 +401,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 saveSongResult("-");
                 TextViewPacifico text = (TextViewPacifico)view.findViewById(R.id.title);
                 text.setText("-");
+                MusingoApp.soundWrong();
             }else if(previousSongTime < 10 && userRight){
                 view.setBackgroundResource(R.drawable.round_song_right);
                 TextViewPacifico text = (TextViewPacifico)view.findViewById(R.id.title);

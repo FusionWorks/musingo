@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+
+import java.util.HashMap;
 
 /**
  * Created by dima on 2/4/14.
@@ -16,7 +19,6 @@ public class PlaySongsTable {
         SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
         db.execSQL("CREATE TABLE IF NOT EXISTS play_songs " +
                 "(ID integer primary key autoincrement, " +
-                "PackageNr integer, " +
                 "PackageName VARCHAR(255), " +
                 "LevelNr integer UNIQUE, " +
                 "LevelName VARCHAR(255), " +
@@ -29,7 +31,7 @@ public class PlaySongsTable {
 
     public void insertIntoPlaySongsTable(Integer packageNr, String packageName, Integer levelNr, String levelName, Integer bestResult, Integer completeStar, Integer beatStar, Integer boostStar){
         SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
-        db.execSQL("INSERT INTO play_songs " + "(PackageNr, PackageName, LevelNr, LevelName, BestResult, CompleteStar, BeatStar, BoostStar) VALUES (" + packageNr + ",'" + packageName + "'," + levelNr + ",'" + levelName + "'," + bestResult + "," + completeStar + "," + beatStar + "," + boostStar +");");
+        db.execSQL("INSERT INTO play_songs " + "(PackageName, LevelNr, LevelName, BestResult, CompleteStar, BeatStar, BoostStar) VALUES (" + packageName + "'," + levelNr + ",'" + levelName + "'," + bestResult + "," + completeStar + "," + beatStar + "," + boostStar +");");
         db.close();
     }
 
@@ -81,6 +83,24 @@ public class PlaySongsTable {
 
         db.close();
         return sumStar;
+    }
+
+    public HashMap<String, Integer> getSongByLevelNr(Integer levelNr){
+        HashMap<String, Integer> hash = new HashMap<String, Integer>();
+        SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
+        Cursor c = db.rawQuery("SELECT * FROM play_songs WHERE LevelNr = " + levelNr, null);
+        if(c.moveToFirst()) {
+            Log.v("Musingo", "cursor " + c);
+            int completeStar = c.getInt((c.getColumnIndex("CompleteStar")));
+            int beatStar = c.getInt((c.getColumnIndex("BeatStar")));
+            int boostStar = c.getInt((c.getColumnIndex("BoostStar")));
+            hash.put("completeStar", completeStar);
+            hash.put("beatStar", beatStar);
+            hash.put("boostStar", boostStar);
+        }
+        db.close();
+
+        return hash;
     }
 
     public void deletePlaySongsTable(){
