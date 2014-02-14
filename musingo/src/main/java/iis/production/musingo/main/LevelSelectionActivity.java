@@ -142,8 +142,6 @@ public class LevelSelectionActivity extends Activity {
         pages.add(page);
         page = inflater.inflate(R.layout.package_page, null);
         pages.add(page);
-        page = inflater.inflate(R.layout.package_page, null);
-        pages.add(page);
 
         level1 = (ImageView)findViewById(R.id.level1);
         level2 = (ImageView)findViewById(R.id.level2);
@@ -179,6 +177,8 @@ public class LevelSelectionActivity extends Activity {
             @Override
             public void onPageSelected(int i) {
                 selectedPackage = i + 1;
+                String url = Endpoints.package_url + selectedPackage;
+                Log.v("Musingo", "url "+url);
                 changePackage();
 
                 for (int y = 0; y < levelViews.size(); y++) {
@@ -201,7 +201,6 @@ public class LevelSelectionActivity extends Activity {
         };
 
         viewPager.setOnPageChangeListener(viewPagerListener);
-
         loadingAnimation = (RelativeLayout)findViewById(R.id.loadingAnimation);
         levels = (LinearLayout)findViewById(R.id.levels);
         starNumber = (TextViewPacifico)findViewById(R.id.starNumber);
@@ -217,39 +216,6 @@ public class LevelSelectionActivity extends Activity {
         if (complete) green.setVisibility(View.VISIBLE);
         if (powerup) purple.setVisibility(View.VISIBLE);
 
-
-
-//        OnSwipeTouchListener swipe = new OnSwipeTouchListener() {
-//            public void onSwipeRight() {
-//                MusingoApp.soundButton();
-//                for (int i = 0; i < levelViews.size(); i++) {
-//                    ImageView imageView = levelViews.get(i);
-//                    if (imageView.getTag().toString().equals("selected") && i != levelViews.size() - 1 && clickable) {
-//                        imageView = makeUnselected(imageView);
-//                        ImageView imageNext = levelViews.get(i + 1);
-//                        imageNext = makeSelected(imageNext);
-//                        break;
-//                    }
-//                }
-//            }
-//
-//            public void onSwipeLeft() {
-//                MusingoApp.soundButton();
-//                for (int i = 0; i < levelViews.size(); i++) {
-//                    ImageView imageView = levelViews.get(i);
-//                    if (imageView.getTag().toString().equals("selected") && i != 0 && clickable) {
-//                        imageView = makeUnselected(imageView);
-//                        ImageView imageNext = levelViews.get(i - 1);
-//                        imageNext = makeSelected(imageNext);
-//                        break;
-//                    }
-//                }
-//            }
-//
-//        };
-
-//        RelativeLayout bottom_view = (RelativeLayout)findViewById(R.id.bottom_view);
-//        bottom_view.setOnTouchListener(swipe);
         selectedPackage = 1;
 
 
@@ -359,6 +325,7 @@ public class LevelSelectionActivity extends Activity {
             }
 
             clickable = false;
+            viewPager.setPagingEnabled(clickable);
         }
     }
 
@@ -366,25 +333,37 @@ public class LevelSelectionActivity extends Activity {
 
         this.starsToUnlock = starsToUnlock;
         this.packageName = packageName;
-        selectPageViews(selectedPackage-1);
+        selectPageViews();
 
         Log.v("Musingo", "size  "+playLists.size());
         TextViewArchitects songsTitle = (TextViewArchitects)findViewById(R.id.songsTitle);
         TextViewArchitects packageUnlock = (TextViewArchitects) findViewById(R.id.packageUnlock);
-        packageUnlock.setBackgroundResource(R.drawable.round_corner_time);
-        packageUnlock.setText(starsToUnlock + " STARS:");
-        //songsTitle.setTextColor(Color.parseColor("#9ad74c"));
-        songsTitle.setText(packageName);
+
         if (isUnlocked(packageName)){
             packageUnlock.setBackgroundResource(0);
             packageUnlock.setText("Unlocked:");
-            //songsTitle.setTextColor(Color.parseColor("#ffffff"));
             songsTitle.setText(packageName);
+
+            ImageView unlockNow = (ImageView) findViewById(R.id.unlock_now);
+            unlockNow.setVisibility(View.GONE);
+        } else {
+            packageUnlock.setBackgroundResource(R.drawable.round_corner_time);
+            packageUnlock.setText(starsToUnlock + " STARS:");
+            songsTitle.setText(packageName);
+
+            LinearLayout packageStatus = (LinearLayout) findViewById(R.id.packageStatus);
+            ImageView unlockNow = (ImageView) findViewById(R.id.unlock_now);
+            unlockNow.setVisibility(View.VISIBLE);
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) unlockNow.getLayoutParams();
+            int marginLeft = packageUnlock.getLeft();
+            int marginTop = packageStatus.getBottom() + packageUnlock.getBottom();
+            params.setMargins(marginLeft, marginTop, 0, 0);
+            unlockNow.setLayoutParams(params);
         }
 
         for (int i = 0; i<playLists.size(); i++){
             Playlist playList = playLists.get(i);
-            RelativeLayout view = (RelativeLayout)playlistViews.get(i);
+            RelativeLayout view = playlistViews.get(i);
 
             view.setTag(String.valueOf(playList.getListNumber()));
             Log.v("Musingo","tag " + view.getTag().toString());
@@ -424,7 +403,7 @@ public class LevelSelectionActivity extends Activity {
         }
 
         clickable = true;
-
+        viewPager.setPagingEnabled(clickable);
     }
 
     public void downloadResultForGame(ArrayList<Song> songs, int scoreToBeat, String name, int cost){
@@ -442,6 +421,7 @@ public class LevelSelectionActivity extends Activity {
         intent.putExtra("packageName", packageName);
         startActivityForResult(intent, NEXT_LEVEL);
         clickable = true;
+        viewPager.setPagingEnabled(clickable);
     }
 
     public void changePackage(){
@@ -460,11 +440,11 @@ public class LevelSelectionActivity extends Activity {
         }
 
         clickable = false;
+        viewPager.setPagingEnabled(clickable);
     }
 
-    public void selectPageViews(int position){
-        Log.v("Musingo ", "position "+position);
-        View page = pages.get(position);
+    public void selectPageViews(){
+        View page = pages.get(viewPager.getCurrentItem());
 
         playlist1 = (RelativeLayout) page.findViewById(R.id.playlist1);
         playlist2 = (RelativeLayout) page.findViewById(R.id.playlist2);
@@ -517,6 +497,7 @@ public class LevelSelectionActivity extends Activity {
             }
 
             clickable = false;
+            viewPager.setPagingEnabled(clickable);
         }
         if (playlistDownloading){
             ArrayList<Song> songs = new ArrayList<Song>();
@@ -533,6 +514,7 @@ public class LevelSelectionActivity extends Activity {
             }
 
             clickable = false;
+            viewPager.setPagingEnabled(clickable);
         }
     }
 
@@ -572,6 +554,7 @@ public class LevelSelectionActivity extends Activity {
                         }
 
                         clickable = false;
+                        viewPager.setPagingEnabled(clickable);
                     }
                 }
                 break;
