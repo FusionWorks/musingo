@@ -193,7 +193,7 @@ public class ResultsActivity extends Activity {
 
     public void facebookLogin(){
         if(!FacebookManager.userFb.isSessionValid()){
-            AlertViewFacebook dialog = new AlertViewFacebook(this, "Save Yo'self", "SAVE YOUT PROGRESS BY LOGGING INTO FACEBOOK NOW.", ResultsActivity.this);
+            AlertViewFacebook dialog = new AlertViewFacebook(this, "Save Yo'self", "SAVE YOUR PROGRESS BY LOGGING INTO FACEBOOK NOW.", ResultsActivity.this);
             dialog.show();
         }
     }
