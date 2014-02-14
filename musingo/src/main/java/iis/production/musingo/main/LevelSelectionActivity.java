@@ -3,7 +3,8 @@ package iis.production.musingo.main;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -369,11 +370,16 @@ public class LevelSelectionActivity extends Activity {
 
         Log.v("Musingo", "size  "+playLists.size());
         TextViewArchitects songsTitle = (TextViewArchitects)findViewById(R.id.songsTitle);
-        songsTitle.setTextColor(Color.parseColor("#9ad74c"));
-        songsTitle.setText("UNLOCK: "+packageName);
+        TextViewArchitects packageUnlock = (TextViewArchitects) findViewById(R.id.packageUnlock);
+        packageUnlock.setBackgroundResource(R.drawable.round_corner_time);
+        packageUnlock.setText(starsToUnlock + " STARS:");
+        //songsTitle.setTextColor(Color.parseColor("#9ad74c"));
+        songsTitle.setText(packageName);
         if (isUnlocked(packageName)){
-            songsTitle.setTextColor(Color.parseColor("#ffffff"));
-            songsTitle.setText("Unlocked "+packageName);
+            packageUnlock.setBackgroundResource(0);
+            packageUnlock.setText("Unlocked:");
+            //songsTitle.setTextColor(Color.parseColor("#ffffff"));
+            songsTitle.setText(packageName);
         }
 
         for (int i = 0; i<playLists.size(); i++){
@@ -385,8 +391,14 @@ public class LevelSelectionActivity extends Activity {
             ImageView imageView = (ImageView)view.findViewById(R.id.image);
             TextViewArchitects textView = (TextViewArchitects)view.findViewById(R.id.title);
 
-            final RoundedCornersDrawable drawable = new RoundedCornersDrawable(getResources(), playList.getImage());
-            imageView.setImageDrawable(drawable);
+            if (isUnlocked(packageName)){
+                final RoundedCornersDrawable drawable = new RoundedCornersDrawable(getResources(), playList.getImage());
+                imageView.setImageDrawable(drawable);
+            } else {
+                Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.grey_image);
+                final RoundedCornersDrawable drawable = new RoundedCornersDrawable(getResources(), image);
+                imageView.setImageDrawable(drawable);
+            }
 
 //            Utility.setBackgroundBySDK(imageView, song.getImage());
             textView.setText(playList.getName().toUpperCase());

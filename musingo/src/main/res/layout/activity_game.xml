@@ -76,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="30sp"
                 android:text="1"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="0dp"
                 android:textColor="#ffffff"
                 style="@style/Shadow"/>
             </LinearLayout>
@@ -533,7 +533,8 @@
                         android:textSize="@dimen/song_title"
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
-                        android:layout_marginRight="5dp"/>
+                        android:layout_marginRight="5dp"
+                        android:textStyle="bold"/>
                 </RelativeLayout>
                 <RelativeLayout
                     android:id="@+id/songThumb2"
@@ -566,7 +567,8 @@
                         android:textSize="@dimen/song_title"
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
-                        android:layout_marginRight="5dp"/>
+                        android:layout_marginRight="5dp"
+                        android:textStyle="bold"/>
                 </RelativeLayout>
                 <RelativeLayout
                     android:id="@+id/songThumb3"
@@ -598,7 +600,8 @@
                         android:textSize="@dimen/song_title"
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
-                        android:layout_marginRight="5dp"/>
+                        android:layout_marginRight="5dp"
+                        android:textStyle="bold"/>
                 </RelativeLayout>
             </LinearLayout>
             <LinearLayout
@@ -639,7 +642,8 @@
                         android:textSize="@dimen/song_title"
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
-                        android:layout_marginRight="5dp"/>
+                        android:layout_marginRight="5dp"
+                        android:textStyle="bold"/>
                 </RelativeLayout>
                 <RelativeLayout
                     android:id="@+id/songThumb5"
@@ -672,7 +676,8 @@
                         android:textSize="@dimen/song_title"
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
-                        android:layout_marginRight="5dp"/>
+                        android:layout_marginRight="5dp"
+                        android:textStyle="bold"/>
                 </RelativeLayout>
                 <RelativeLayout
                     android:id="@+id/songThumb6"
@@ -704,7 +709,8 @@
                         android:textSize="@dimen/song_title"
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
-                        android:layout_marginRight="5dp"/>
+                        android:layout_marginRight="5dp"
+                        android:textStyle="bold"/>
                 </RelativeLayout>
             </LinearLayout>
             <LinearLayout
@@ -744,7 +750,8 @@
                         android:textSize="@dimen/song_title"
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
-                        android:layout_marginRight="5dp"/>
+                        android:layout_marginRight="5dp"
+                        android:textStyle="bold"/>
                 </RelativeLayout>
                 <RelativeLayout
                     android:id="@+id/songThumb8"
@@ -777,7 +784,8 @@
                         android:textSize="@dimen/song_title"
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
-                        android:layout_marginRight="5dp"/>
+                        android:layout_marginRight="5dp"
+                        android:textStyle="bold"/>
                 </RelativeLayout>
                 <RelativeLayout
                     android:id="@+id/songThumb9"
@@ -809,7 +817,8 @@
                         android:textSize="@dimen/song_title"
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
-                        android:layout_marginRight="5dp"/>
+                        android:layout_marginRight="5dp"
+                        android:textStyle="bold"/>
                     </RelativeLayout>
                 </LinearLayout>
             </LinearLayout>

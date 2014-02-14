@@ -50,6 +50,27 @@ public class PlaySongsTable {
         db.close();
     }
 
+    public void updateCompleteStar(Boolean completeStar, Integer levelNr){
+        int completeStarInt = (completeStar)? 1 : 0;
+        SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
+        db.execSQL("UPDATE play_songs SET CompleteStar = " + completeStarInt + " WHERE LevelNr = " + levelNr);
+        db.close();
+    }
+
+    public void updateBeatStar(Boolean beatStar, Integer levelNr){
+        int beatStarInt = (beatStar)? 1 : 0;
+        SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
+        db.execSQL("UPDATE play_songs SET BeatStar = "+ beatStarInt + " WHERE LevelNr = " + levelNr);
+        db.close();
+    }
+
+    public void updateBoostStar(Boolean boostStar, Integer levelNr){
+        int boostStarInt = (boostStar)? 1 : 0;
+        SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
+        db.execSQL("UPDATE play_songs SET BoostStar = " + boostStarInt + " WHERE LevelNr = " + levelNr);
+        db.close();
+    }
+
     public int getBestResult(Integer levelNr){
         int bestResult = 0;
             SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
@@ -110,7 +131,7 @@ public class PlaySongsTable {
         if(c.moveToFirst()) {
             number++;
         }
-
+        db.close();
         return number;
     }
 
