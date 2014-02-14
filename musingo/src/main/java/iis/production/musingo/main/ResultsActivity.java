@@ -99,7 +99,6 @@ public class ResultsActivity extends Activity {
 
         Log.v("Musingo", "Level: " + levelNumber);
 
-        setStar();
         setBestResult();
 
         list.setAdapter(songsListAdapter);
@@ -146,10 +145,7 @@ public class ResultsActivity extends Activity {
         TextViewArchitects bestResultTV = (TextViewArchitects) findViewById(R.id.bestScore);
         PlaySongsTable playSongsTable = new PlaySongsTable(this);
 
-        try{
-            playSongsTable.insertIntoPlaySongsTable(packageName, levelNumber, levelName, 0, 0, 0, 0);
-        }
-        catch (Exception e){}
+        playSongsTable.insertIntoPlaySongsTable(packageName, levelNumber, levelName, 0, 0, 0, 0);
 
         int bestResultInt = playSongsTable.getBestResult(levelNumber);
 
@@ -161,16 +157,20 @@ public class ResultsActivity extends Activity {
         else {
             bestResultTV.setText("" + bestResultInt);
         }
-        playSongsTable.updateStarInPlaySongsTable(completeStar, beatStar, boostStar, levelNumber);
+
+        setStar();
+//        playSongsTable.updateStarInPlaySongsTable(completeStar, beatStar, boostStar, levelNumber);
     }
 
     public void setStar(){
         ImageView completeStarImg = (ImageView) findViewById(R.id.completeStar);
         ImageView boostStarImg = (ImageView) findViewById(R.id.boostStar);
         ImageView beatStarImg = (ImageView) findViewById(R.id.beatStar);
+        PlaySongsTable playSongsTable = new PlaySongsTable(this);
 
         if(completeStar){
             completeStarImg.setImageResource(R.drawable.star_complete);
+            playSongsTable.updateCompleteStar(true, levelNumber);
         }
         else{
             completeStarImg.setImageResource(R.drawable.star_blank);
@@ -178,6 +178,7 @@ public class ResultsActivity extends Activity {
 
         if(boostStar){
             boostStarImg.setImageResource(R.drawable.star_boost);
+            playSongsTable.updateBoostStar(true, levelNumber);
         }
         else{
             boostStarImg.setImageResource(R.drawable.star_blank);
@@ -185,6 +186,7 @@ public class ResultsActivity extends Activity {
 
         if(beatStar){
             beatStarImg.setImageResource(R.drawable.star_beat);
+            playSongsTable.updateBeatStar(true, levelNumber);
         }
         else {
             beatStarImg.setImageResource(R.drawable.star_blank);

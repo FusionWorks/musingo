@@ -16,7 +16,7 @@
             android:textSize="35sp"
             android:text="Save Yo' self"
             android:gravity="center_horizontal"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="1dp"
             android:layout_marginBottom="8dp"
             android:textColor="#000000"
             style="@style/Shadow"/>

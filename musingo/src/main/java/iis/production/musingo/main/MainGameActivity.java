@@ -1149,7 +1149,6 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
                 params = (LinearLayout.LayoutParams) tutorial3Arrow.getLayoutParams();
                 marginLeft = leftView.getLeft() + leftView.getWidth()/2;
-                Log.v("Musingo", "margin left: " + marginLeft);
                 params.setMargins(marginLeft, 0, 0, 0);
                 tutorial3Arrow.setLayoutParams(params);
 

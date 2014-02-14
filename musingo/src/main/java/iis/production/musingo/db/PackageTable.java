@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 /**
  * Created by dima on 2/11/14.
@@ -18,7 +19,7 @@ public class PackageTable {
         db.execSQL("CREATE TABLE IF NOT EXISTS package " +
                 "(ID integer primary key autoincrement, " +
                 "PackageName VARCHAR(255) UNIQUE, " +
-                "Unlocked integer, " +
+                "PackageUnlock integer, " +
                 "YourScore integer);");
         db.close();
     }
@@ -26,22 +27,33 @@ public class PackageTable {
     public void insertIntoPackageTable(String packageName, boolean unlocked, int youScore){
         int unlockedInt = (unlocked)? 1 : 0;
         SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
-        db.execSQL("INSERT INTO package " + "(PackageName, Unlocked, YourScore) VALUES ('" + packageName + "'," + unlockedInt + "," + youScore +");");
+        try {
+            db.execSQL("INSERT INTO package " + "(PackageName, PackageUnlock, YourScore) VALUES ('" + packageName + "'," + unlockedInt + "," + youScore +");");
+        }
+        catch (Exception e){}
         db.close();
     }
 
-    public void upadateScoreInPackageTable(int score, String packageName){
+    public void updateScoreInPackageTable(int score, String packageName){
         SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
         db.execSQL("UPDATE package SET YourScore = " + score + " WHERE PackageName = " + packageName);
+        db.close();
+    }
+
+    public void updateUnlocked(boolean isUnlocked, String packageName){
+        int unlockedInt = (isUnlocked)? 1 : 0;
+        SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
+        db.execSQL("UPDATE package SET PackageUnlock = " + unlockedInt + " WHERE PackageName = '" + packageName + "'");
         db.close();
     }
 
     public boolean isUnlocked(String packageName){
         int unlock = 0;
         SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
-        Cursor c = db.rawQuery("SELECT Unlocked FROM package WHERE PackageName = " + packageName, null);
+        Cursor c = db.rawQuery("SELECT PackageUnlock FROM package WHERE PackageName = '" + packageName + "'", null);
         if(c.moveToFirst()) {
-            unlock = c.getInt(0);
+           unlock = c.getInt(0);
+           Log.v("Musingo", "PackageUnlock: " + unlock);
         }
         db.close();
 
@@ -62,5 +74,11 @@ public class PackageTable {
         db.close();
 
         return score;
+    }
+
+    public void deletePackageTable(){
+        SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
+        db.execSQL("DROP TABLE IF EXISTS package");
+        db.close();
     }
 }

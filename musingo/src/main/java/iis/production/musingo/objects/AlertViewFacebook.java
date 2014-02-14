@@ -3,6 +3,7 @@ package iis.production.musingo.objects;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -52,6 +53,7 @@ public class AlertViewFacebook extends AlertDialog {
                 }
             });
         } else {
+            title.setTextColor(Color.parseColor("#ffffff"));
             TextViewArchitects loginFbDialog  = (TextViewArchitects) findViewById(R.id.loginFbDialog);
             loginFbDialog.setText("FACEBOOK");
         }
