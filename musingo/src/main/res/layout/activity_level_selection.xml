@@ -174,8 +174,6 @@
                 android:gravity="center"
                 android:textSize="@dimen/change_package"
                 android:background="#aa000000"
-                android:paddingBottom="1dp"
-                android:paddingTop="1dp"
                 android:layout_marginBottom="2dp"
                 android:layout_marginLeft="1dp"
                 android:layout_marginRight="1dp"/>

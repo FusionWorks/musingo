@@ -110,6 +110,7 @@ public class PlaySongsTable {
         if(c.moveToFirst()) {
             number++;
         }
+        db.close();
 
         return number;
     }
