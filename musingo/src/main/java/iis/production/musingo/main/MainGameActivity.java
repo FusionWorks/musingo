@@ -68,8 +68,6 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     int previousSongTime;
     boolean userRight;
     int score;
-    int width;
-    int height;
 
     RelativeLayout song1;
     RelativeLayout song2;
@@ -113,6 +111,9 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     LinearLayout tutorial5;
     LinearLayout tutorial6;
 
+    int maxTryes = 0;
+    HashMap<String, Integer> allIndexes;
+    ArrayList<Integer> correctIndexes;
     SharedPreferences firstRun = null;
 
     //Media Player vars
@@ -148,6 +149,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+        allIndexes = new HashMap<String, Integer>();
+        correctIndexes = new ArrayList<Integer>();
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         seekBar = (RelativeLayout)findViewById(R.id.seekBar);
         bar = (ImageView)seekBar.findViewById(R.id.bar);
@@ -394,6 +397,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     }
 
     public void playNext(){
+        checkForBonuses();
         findViewById(R.id.pauseIndicator).setVisibility(View.GONE);
         for(RelativeLayout hint : hintSelected){
             Utility.setBackgroundBySDK(hint,null);
@@ -472,6 +476,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             ImageView imageView = (ImageView)view.findViewById(R.id.image);
             TextViewArchitects textView = (TextViewArchitects)view.findViewById(R.id.title);
             view.setTag(song.getId());
+            allIndexes.put(song.getId(),i);
             final RoundedCornersDrawable drawable = new RoundedCornersDrawable(getResources(), song.getImage());
             imageView.setImageDrawable(drawable);
             textView.setText(song.getSongName());
@@ -481,39 +486,42 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     }
 
     public void tryToGuess(View view){
-        for(RelativeLayout hint : hintSelected){
-            Utility.setBackgroundBySDK(hint,null);
-        }
-        hintSelected = new ArrayList<RelativeLayout>();
-        if(currentSong < 9){
-            String id = songsList.get(currentSong).get("songTitle");
-
-            if(currentSong != 0 && !userRight){
-                Utility.setBackgroundBySDK(wrongSelected,null);
+        if(maxTryes != 9){
+            maxTryes += 1;
+            for(RelativeLayout hint : hintSelected){
+                Utility.setBackgroundBySDK(hint,null);
             }
-            ImageView image = (ImageView)view.findViewById(R.id.image);
-            int width = image.getMeasuredWidth();
-            if (view.getTag().toString().equals(id)){
-                MusingoApp.soundCorrect();
-                ImageView borderRight = (ImageView)view.findViewById(R.id.borderRight);
-                borderRight.setLayoutParams(new RelativeLayout.LayoutParams(width + 4, width + 4));
-                borderRight.setBackgroundResource(R.drawable.round_song_big_right);
-                userRight = true;
-                score += cost;
-                yourScore.setText(String.valueOf(score));
-                correctSongs++;
-            }else{
+            hintSelected = new ArrayList<RelativeLayout>();
+            if(currentSong < 9){
+                String id = songsList.get(currentSong).get("songTitle");
 
-                Log.v("Musingo", "Width "+width);
-
-                MusingoApp.soundWrong();
-                ImageView border = (ImageView) view.findViewById(R.id.border);
-                border.setLayoutParams(new RelativeLayout.LayoutParams(width + 4, width + 4));
-                border.setBackgroundResource(R.drawable.round_song_big_wrong);
-                wrongSelected = border;
-                userRight = false;
+                if(currentSong != 0 && !userRight){
+                    Utility.setBackgroundBySDK(wrongSelected,null);
+                }
+                ImageView image = (ImageView)view.findViewById(R.id.image);
+                int width = image.getMeasuredWidth();
+                if (view.getTag().toString().equals(id)){
+                    MusingoApp.soundCorrect();
+                    ImageView borderRight = (ImageView)view.findViewById(R.id.borderRight);
+                    borderRight.setLayoutParams(new RelativeLayout.LayoutParams(width + 4, width + 4));
+                    borderRight.setBackgroundResource(R.drawable.round_song_big_right);
+                    userRight = true;
+                    score += cost;
+                    yourScore.setText(String.valueOf(score));
+                    correctSongs++;
+                    int index = allIndexes.get(view.getTag().toString());
+                    correctIndexes.add(index);
+                }else{
+                    Log.v("Musingo", "Width "+width);
+                    MusingoApp.soundWrong();
+                    ImageView border = (ImageView) view.findViewById(R.id.border);
+                    border.setLayoutParams(new RelativeLayout.LayoutParams(width + 4, width + 4));
+                    border.setBackgroundResource(R.drawable.round_song_big_wrong);
+                    wrongSelected = border;
+                    userRight = false;
+                }
+                playNext();
             }
-            playNext();
         }
     }
 
@@ -612,7 +620,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         Log.v("Musingo", "after" + newArray.get(0) + "size -"+newArray.size());
         return newArray;
     }
-
+// ----- Powerups
     public void showPowerups(){
         ImageView image;
         PlaySongsTable table = new PlaySongsTable(this);
@@ -1034,9 +1042,18 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         Log.v("Musingo", "random3 "+random3);
         Log.v("Musingo", "ava "+availableForHint.size());
 
-        songThumbs.get(random1).setBackgroundResource(R.drawable.round_song_hint);
-        songThumbs.get(random2).setBackgroundResource(R.drawable.round_song_hint);
-        songThumbs.get(random3).setBackgroundResource(R.drawable.round_song_hint);
+        ImageView image = (ImageView)songThumbs.get(random1).findViewById(R.id.image);
+        int width = image.getMeasuredWidth();
+        ImageView borderRight = (ImageView)songThumbs.get(random1).findViewById(R.id.borderRight);
+        borderRight.setLayoutParams(new RelativeLayout.LayoutParams(width + 4, width + 4));
+        borderRight.setBackgroundResource(R.drawable.round_song_hint);
+        borderRight = (ImageView)songThumbs.get(random2).findViewById(R.id.borderRight);
+        borderRight.setLayoutParams(new RelativeLayout.LayoutParams(width + 4, width + 4));
+        borderRight.setBackgroundResource(R.drawable.round_song_hint);
+        borderRight = (ImageView)songThumbs.get(random3).findViewById(R.id.borderRight);
+        borderRight.setLayoutParams(new RelativeLayout.LayoutParams(width + 4, width + 4));
+        borderRight.setBackgroundResource(R.drawable.round_song_hint);
+
         hintSelected.add(songThumbs.get(random1));
         hintSelected.add(songThumbs.get(random2));
         hintSelected.add(songThumbs.get(random3));
@@ -1113,7 +1130,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     public void hideHint(View view){
         hintTextImage.setVisibility(View.GONE);
     }
-
+// - Tutorials
     public void nextTutorial(View v){
         LinearLayout.LayoutParams params;
         final float scale = getResources().getDisplayMetrics().density;
@@ -1170,5 +1187,40 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 editor.commit();
                 break;
         }
+    }
+
+// -- Bonuses
+    public void checkForBonuses(){
+        for(Integer i : correctIndexes){
+            Log.v("Musingo", "index "+i);
+        }
+        if(correctSongs == 9){
+            setBonusImage(R.drawable.bonus_leave_no);
+        }else if(correctIndexes.contains(1) && correctIndexes.contains(5) && correctIndexes.contains(9)){
+            setBonusImage(R.drawable.bonus_criss_cross);
+        }else if(correctIndexes.contains(1) && correctIndexes.contains(3) && correctIndexes.contains(5) && correctIndexes.contains(7) && correctIndexes.contains(9)){
+            setBonusImage(R.drawable.bonus_new_diagonal);
+        }else if(correctIndexes.contains(1) && correctIndexes.contains(2) && correctIndexes.contains(3) ||
+                correctIndexes.contains(4) && correctIndexes.contains(5) && correctIndexes.contains(6) ||
+                correctIndexes.contains(7) && correctIndexes.contains(8) && correctIndexes.contains(9)){
+            setBonusImage(R.drawable.bonus_three_squares_inrow);
+        }else if(correctIndexes.contains(1) && correctIndexes.contains(4) && correctIndexes.contains(7) ||
+                correctIndexes.contains(2) && correctIndexes.contains(5) && correctIndexes.contains(8) ||
+                correctIndexes.contains(3) && correctIndexes.contains(6) && correctIndexes.contains(9)){
+            setBonusImage(R.drawable.bonus_three_squares);
+        }else if(correctIndexes.contains(1) && correctIndexes.contains(3) && correctIndexes.contains(7) && correctIndexes.contains(9)){
+            setBonusImage(R.drawable.bonus_4_corners);
+        }
+
+    }
+
+    public void setBonusImage(int res){
+        ImageView imageView = (ImageView)findViewById(R.id.bonusText);
+        imageView.setVisibility(View.VISIBLE);
+        imageView.setImageResource(res);
+    }
+
+    public void hideBonus(View view){
+        view.setVisibility(View.GONE);
     }
 }
