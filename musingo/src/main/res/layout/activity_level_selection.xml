@@ -36,7 +36,8 @@
                     android:textColor="#fff"
                     style="@style/Shadow"
                     android:paddingRight="5dp"
-                    android:paddingLeft="5dp"/>
+                    android:paddingLeft="5dp"
+                    android:onClick="unlockPackage"/>
 
             </LinearLayout>
 
@@ -385,5 +386,6 @@
         android:layout_height="wrap_content"
         android:src="@drawable/unlock_now"
         android:visibility="gone"
-        android:layout_below="@id/packageUnlock"/>
+        android:layout_below="@id/packageUnlock"
+        android:onClick="unlockPackage"/>
 </RelativeLayout>

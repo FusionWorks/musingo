@@ -29,6 +29,7 @@ import iis.production.musingo.R;
 import iis.production.musingo.adapter.LevelPagerAdapter;
 import iis.production.musingo.async.ATPackages;
 import iis.production.musingo.async.ATSongs;
+import iis.production.musingo.db.PackageTable;
 import iis.production.musingo.db.PlaySongsTable;
 import iis.production.musingo.objects.AlertViewOrange;
 import iis.production.musingo.objects.LevelViewPager;
@@ -94,6 +95,7 @@ public class LevelSelectionActivity extends Activity {
     boolean powerup;
 
     public static boolean clickable;
+    public static boolean unlocked;
 
     boolean nextLevel = false;
 
@@ -106,6 +108,7 @@ public class LevelSelectionActivity extends Activity {
     boolean packageDownloading = true;
     boolean playlistDownloading = false;
     ViewPager.OnPageChangeListener viewPagerListener;
+    ArrayList<Playlist> playlists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -307,7 +310,7 @@ public class LevelSelectionActivity extends Activity {
     }
 
     public void goToLevel(View view){
-        if(clickable){
+        if(clickable && unlocked){
             playlistDownloading = true;
             MusingoApp.soundButton();
             selectedLevel = Integer.valueOf(view.getTag().toString());
@@ -333,19 +336,30 @@ public class LevelSelectionActivity extends Activity {
 
         this.starsToUnlock = starsToUnlock;
         this.packageName = packageName;
+        this.playlists = playLists;
+
         selectPageViews();
 
         Log.v("Musingo", "size  "+playLists.size());
         TextViewArchitects songsTitle = (TextViewArchitects)findViewById(R.id.songsTitle);
         TextViewArchitects packageUnlock = (TextViewArchitects) findViewById(R.id.packageUnlock);
 
-        if (isUnlocked(packageName)){
+        PackageTable packageTable = new PackageTable(LevelSelectionActivity.this);
+        packageTable.insertIntoPackageTable(packageName, false, 0);
+
+        if(selectedPackage == 1){
+            packageTable.updateUnlocked(true, packageName);
+        }
+
+        if (packageTable.isUnlocked(packageName)){
             packageUnlock.setBackgroundResource(0);
             packageUnlock.setText("Unlocked:");
             songsTitle.setText(packageName);
 
             ImageView unlockNow = (ImageView) findViewById(R.id.unlock_now);
             unlockNow.setVisibility(View.GONE);
+
+            unlocked = true;
         } else {
             packageUnlock.setBackgroundResource(R.drawable.round_corner_time);
             packageUnlock.setText(starsToUnlock + " STARS:");
@@ -359,6 +373,8 @@ public class LevelSelectionActivity extends Activity {
             int marginTop = packageStatus.getBottom() + packageUnlock.getBottom();
             params.setMargins(marginLeft, marginTop, 0, 0);
             unlockNow.setLayoutParams(params);
+
+            unlocked = false;
         }
 
         for (int i = 0; i<playLists.size(); i++){
@@ -370,7 +386,7 @@ public class LevelSelectionActivity extends Activity {
             ImageView imageView = (ImageView)view.findViewById(R.id.image);
             TextViewArchitects textView = (TextViewArchitects)view.findViewById(R.id.title);
 
-            if (isUnlocked(packageName)){
+            if (packageTable.isUnlocked(packageName)){
                 final RoundedCornersDrawable drawable = new RoundedCornersDrawable(getResources(), playList.getImage());
                 imageView.setImageDrawable(drawable);
             } else {
@@ -558,6 +574,17 @@ public class LevelSelectionActivity extends Activity {
                     }
                 }
                 break;
+        }
+    }
+
+    public void unlockPackage(View v){
+        PlaySongsTable playSongsTable = new PlaySongsTable(LevelSelectionActivity.this);
+        int starsCurrent = playSongsTable.getSumStars();
+        Log.v("Musingo", "unlockPackage");
+        if (starsCurrent >= starsToUnlock){
+            PackageTable packageTable = new PackageTable(LevelSelectionActivity.this);
+            packageTable.updateUnlocked(true, packageName);
+            downloadResultForLevels(playlists, packageName, starsToUnlock);
         }
     }
 

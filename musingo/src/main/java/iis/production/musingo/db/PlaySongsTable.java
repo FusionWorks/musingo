@@ -31,7 +31,10 @@ public class PlaySongsTable {
 
     public void insertIntoPlaySongsTable(String packageName, Integer levelNr, String levelName, Integer bestResult, Integer completeStar, Integer beatStar, Integer boostStar){
         SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
-        db.execSQL("INSERT INTO play_songs " + "(PackageName, LevelNr, LevelName, BestResult, CompleteStar, BeatStar, BoostStar) VALUES ('" + packageName + "'," + levelNr + ",'" + levelName + "'," + bestResult + "," + completeStar + "," + beatStar + "," + boostStar +");");
+        try{
+            db.execSQL("INSERT INTO play_songs " + "(PackageName, LevelNr, LevelName, BestResult, CompleteStar, BeatStar, BoostStar) VALUES ('" + packageName + "'," + levelNr + ",'" + levelName + "'," + bestResult + "," + completeStar + "," + beatStar + "," + boostStar +");");
+        }
+        catch (Exception e){}
         db.close();
     }
 
