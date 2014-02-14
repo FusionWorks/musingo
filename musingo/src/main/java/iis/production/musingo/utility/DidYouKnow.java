@@ -34,11 +34,20 @@ public class DidYouKnow {
 
         view.setText(strValue.toUpperCase());
         int l = strValue.length();
-        if(l < 50)
-            view.setTextSize(14);
-        else if(l >= 50 && l < 80)
-            view.setTextSize(12);
-        else if(l >= 80 && l < 150)
-            view.setTextSize(10);
+        if(l < 50){
+            String dimenStr = activity.getString(R.dimen.did_you_know3);
+            float dimen = Float.parseFloat(dimenStr.substring(0, dimenStr.length() - 2));
+            view.setTextSize(dimen);
+        }
+        else if(l >= 50 && l < 80){
+            String dimenStr = activity.getString(R.dimen.did_you_know2);
+            float dimen = Float.parseFloat(dimenStr.substring(0, dimenStr.length() - 2));
+            view.setTextSize(dimen);
+        }
+        else if(l >= 80 && l < 150){
+            String dimenStr = activity.getString(R.dimen.did_you_know1);
+            float dimen = Float.parseFloat(dimenStr.substring(0, dimenStr.length() - 2));
+            view.setTextSize(dimen);
+        }
     }
 }

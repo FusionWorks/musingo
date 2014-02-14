@@ -3,7 +3,8 @@ package iis.production.musingo.main;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -28,6 +29,7 @@ import iis.production.musingo.R;
 import iis.production.musingo.adapter.LevelPagerAdapter;
 import iis.production.musingo.async.ATPackages;
 import iis.production.musingo.async.ATSongs;
+import iis.production.musingo.db.PackageTable;
 import iis.production.musingo.db.PlaySongsTable;
 import iis.production.musingo.objects.AlertViewOrange;
 import iis.production.musingo.objects.LevelViewPager;
@@ -93,6 +95,7 @@ public class LevelSelectionActivity extends Activity {
     boolean powerup;
 
     public static boolean clickable;
+    public static boolean unlocked;
 
     boolean nextLevel = false;
 
@@ -105,6 +108,7 @@ public class LevelSelectionActivity extends Activity {
     boolean packageDownloading = true;
     boolean playlistDownloading = false;
     ViewPager.OnPageChangeListener viewPagerListener;
+    ArrayList<Playlist> playlists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -306,7 +310,7 @@ public class LevelSelectionActivity extends Activity {
     }
 
     public void goToLevel(View view){
-        if(clickable){
+        if(clickable && unlocked){
             playlistDownloading = true;
             MusingoApp.soundButton();
             selectedLevel = Integer.valueOf(view.getTag().toString());
@@ -332,15 +336,45 @@ public class LevelSelectionActivity extends Activity {
 
         this.starsToUnlock = starsToUnlock;
         this.packageName = packageName;
+        this.playlists = playLists;
+
         selectPageViews();
 
         Log.v("Musingo", "size  "+playLists.size());
         TextViewArchitects songsTitle = (TextViewArchitects)findViewById(R.id.songsTitle);
-        songsTitle.setTextColor(Color.parseColor("#9ad74c"));
-        songsTitle.setText("UNLOCK: "+packageName);
-        if (isUnlocked(packageName)){
-            songsTitle.setTextColor(Color.parseColor("#ffffff"));
-            songsTitle.setText("Unlocked "+packageName);
+        TextViewArchitects packageUnlock = (TextViewArchitects) findViewById(R.id.packageUnlock);
+
+        PackageTable packageTable = new PackageTable(LevelSelectionActivity.this);
+        packageTable.insertIntoPackageTable(packageName, false, 0);
+
+        if(selectedPackage == 1){
+            packageTable.updateUnlocked(true, packageName);
+        }
+
+        if (packageTable.isUnlocked(packageName)){
+            packageUnlock.setBackgroundResource(0);
+            packageUnlock.setText("Unlocked:");
+            songsTitle.setText(packageName);
+
+            ImageView unlockNow = (ImageView) findViewById(R.id.unlock_now);
+            unlockNow.setVisibility(View.GONE);
+
+            unlocked = true;
+        } else {
+            packageUnlock.setBackgroundResource(R.drawable.round_corner_time);
+            packageUnlock.setText(starsToUnlock + " STARS:");
+            songsTitle.setText(packageName);
+
+            LinearLayout packageStatus = (LinearLayout) findViewById(R.id.packageStatus);
+            ImageView unlockNow = (ImageView) findViewById(R.id.unlock_now);
+            unlockNow.setVisibility(View.VISIBLE);
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) unlockNow.getLayoutParams();
+            int marginLeft = packageUnlock.getLeft();
+            int marginTop = packageStatus.getBottom() + packageUnlock.getBottom();
+            params.setMargins(marginLeft, marginTop, 0, 0);
+            unlockNow.setLayoutParams(params);
+
+            unlocked = false;
         }
 
         for (int i = 0; i<playLists.size(); i++){
@@ -352,8 +386,14 @@ public class LevelSelectionActivity extends Activity {
             ImageView imageView = (ImageView)view.findViewById(R.id.image);
             TextViewArchitects textView = (TextViewArchitects)view.findViewById(R.id.title);
 
-            final RoundedCornersDrawable drawable = new RoundedCornersDrawable(getResources(), playList.getImage());
-            imageView.setImageDrawable(drawable);
+            if (packageTable.isUnlocked(packageName)){
+                final RoundedCornersDrawable drawable = new RoundedCornersDrawable(getResources(), playList.getImage());
+                imageView.setImageDrawable(drawable);
+            } else {
+                Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.grey_image);
+                final RoundedCornersDrawable drawable = new RoundedCornersDrawable(getResources(), image);
+                imageView.setImageDrawable(drawable);
+            }
 
 //            Utility.setBackgroundBySDK(imageView, song.getImage());
             textView.setText(playList.getName().toUpperCase());
@@ -534,6 +574,17 @@ public class LevelSelectionActivity extends Activity {
                     }
                 }
                 break;
+        }
+    }
+
+    public void unlockPackage(View v){
+        PlaySongsTable playSongsTable = new PlaySongsTable(LevelSelectionActivity.this);
+        int starsCurrent = playSongsTable.getSumStars();
+        Log.v("Musingo", "unlockPackage");
+        if (starsCurrent >= starsToUnlock){
+            PackageTable packageTable = new PackageTable(LevelSelectionActivity.this);
+            packageTable.updateUnlocked(true, packageName);
+            downloadResultForLevels(playlists, packageName, starsToUnlock);
         }
     }
 

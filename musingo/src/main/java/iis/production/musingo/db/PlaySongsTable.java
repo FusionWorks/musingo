@@ -31,7 +31,10 @@ public class PlaySongsTable {
 
     public void insertIntoPlaySongsTable(String packageName, Integer levelNr, String levelName, Integer bestResult, Integer completeStar, Integer beatStar, Integer boostStar){
         SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
-        db.execSQL("INSERT INTO play_songs " + "(PackageName, LevelNr, LevelName, BestResult, CompleteStar, BeatStar, BoostStar) VALUES ('" + packageName + "'," + levelNr + ",'" + levelName + "'," + bestResult + "," + completeStar + "," + beatStar + "," + boostStar +");");
+        try{
+            db.execSQL("INSERT INTO play_songs " + "(PackageName, LevelNr, LevelName, BestResult, CompleteStar, BeatStar, BoostStar) VALUES ('" + packageName + "'," + levelNr + ",'" + levelName + "'," + bestResult + "," + completeStar + "," + beatStar + "," + boostStar +");");
+        }
+        catch (Exception e){}
         db.close();
     }
 
@@ -47,6 +50,27 @@ public class PlaySongsTable {
         int boostStarInt = (boostStar)? 1 : 0;
         SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
         db.execSQL("UPDATE play_songs SET CompleteStar = " + completeStarInt + ", BeatStar = "+ beatStarInt + ", BoostStar = " + boostStarInt + " WHERE LevelNr = " + levelNr);
+        db.close();
+    }
+
+    public void updateCompleteStar(Boolean completeStar, Integer levelNr){
+        int completeStarInt = (completeStar)? 1 : 0;
+        SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
+        db.execSQL("UPDATE play_songs SET CompleteStar = " + completeStarInt + " WHERE LevelNr = " + levelNr);
+        db.close();
+    }
+
+    public void updateBeatStar(Boolean beatStar, Integer levelNr){
+        int beatStarInt = (beatStar)? 1 : 0;
+        SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
+        db.execSQL("UPDATE play_songs SET BeatStar = "+ beatStarInt + " WHERE LevelNr = " + levelNr);
+        db.close();
+    }
+
+    public void updateBoostStar(Boolean boostStar, Integer levelNr){
+        int boostStarInt = (boostStar)? 1 : 0;
+        SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
+        db.execSQL("UPDATE play_songs SET BoostStar = " + boostStarInt + " WHERE LevelNr = " + levelNr);
         db.close();
     }
 
@@ -111,7 +135,6 @@ public class PlaySongsTable {
             number++;
         }
         db.close();
-
         return number;
     }
 

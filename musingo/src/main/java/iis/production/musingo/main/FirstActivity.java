@@ -16,6 +16,7 @@ import org.json.JSONObject;
 
 import iis.production.musingo.MusingoApp;
 import iis.production.musingo.R;
+import iis.production.musingo.db.PackageTable;
 import iis.production.musingo.db.PlaySongsTable;
 import iis.production.musingo.utility.FacebookManager;
 
@@ -37,6 +38,9 @@ public class FirstActivity extends Activity {
 // <<<temp
         PlaySongsTable playSongsTable = new PlaySongsTable(this);
         playSongsTable.deletePlaySongsTable();
+
+        PackageTable packageTable = new PackageTable(this);
+        packageTable.deletePackageTable();
 
         Log.v("Musingo", "id: " + FacebookManager.sharedPreferences.getString(getString(R.string.user_id), "") +
                 " , name: " + FacebookManager.sharedPreferences.getString(getString(R.string.user_name), ""));

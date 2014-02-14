@@ -1,2 +1,1 @@
-include ':musingo'
-include ':musingo:libs:facebook'
+include ':musingo:libs:facebook',':musingo'
