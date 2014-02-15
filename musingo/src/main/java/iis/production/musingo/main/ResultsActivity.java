@@ -50,6 +50,11 @@ public class ResultsActivity extends Activity {
 
         TextViewPacifico barTitle = (TextViewPacifico)findViewById(R.id.barTitle);
         levelName = getIntent().getStringExtra("levelName");
+        if(levelName.length() > 14){
+            barTitle.setTextSize(20);
+        } else {
+            barTitle.setTextSize(25);
+        }
         barTitle.setText(levelName);
 
         Utility.deleteMusingoDir();
@@ -100,10 +105,27 @@ public class ResultsActivity extends Activity {
         Log.v("Musingo", "Level: " + levelNumber);
 
         setBestResult();
+        setStarCollection();
 
         list.setAdapter(songsListAdapter);
 
         facebookLogin();
+    }
+
+    public void setStarCollection() {
+        int starNr = 0;
+        if(beatStar){
+            starNr = starNr + 1;
+        }
+        if(completeStar){
+            starNr = starNr + 1;
+        }
+        if(boostStar){
+            starNr = starNr + 1;
+        }
+
+        TextViewArchitects starCollection = (TextViewArchitects) findViewById(R.id.starCollectionHeader);
+        starCollection.setText("STAR COLLECTION : " + starNr + "/3");
     }
 
     public void starCollection(View v){

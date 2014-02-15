@@ -367,12 +367,16 @@ public class LevelSelectionActivity extends Activity {
 
             LinearLayout packageStatus = (LinearLayout) findViewById(R.id.packageStatus);
             ImageView unlockNow = (ImageView) findViewById(R.id.unlock_now);
-            unlockNow.setVisibility(View.VISIBLE);
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) unlockNow.getLayoutParams();
-            int marginLeft = packageUnlock.getLeft();
-            int marginTop = packageStatus.getBottom() + packageUnlock.getBottom();
-            params.setMargins(marginLeft, marginTop, 0, 0);
-            unlockNow.setLayoutParams(params);
+
+            PlaySongsTable playSongsTable = new PlaySongsTable(this);
+            if(playSongsTable.getSumStars() >= starsToUnlock){
+                unlockNow.setVisibility(View.VISIBLE);
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) unlockNow.getLayoutParams();
+                int marginLeft = packageUnlock.getLeft();
+                int marginTop = packageStatus.getBottom() + packageUnlock.getBottom();
+                params.setMargins(marginLeft, marginTop, 0, 0);
+                unlockNow.setLayoutParams(params);
+            }
 
             unlocked = false;
         }
@@ -578,14 +582,13 @@ public class LevelSelectionActivity extends Activity {
     }
 
     public void unlockPackage(View v){
-        PlaySongsTable playSongsTable = new PlaySongsTable(LevelSelectionActivity.this);
-        int starsCurrent = playSongsTable.getSumStars();
-        Log.v("Musingo", "unlockPackage");
-        if (starsCurrent >= starsToUnlock){
+//        PlaySongsTable playSongsTable = new PlaySongsTable(LevelSelectionActivity.this);
+//        int starsCurrent = playSongsTable.getSumStars();
+//        if (starsCurrent >= starsToUnlock){
             PackageTable packageTable = new PackageTable(LevelSelectionActivity.this);
             packageTable.updateUnlocked(true, packageName);
             downloadResultForLevels(playlists, packageName, starsToUnlock);
-        }
+//        }
     }
 
 }

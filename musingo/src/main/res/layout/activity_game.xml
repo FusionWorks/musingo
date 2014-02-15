@@ -6,11 +6,11 @@
     <RelativeLayout
         android:id="@+id/topBar"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:background="#3fb8cd">
         <ImageView
             android:id="@+id/backButton"
-            android:layout_width="80dp"
+            android:layout_width="@dimen/top_bar_button"
             android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
             android:layout_height="wrap_content"
@@ -1145,16 +1145,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:id="@+id/tutorial6Arrow"
-            android:src="@drawable/bonus_4_corners"/>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:id="@+id/tutorialArrow"
             android:src="@drawable/tutorial_arrow_up"/>
 
         <LinearLayout
