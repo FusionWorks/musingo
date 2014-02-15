@@ -50,6 +50,11 @@ public class ResultsActivity extends Activity {
 
         TextViewPacifico barTitle = (TextViewPacifico)findViewById(R.id.barTitle);
         levelName = getIntent().getStringExtra("levelName");
+        if(levelName.length() > 14){
+            barTitle.setTextSize(20);
+        } else {
+            barTitle.setTextSize(25);
+        }
         barTitle.setText(levelName);
 
         Utility.deleteMusingoDir();
