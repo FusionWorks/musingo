@@ -382,6 +382,16 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         }
     };
 
+    private Runnable mBonusTask = new Runnable() {
+        public void run() {
+            if(waitingForResultActivity){
+                toResultsList();
+            }
+            bonusOpen = false;
+            hideBonus();
+
+        }
+    };
 
     /**
      * Update timer on seekbar
@@ -414,6 +424,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     public void onPause(){
         super.onPause();
         mHandler.removeCallbacks(mUpdateTimeTask);
+        mHandler.removeCallbacks(mBonusTask);
         mp.release();
         finish();
     }
@@ -490,7 +501,6 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             else{
                 toResultsList();
             }
-            toResultsList();
         }
         freeze = false;
         findViewById(R.id.pauseIndicator).setVisibility(View.GONE);
@@ -574,7 +584,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     }
 
     public void toResultsList(){
-
+        mHandler.removeCallbacks(mBonusTask);
         AlertViewPink view = new AlertViewPink(this, "Horray!", "you earned \n" + yourScore.getText());
         Log.v("Musingo", "Level toResult : " + level);
         if((score - neededScore) > 0){
@@ -1067,12 +1077,16 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             setBonusImage(R.drawable.bonus_leave_no);
             score = score * 4;
             firstBonusTutorial(R.drawable.bonus_leave_no);
+            bonusOpen = true;
+            mHandler.postDelayed(mBonusTask, 2000);
         }else if(correctIndexes.contains(0) && correctIndexes.contains(4) && correctIndexes.contains(8)){
             if(crissCrossBonus){
                 setBonusImage(R.drawable.bonus_criss_cross);
                 crissCrossBonus = false;
                 score = score * 2;
                 firstBonusTutorial(R.drawable.bonus_criss_cross);
+                bonusOpen = true;
+                mHandler.postDelayed(mBonusTask, 2000);
             }
         }else if(correctIndexes.contains(0) && correctIndexes.contains(2) && correctIndexes.contains(4) && correctIndexes.contains(7) && correctIndexes.contains(8)){
             if(diagonalsBonus){
@@ -1080,6 +1094,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 diagonalsBonus = false;
                 score = score + 100;
                 firstBonusTutorial(R.drawable.bonus_new_diagonal);
+                bonusOpen = true;
+                mHandler.postDelayed(mBonusTask, 2000);
             }
         }else if(correctIndexes.contains(0) && correctIndexes.contains(1) && correctIndexes.contains(2) ||
                 correctIndexes.contains(3) && correctIndexes.contains(4) && correctIndexes.contains(5) ||
@@ -1089,6 +1105,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 squaresRowBonus = false;
                 score = score + 50;
                 firstBonusTutorial(R.drawable.bonus_three_squares_inrow);
+                bonusOpen = true;
+                mHandler.postDelayed(mBonusTask, 2000);
             }
         }else if(correctIndexes.contains(0) && correctIndexes.contains(3) && correctIndexes.contains(6) ||
                 correctIndexes.contains(1) && correctIndexes.contains(4) && correctIndexes.contains(7) ||
@@ -1098,6 +1116,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 squaresBonus = false;
                 score = score + 50;
                 firstBonusTutorial(R.drawable.bonus_three_squares);
+                bonusOpen = true;
+                mHandler.postDelayed(mBonusTask, 2000);
             }
         }else if(correctIndexes.contains(0) && correctIndexes.contains(2) && correctIndexes.contains(6) && correctIndexes.contains(8)){
             if(cornersBonus){
@@ -1105,6 +1125,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 cornersBonus = false;
                 score = score + 150;
                 firstBonusTutorial(R.drawable.bonus_4_corners);
+                bonusOpen = true;
+                mHandler.postDelayed(mBonusTask, 2000);
             }
         }
 
@@ -1118,8 +1140,9 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         imageView.setImageResource(res);
     }
 
-    public void hideBonus(View view){
-        view.setVisibility(View.GONE);
+    public void hideBonus(){
+        ImageView imageView = (ImageView)findViewById(R.id.bonusText);
+        imageView.setVisibility(View.GONE);
     }
 
     public void firstBonusTutorial(int bonusMessage){
