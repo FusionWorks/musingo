@@ -18,6 +18,7 @@
             android:onClick="starCollection">
 
             <iis.production.musingo.objects.TextViewArchitects
+                android:id="@+id/starCollectionHeader"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"

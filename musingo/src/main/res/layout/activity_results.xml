@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/topBar"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="#3fb8cd">
+        android:layout_height="wrap_content"
+        android:background="#3fb8cd"
+        android:layout_alignParentTop="true">
 
             <ImageView
                 android:id="@+id/nextButton"
-                android:layout_width="80dp"
+                android:layout_width="@dimen/top_bar_button"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_centerVertical="true"
@@ -23,14 +24,14 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="40dp"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/nextButton">
                 <iis.production.musingo.objects.TextViewPacifico
                     android:id="@+id/barTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="25sp"
+                    android:textSize="20sp"
                     android:text="Boy Bands"
                     android:layout_centerInParent="true"
                     android:textColor="#ffffff"
@@ -43,7 +44,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:id="@+id/scrollView">
+        android:id="@+id/scrollView"
+        android:layout_below="@id/topBar">
 
         <LinearLayout
             android:orientation="vertical"
@@ -59,4 +61,4 @@
         </LinearLayout>
     </ScrollView>
 
-</LinearLayout>
+</RelativeLayout>
