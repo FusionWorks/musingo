@@ -153,8 +153,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     boolean squaresRowBonus = true;
     boolean squaresBonus = true;
 
-    boolean tutorialOpen;
-    boolean bonusOpen;
+    boolean tutorialOpen = false;
+    boolean bonusOpen = false;
     boolean waitingForResultActivity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -490,7 +490,6 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             else{
                 toResultsList();
             }
-            toResultsList();
         }
         freeze = false;
         findViewById(R.id.pauseIndicator).setVisibility(View.GONE);
