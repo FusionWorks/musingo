@@ -6,7 +6,6 @@
       <module fileurl="file://$PROJECT_DIR$/musingo/libs/facebook/facebook.iml" filepath="$PROJECT_DIR$/musingo/libs/facebook/facebook.iml" />
       <module fileurl="file://$PROJECT_DIR$/musingo/libs/libs.iml" filepath="$PROJECT_DIR$/musingo/libs/libs.iml" />
       <module fileurl="file://$PROJECT_DIR$/musingo/musingo.iml" filepath="$PROJECT_DIR$/musingo/musingo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/musingo/musingo-musingo.iml" filepath="$PROJECT_DIR$/musingo/musingo-musingo.iml" />
     </modules>
   </component>
 </project>
