@@ -3,6 +3,7 @@
     android:id="@+id/songs"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
     android:orientation="vertical">
     <LinearLayout
         android:id="@+id/line1"
@@ -73,6 +74,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.33"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:onClick="goToLevel"
             android:tag="2">
             <ImageView
@@ -191,6 +194,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.33"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:orientation="horizontal">
         <RelativeLayout
             android:id="@+id/playlist4"
@@ -256,6 +261,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.33"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:onClick="goToLevel"
             android:tag="5">
             <ImageView
@@ -438,6 +445,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.33"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:onClick="goToLevel"
             android:tag="8">
             <ImageView

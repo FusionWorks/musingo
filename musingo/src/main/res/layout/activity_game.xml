@@ -65,16 +65,18 @@
             android:background="@drawable/middle_subtab">
             <iis.production.musingo.objects.TextViewPacifico
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:textSize="15sp"
                 android:text="#"
+                android:gravity="bottom"
                 android:textColor="#ffffff"
                 style="@style/Shadow"/>
             <iis.production.musingo.objects.TextViewPacifico
                 android:id="@+id/levelNumber"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:textSize="25sp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="30sp"
+                android:gravity="top"
                 android:text="1"
                 android:textAlignment="textStart"
                 android:textColor="#ffffff"
@@ -147,15 +149,20 @@
                 android:layout_width = "fill_parent"
                 android:layout_height="2dp"/>
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_centerInParent="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:orientation="horizontal">
                 <RelativeLayout
                     android:id="@+id/song1"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="2dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.11"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
                     android:background="@drawable/round_song">
                     <iis.production.musingo.objects.TextViewPacifico
                         android:id="@+id/title"
@@ -168,9 +175,12 @@
                     </RelativeLayout>
                 <RelativeLayout
                     android:id="@+id/song2"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="2dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.11"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
                     android:background="@drawable/round_song">
                     <iis.production.musingo.objects.TextViewPacifico
                         android:id="@+id/title"
@@ -183,9 +193,12 @@
                     </RelativeLayout>
                 <RelativeLayout
                     android:id="@+id/song3"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="2dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.11"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
                     android:background="@drawable/round_song">
                     <iis.production.musingo.objects.TextViewPacifico
                         android:id="@+id/title"
@@ -198,9 +211,12 @@
                     </RelativeLayout>
                 <RelativeLayout
                     android:id="@+id/song4"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="2dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.11"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
                     android:background="@drawable/round_song">
                     <iis.production.musingo.objects.TextViewPacifico
                         android:id="@+id/title"
@@ -213,9 +229,12 @@
                     </RelativeLayout>
                 <RelativeLayout
                     android:id="@+id/song5"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="2dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.11"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
                     android:background="@drawable/round_song">
                     <iis.production.musingo.objects.TextViewPacifico
                         android:id="@+id/title"
@@ -228,9 +247,12 @@
                     </RelativeLayout>
                 <RelativeLayout
                     android:id="@+id/song6"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="2dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.11"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
                     android:background="@drawable/round_song">
                     <iis.production.musingo.objects.TextViewPacifico
                         android:id="@+id/title"
@@ -243,9 +265,12 @@
                     </RelativeLayout>
                 <RelativeLayout
                     android:id="@+id/song7"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="2dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.11"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
                     android:background="@drawable/round_song">
                     <iis.production.musingo.objects.TextViewPacifico
                         android:id="@+id/title"
@@ -258,9 +283,12 @@
                     </RelativeLayout>
                 <RelativeLayout
                     android:id="@+id/song8"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="2dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.11"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
                     android:background="@drawable/round_song">
                     <iis.production.musingo.objects.TextViewPacifico
                         android:id="@+id/title"
@@ -273,9 +301,12 @@
                     </RelativeLayout>
                 <RelativeLayout
                     android:id="@+id/song9"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="2dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.11"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
                     android:background="@drawable/round_song">
                     <iis.production.musingo.objects.TextViewPacifico
                         android:id="@+id/title"
@@ -288,14 +319,13 @@
                     </RelativeLayout>
                 </LinearLayout>
             <LinearLayout
-                android:layout_width="340dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true">
                 <RelativeLayout
                     android:id="@+id/seekBar"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="20dp"
                     android:layout_centerVertical="true"
                     android:background="@drawable/round_seekbar_white">
                         <ImageView

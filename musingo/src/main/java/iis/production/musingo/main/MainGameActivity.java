@@ -9,7 +9,9 @@ import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
@@ -127,7 +129,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     int level;
 
     int correctSongs;
-
+    float offset;
     int packageNumber;
     String packageName;
     int neededScore;
@@ -143,7 +145,12 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     ArrayList<RelativeLayout> hintSelected;
 
     AlertDialog dialog;
-
+    // Bonuses
+    boolean crissCrossBonus = true;
+    boolean cornersBonus = true;
+    boolean diagonalsBonus = true;
+    boolean squaresRowBonus = true;
+    boolean squaresBonus = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -171,6 +178,15 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         skip = false;
         replay = false;
         correctSongs = 0;
+
+        Display display = getWindowManager().getDefaultDisplay();
+        DisplayMetrics outMetrics = new DisplayMetrics ();
+        display.getMetrics(outMetrics);
+
+        float density  = getResources().getDisplayMetrics().density;
+        float dpScreenWidth  = outMetrics.widthPixels / density;
+        offset = (dpScreenWidth - 60.0f) / 9.0f;
+
         hintSelected = new ArrayList<RelativeLayout>();
         //Powerups icons
         hintfb = (ImageView)findViewById(R.id.hintfb);
@@ -427,7 +443,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         skipBorder = false;
         if(currentSong != 8 && !replay){
             final float scale = getResources().getDisplayMetrics().density;
-            int left = 35 * (currentSong + 1);
+            int left = Math.round(offset * ((float)currentSong+1)) + currentSong;
             int pixels = (int) (left * scale + 0.5f);
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) seekBar.getLayoutParams();
             params.setMargins(pixels, 0, 0, 0);
@@ -441,7 +457,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
         }else if(skip && currentSong == 8){
             final float scale = getResources().getDisplayMetrics().density;
-            int left = 35 * (skippedSong + 1);
+            int left = Math.round(offset * ((float)currentSong+1)) + currentSong;
             int pixels = (int) (left * scale + 0.5f);
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) seekBar.getLayoutParams();
             params.setMargins(pixels, 0, 0, 0);
@@ -451,7 +467,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             currentSong = 8;
         }else if(replay){
             final float scale = getResources().getDisplayMetrics().density;
-            int left = 35 * (currentSong);
+
+            int left = Math.round(offset * ((float)currentSong+1)) + currentSong;
             int pixels = (int) (left * scale + 0.5f);
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) seekBar.getLayoutParams();
             params.setMargins(pixels, 0, 0, 0);
@@ -1195,21 +1212,44 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         }
         if(correctSongs == 9){
             setBonusImage(R.drawable.bonus_leave_no);
-        }else if(correctIndexes.contains(1) && correctIndexes.contains(5) && correctIndexes.contains(9)){
-            setBonusImage(R.drawable.bonus_criss_cross);
-        }else if(correctIndexes.contains(1) && correctIndexes.contains(3) && correctIndexes.contains(5) && correctIndexes.contains(7) && correctIndexes.contains(9)){
-            setBonusImage(R.drawable.bonus_new_diagonal);
-        }else if(correctIndexes.contains(1) && correctIndexes.contains(2) && correctIndexes.contains(3) ||
-                correctIndexes.contains(4) && correctIndexes.contains(5) && correctIndexes.contains(6) ||
-                correctIndexes.contains(7) && correctIndexes.contains(8) && correctIndexes.contains(9)){
-            setBonusImage(R.drawable.bonus_three_squares_inrow);
-        }else if(correctIndexes.contains(1) && correctIndexes.contains(4) && correctIndexes.contains(7) ||
-                correctIndexes.contains(2) && correctIndexes.contains(5) && correctIndexes.contains(8) ||
-                correctIndexes.contains(3) && correctIndexes.contains(6) && correctIndexes.contains(9)){
-            setBonusImage(R.drawable.bonus_three_squares);
-        }else if(correctIndexes.contains(1) && correctIndexes.contains(3) && correctIndexes.contains(7) && correctIndexes.contains(9)){
-            setBonusImage(R.drawable.bonus_4_corners);
+            score = score * 4;
+        }else if(correctIndexes.contains(0) && correctIndexes.contains(4) && correctIndexes.contains(8)){
+            if(crissCrossBonus){
+                setBonusImage(R.drawable.bonus_criss_cross);
+                crissCrossBonus = false;
+                score = score * 2;
+            }
+        }else if(correctIndexes.contains(0) && correctIndexes.contains(2) && correctIndexes.contains(4) && correctIndexes.contains(7) && correctIndexes.contains(8)){
+            if(diagonalsBonus){
+                setBonusImage(R.drawable.bonus_new_diagonal);
+                diagonalsBonus = false;
+                score = score + 100;
+            }
+        }else if(correctIndexes.contains(0) && correctIndexes.contains(1) && correctIndexes.contains(2) ||
+                correctIndexes.contains(3) && correctIndexes.contains(4) && correctIndexes.contains(5) ||
+                correctIndexes.contains(6) && correctIndexes.contains(7) && correctIndexes.contains(8)){
+            if(squaresRowBonus){
+                setBonusImage(R.drawable.bonus_three_squares_inrow);
+                squaresRowBonus = false;
+                score = score + 50;
+            }
+        }else if(correctIndexes.contains(0) && correctIndexes.contains(3) && correctIndexes.contains(6) ||
+                correctIndexes.contains(1) && correctIndexes.contains(4) && correctIndexes.contains(7) ||
+                correctIndexes.contains(2) && correctIndexes.contains(5) && correctIndexes.contains(8)){
+            if(squaresBonus){
+                setBonusImage(R.drawable.bonus_three_squares);
+                squaresBonus = false;
+                score = score + 50;
+            }
+        }else if(correctIndexes.contains(0) && correctIndexes.contains(2) && correctIndexes.contains(6) && correctIndexes.contains(8)){
+            if(cornersBonus){
+                setBonusImage(R.drawable.bonus_4_corners);
+                cornersBonus = false;
+                score = score + 150;
+            }
         }
+
+        yourScore.setText(String.valueOf(score));
 
     }
 
