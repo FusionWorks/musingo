@@ -6,11 +6,11 @@
     <RelativeLayout
         android:id="@+id/topBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:background="#3fb8cd">
         <ImageView
             android:id="@+id/backButton"
-            android:layout_width="@dimen/top_bar_button"
+            android:layout_width="80dp"
             android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
             android:layout_height="wrap_content"
@@ -561,6 +561,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="10dp"
                         android:text="HIT THE TOWN"
                         android:gravity="center"
                         android:textSize="@dimen/song_title"
@@ -597,7 +598,6 @@
                         android:id="@+id/title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="0dp"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="10dp"
@@ -605,8 +605,9 @@
                         android:gravity="center"
                         android:textSize="@dimen/song_title"
                         android:padding="3dp"
-                        android:background="@drawable/round_song_transparent"
                         android:layout_marginRight="5dp"
+                        android:layout_marginLeft="15dp"
+                        android:background="@drawable/round_song_transparent"
                         android:textStyle="bold"/>
                 </RelativeLayout>
                 <RelativeLayout
@@ -635,7 +636,8 @@
                         android:id="@+id/title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginLeft="15dp"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="10dp"
@@ -644,7 +646,6 @@
                         android:textSize="@dimen/song_title"
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
-                        android:layout_marginRight="5dp"
                         android:textStyle="bold"/>
                 </RelativeLayout>
             </LinearLayout>
@@ -682,7 +683,6 @@
                         android:id="@+id/title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="10dp"
@@ -692,6 +692,7 @@
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
                         android:layout_marginRight="5dp"
+                        android:layout_marginLeft="15dp"
                         android:textStyle="bold"/>
                 </RelativeLayout>
                 <RelativeLayout
@@ -721,7 +722,6 @@
                         android:id="@+id/title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="10dp"
@@ -731,6 +731,7 @@
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
                         android:layout_marginRight="5dp"
+                        android:layout_marginLeft="15dp"
                         android:textStyle="bold"/>
                 </RelativeLayout>
                 <RelativeLayout
@@ -759,7 +760,8 @@
                         android:id="@+id/title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginLeft="15dp"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="10dp"
@@ -768,7 +770,6 @@
                         android:textSize="@dimen/song_title"
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
-                        android:layout_marginRight="5dp"
                         android:textStyle="bold"/>
                 </RelativeLayout>
             </LinearLayout>
@@ -805,7 +806,6 @@
                         android:id="@+id/title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="10dp"
@@ -815,6 +815,7 @@
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
                         android:layout_marginRight="5dp"
+                        android:layout_marginLeft="15dp"
                         android:textStyle="bold"/>
                 </RelativeLayout>
                 <RelativeLayout
@@ -844,7 +845,8 @@
                         android:id="@+id/title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginLeft="15dp"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="10dp"
@@ -853,7 +855,6 @@
                         android:textSize="@dimen/song_title"
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
-                        android:layout_marginRight="5dp"
                         android:textStyle="bold"/>
                 </RelativeLayout>
                 <RelativeLayout
@@ -882,7 +883,6 @@
                         android:id="@+id/title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="10dp"
@@ -892,6 +892,7 @@
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
                         android:layout_marginRight="5dp"
+                        android:layout_marginLeft="15dp"
                         android:textStyle="bold"/>
                     </RelativeLayout>
                 </LinearLayout>
@@ -1138,13 +1139,22 @@
         android:id="@+id/tutorial6"
         android:layout_centerVertical="true"
         android:onClick="nextTutorial"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:id="@+id/tutorial6Arrow"
+            android:src="@drawable/bonus_4_corners"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/tutorialArrow"
             android:src="@drawable/tutorial_arrow_up"/>
 
         <LinearLayout
@@ -1178,7 +1188,7 @@
         android:id="@+id/bonusText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="150dp"
         android:layout_centerHorizontal="true"
         android:onClick="hideBonus"
         android:visibility="gone"
