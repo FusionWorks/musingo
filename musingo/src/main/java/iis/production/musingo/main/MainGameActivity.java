@@ -118,6 +118,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     ArrayList<Integer> correctIndexes;
     SharedPreferences firstRun = null;
     SharedPreferences firstBonus = null;
+    SharedPreferences firstFbHint = null;
 
     //Media Player vars
     SharedPreferences mSettings;
@@ -300,6 +301,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
         firstRun = getSharedPreferences("iis.production.musingo.main", MODE_PRIVATE);
         firstBonus = getSharedPreferences("iis.production.musingo.main", MODE_PRIVATE);
+        firstFbHint = getSharedPreferences("iis.production.musingo.main", MODE_PRIVATE);
         if(firstRun.getBoolean("firstRun", true)){
             tutorial1.setVisibility(View.VISIBLE);
 
@@ -490,6 +492,10 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             else{
                 toResultsList();
             }
+        }
+
+        if(currentSong == 5){
+            firsFbHintTutorial();
         }
         freeze = false;
         findViewById(R.id.pauseIndicator).setVisibility(View.GONE);
@@ -997,10 +1003,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 // - Tutorials
     public void nextTutorial(View v){
         LinearLayout.LayoutParams params;
-        final float scale = getResources().getDisplayMetrics().density;
         int marginLeft;
         int marginRight;
-        int marginBottom;
 
         switch (v.getId()){
             case R.id.tutorial1 :
@@ -1029,27 +1033,21 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 break;
             case R.id.tutorial4 :
                 tutorial4.setVisibility(View.GONE);
-                tutorial5.setVisibility(View.VISIBLE);
 
-                marginRight = (int) (17 * scale);
-                marginBottom = (int) (53 * scale);
-                Log.v("Musingo", "scale: " + scale);
-                params = (LinearLayout.LayoutParams) tutorial5Arrow.getLayoutParams();
-                params.setMargins(marginRight, 0, 0, marginBottom);
-                tutorial5Arrow.setLayoutParams(params);
-                break;
-            case R.id.tutorial5 :
-                playSong(0);
-                tutorial5.setVisibility(View.GONE);
                 SharedPreferences.Editor editor = firstRun.edit();
                 editor.putBoolean("firstRun", false);
                 editor.commit();
+                playSong(0);
+
+                break;
+            case R.id.tutorial5 :
+                mp.start();
+                tutorial5.setVisibility(View.GONE);
                 break;
             case R.id.tutorial6 :
                 mp.start();
                 tutorial6.setVisibility(View.GONE);
-                ImageView imageView = (ImageView)findViewById(R.id.bonusText);
-                imageView.setVisibility(View.GONE);
+                hideBonus();
                 if(waitingForResultActivity){
                     toResultsList();
                 }
@@ -1065,20 +1063,20 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         if(correctSongs == 9){
             setBonusImage(R.drawable.bonus_leave_no);
             score = score * 4;
-            firstBonusTutorial(R.drawable.bonus_leave_no);
+            firstBonusTutorial();
         }else if(correctIndexes.contains(0) && correctIndexes.contains(4) && correctIndexes.contains(8)){
             if(crissCrossBonus){
                 setBonusImage(R.drawable.bonus_criss_cross);
                 crissCrossBonus = false;
                 score = score * 2;
-                firstBonusTutorial(R.drawable.bonus_criss_cross);
+                firstBonusTutorial();
             }
         }else if(correctIndexes.contains(0) && correctIndexes.contains(2) && correctIndexes.contains(4) && correctIndexes.contains(7) && correctIndexes.contains(8)){
             if(diagonalsBonus){
                 setBonusImage(R.drawable.bonus_new_diagonal);
                 diagonalsBonus = false;
                 score = score + 100;
-                firstBonusTutorial(R.drawable.bonus_new_diagonal);
+                firstBonusTutorial();
             }
         }else if(correctIndexes.contains(0) && correctIndexes.contains(1) && correctIndexes.contains(2) ||
                 correctIndexes.contains(3) && correctIndexes.contains(4) && correctIndexes.contains(5) ||
@@ -1087,7 +1085,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 setBonusImage(R.drawable.bonus_three_squares_inrow);
                 squaresRowBonus = false;
                 score = score + 50;
-                firstBonusTutorial(R.drawable.bonus_three_squares_inrow);
+                firstBonusTutorial();
             }
         }else if(correctIndexes.contains(0) && correctIndexes.contains(3) && correctIndexes.contains(6) ||
                 correctIndexes.contains(1) && correctIndexes.contains(4) && correctIndexes.contains(7) ||
@@ -1096,14 +1094,14 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 setBonusImage(R.drawable.bonus_three_squares);
                 squaresBonus = false;
                 score = score + 50;
-                firstBonusTutorial(R.drawable.bonus_three_squares);
+                firstBonusTutorial();
             }
         }else if(correctIndexes.contains(0) && correctIndexes.contains(2) && correctIndexes.contains(6) && correctIndexes.contains(8)){
             if(cornersBonus){
                 setBonusImage(R.drawable.bonus_4_corners);
                 cornersBonus = false;
                 score = score + 150;
-                firstBonusTutorial(R.drawable.bonus_4_corners);
+                firstBonusTutorial();
             }
         }
 
@@ -1117,21 +1115,44 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         imageView.setImageResource(res);
     }
 
-    public void hideBonus(View view){
-        view.setVisibility(View.GONE);
+    public void hideBonus(){
+        ImageView imageView = (ImageView)findViewById(R.id.bonusText);
+        imageView.setVisibility(View.GONE);
     }
 
-    public void firstBonusTutorial(int bonusMessage){
+    public void firstBonusTutorial(){
         if(firstBonus.getBoolean("firstBonus", true)){
             mp.pause();
-//            ImageView imageView = (ImageView) findViewById(R.id.bonusTutorial);
+
             tutorial6.setVisibility(View.VISIBLE);
-//            imageView.setImageResource(bonusMessage);
             SharedPreferences.Editor editor = firstBonus.edit();
             editor.putBoolean("firstBonus", false);
             editor.commit();
 
             tutorialOpen = true;
+        }
+    }
+
+    public void firsFbHintTutorial(){
+        if(firstFbHint.getBoolean("firstFbHint", true)){
+            mp.pause();
+
+            LinearLayout.LayoutParams params;
+            final float scale = getResources().getDisplayMetrics().density;
+            int marginRight;
+            int marginBottom;
+
+            tutorial5.setVisibility(View.VISIBLE);
+            SharedPreferences.Editor editor = firstFbHint.edit();
+            editor.putBoolean("firstFbHint", false);
+            editor.commit();
+
+            marginRight = (int) (17 * scale);
+            marginBottom = (int) (53 * scale);
+            Log.v("Musingo", "scale: " + scale);
+            params = (LinearLayout.LayoutParams) tutorial5Arrow.getLayoutParams();
+            params.setMargins(marginRight, 0, 0, marginBottom);
+            tutorial5Arrow.setLayoutParams(params);
         }
     }
 }
