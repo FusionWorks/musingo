@@ -9,6 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.33"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:orientation="horizontal">
         <RelativeLayout
             android:id="@+id/playlist1"
@@ -23,20 +25,6 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="20dp"
                 android:layout_centerHorizontal="true"/>
-            <iis.production.musingo.objects.TextViewArchitects
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="25dp"
-                android:layout_alignParentBottom="true"
-                android:text=""
-                android:gravity="center"
-                android:textSize="@dimen/change_package"
-                android:padding="3dp"
-                android:background="@drawable/round_song_transparent"
-                android:layout_marginRight="20dp"/>
             <LinearLayout
                 android:id="@+id/stars"
                 android:layout_width="match_parent"
@@ -67,12 +55,27 @@
                     android:scaleType="fitEnd"
                     android:src="@drawable/star_blank"/>
             </LinearLayout>
+            <iis.production.musingo.objects.TextViewArchitects
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@id/stars"
+                android:text=""
+                android:gravity="center"
+                android:textSize="@dimen/change_package"
+                android:padding="3dp"
+                android:background="@drawable/round_song_transparent"
+                android:layout_marginRight="20dp"/>
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/playlist2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.33"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:onClick="goToLevel"
             android:tag="2">
             <ImageView
@@ -81,20 +84,6 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="20dp"
                 android:layout_centerHorizontal="true"/>
-            <iis.production.musingo.objects.TextViewArchitects
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="25dp"
-                android:text=""
-                android:gravity="center"
-                android:textSize="@dimen/change_package"
-                android:padding="3dp"
-                android:background="@drawable/round_song_transparent"
-                android:layout_marginRight="15dp"/>
             <LinearLayout
                 android:id="@+id/stars"
                 android:layout_width="match_parent"
@@ -125,6 +114,19 @@
                     android:scaleType="fitEnd"
                     android:src="@drawable/star_blank"/>
             </LinearLayout>
+            <iis.production.musingo.objects.TextViewArchitects
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@id/stars"
+                android:text=""
+                android:gravity="center"
+                android:textSize="@dimen/change_package"
+                android:padding="3dp"
+                android:background="@drawable/round_song_transparent"
+                android:layout_marginRight="20dp"/>
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/playlist3"
@@ -140,20 +142,6 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="20dp"
                 android:layout_centerHorizontal="true"/>
-            <iis.production.musingo.objects.TextViewArchitects
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="25dp"
-                android:text=""
-                android:gravity="center"
-                android:textSize="@dimen/change_package"
-                android:padding="3dp"
-                android:background="@drawable/round_song_transparent"
-                android:layout_marginRight="15dp"/>
             <LinearLayout
                 android:id="@+id/stars"
                 android:layout_width="match_parent"
@@ -184,6 +172,19 @@
                     android:scaleType="fitEnd"
                     android:src="@drawable/star_blank"/>
             </LinearLayout>
+            <iis.production.musingo.objects.TextViewArchitects
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@id/stars"
+                android:text=""
+                android:gravity="center"
+                android:textSize="@dimen/change_package"
+                android:padding="3dp"
+                android:background="@drawable/round_song_transparent"
+                android:layout_marginRight="20dp"/>
         </RelativeLayout>
     </LinearLayout>
     <LinearLayout
@@ -191,6 +192,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.33"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:orientation="horizontal">
         <RelativeLayout
             android:id="@+id/playlist4"
@@ -206,20 +211,6 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="20dp"
                 android:layout_centerHorizontal="true"/>
-            <iis.production.musingo.objects.TextViewArchitects
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="25dp"
-                android:text=""
-                android:gravity="center"
-                android:textSize="@dimen/change_package"
-                android:padding="3dp"
-                android:background="@drawable/round_song_transparent"
-                android:layout_marginRight="15dp"/>
             <LinearLayout
                 android:id="@+id/stars"
                 android:layout_width="match_parent"
@@ -250,12 +241,27 @@
                     android:scaleType="fitEnd"
                     android:src="@drawable/star_blank"/>
             </LinearLayout>
+            <iis.production.musingo.objects.TextViewArchitects
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@id/stars"
+                android:text=""
+                android:gravity="center"
+                android:textSize="@dimen/change_package"
+                android:padding="3dp"
+                android:background="@drawable/round_song_transparent"
+                android:layout_marginRight="20dp"/>
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/playlist5"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.33"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:onClick="goToLevel"
             android:tag="5">
             <ImageView
@@ -264,20 +270,6 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="20dp"
                 android:layout_centerHorizontal="true"/>
-            <iis.production.musingo.objects.TextViewArchitects
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="25dp"
-                android:text=""
-                android:gravity="center"
-                android:textSize="@dimen/change_package"
-                android:padding="3dp"
-                android:background="@drawable/round_song_transparent"
-                android:layout_marginRight="15dp"/>
             <LinearLayout
                 android:id="@+id/stars"
                 android:layout_width="match_parent"
@@ -308,6 +300,19 @@
                     android:scaleType="fitEnd"
                     android:src="@drawable/star_blank"/>
             </LinearLayout>
+            <iis.production.musingo.objects.TextViewArchitects
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@id/stars"
+                android:text=""
+                android:gravity="center"
+                android:textSize="@dimen/change_package"
+                android:padding="3dp"
+                android:background="@drawable/round_song_transparent"
+                android:layout_marginRight="20dp"/>
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/playlist6"
@@ -322,20 +327,6 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="20dp"
                 android:layout_centerHorizontal="true"/>
-            <iis.production.musingo.objects.TextViewArchitects
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="25dp"
-                android:text=""
-                android:gravity="center"
-                android:textSize="@dimen/change_package"
-                android:padding="3dp"
-                android:background="@drawable/round_song_transparent"
-                android:layout_marginRight="15dp"/>
             <LinearLayout
                 android:id="@+id/stars"
                 android:layout_width="match_parent"
@@ -366,6 +357,19 @@
                     android:scaleType="fitEnd"
                     android:src="@drawable/star_blank"/>
             </LinearLayout>
+            <iis.production.musingo.objects.TextViewArchitects
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@id/stars"
+                android:text=""
+                android:gravity="center"
+                android:textSize="@dimen/change_package"
+                android:padding="3dp"
+                android:background="@drawable/round_song_transparent"
+                android:layout_marginRight="20dp"/>
         </RelativeLayout>
     </LinearLayout>
     <LinearLayout
@@ -373,6 +377,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.33"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:orientation="horizontal">
         <RelativeLayout
             android:id="@+id/playlist7"
@@ -388,20 +394,6 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="20dp"
                 android:layout_centerHorizontal="true"/>
-            <iis.production.musingo.objects.TextViewArchitects
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="25dp"
-                android:text=""
-                android:gravity="center"
-                android:textSize="@dimen/change_package"
-                android:padding="3dp"
-                android:background="@drawable/round_song_transparent"
-                android:layout_marginRight="15dp"/>
             <LinearLayout
                 android:id="@+id/stars"
                 android:layout_width="match_parent"
@@ -432,12 +424,27 @@
                     android:scaleType="fitEnd"
                     android:src="@drawable/star_blank"/>
             </LinearLayout>
+            <iis.production.musingo.objects.TextViewArchitects
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@id/stars"
+                android:text=""
+                android:gravity="center"
+                android:textSize="@dimen/change_package"
+                android:padding="3dp"
+                android:background="@drawable/round_song_transparent"
+                android:layout_marginRight="20dp"/>
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/playlist8"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.33"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:onClick="goToLevel"
             android:tag="8">
             <ImageView
@@ -446,20 +453,6 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="20dp"
                 android:layout_centerHorizontal="true"/>
-            <iis.production.musingo.objects.TextViewArchitects
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="25dp"
-                android:text=""
-                android:gravity="center"
-                android:textSize="@dimen/change_package"
-                android:padding="3dp"
-                android:background="@drawable/round_song_transparent"
-                android:layout_marginRight="15dp"/>
             <LinearLayout
                 android:id="@+id/stars"
                 android:layout_width="match_parent"
@@ -490,6 +483,19 @@
                     android:scaleType="fitEnd"
                     android:src="@drawable/star_blank"/>
             </LinearLayout>
+            <iis.production.musingo.objects.TextViewArchitects
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@id/stars"
+                android:text=""
+                android:gravity="center"
+                android:textSize="@dimen/change_package"
+                android:padding="3dp"
+                android:background="@drawable/round_song_transparent"
+                android:layout_marginRight="20dp"/>
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/playlist9"
@@ -504,20 +510,6 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="20dp"
                 android:layout_centerHorizontal="true"/>
-            <iis.production.musingo.objects.TextViewArchitects
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="25dp"
-                android:text=""
-                android:gravity="center"
-                android:textSize="@dimen/change_package"
-                android:padding="3dp"
-                android:background="@drawable/round_song_transparent"
-                android:layout_marginRight="15dp"/>
             <LinearLayout
                 android:id="@+id/stars"
                 android:layout_width="match_parent"
@@ -548,6 +540,19 @@
                     android:scaleType="fitEnd"
                     android:src="@drawable/star_blank"/>
             </LinearLayout>
+            <iis.production.musingo.objects.TextViewArchitects
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@id/stars"
+                android:text=""
+                android:gravity="center"
+                android:textSize="@dimen/change_package"
+                android:padding="3dp"
+                android:background="@drawable/round_song_transparent"
+                android:layout_marginRight="20dp"/>
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

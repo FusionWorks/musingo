@@ -416,7 +416,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         checkForBonuses();
         findViewById(R.id.pauseIndicator).setVisibility(View.GONE);
         for(RelativeLayout hint : hintSelected){
-            Utility.setBackgroundBySDK(hint,null);
+            Utility.setBackgroundBySDK(hint.findViewById(R.id.borderRight),null);
         }
         hintSelected = new ArrayList<RelativeLayout>();
 
@@ -773,34 +773,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
     public void powerUpHint(View view){
         int cost = Integer.parseInt(getString(R.string.cost_hint));
-//            if(view.getTag().toString().equals("inv")){
-//                if(powerupPurcase(cost)){
-//                    mSettings.edit().putBoolean("hint",true).commit();
-//                    hintHint.setImageResource(R.drawable.hint_hint_vis);
-//                    view.setTag("vis");
-//                    String title = getString(R.string.hint_powerup_title);
-//                    String body = getString(R.string.hint_powerup_body);
-//                    dialog = new AlertViewOrange("Hint Powerup" , title, body, this);
-//                    dialog.show();
-//                    mp.pause();
-//                    dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-//                        @Override
-//                        public void onDismiss(DialogInterface dialog) {
-//                            mp.start();
-//                        }
-//                    });
-//                }else{
-//                    dialog = new AlertViewOrange("Next Playlist Powerup" , getString(R.string.alert_title), getString(R.string.alert_not_enough_money), this);
-//                }
-//            }else if(view.getTag().toString().equals("vis")){
-//                if(availableForHint.size() > 4){
-//                    powerUpUsed = true;
-//                    mSettings.edit().putBoolean("hint",false).commit();
-//                    hintHint.setImageResource(R.drawable.hint_hint_inv);
-//                    view.setTag("inv");
-//                    hintAction();
-//                }
-//            }
+
         if(view.getTag().toString().equals("vis")){
             MusingoApp.soundButton();
             if(availableForHint.size() > 4 && powerupPurcase(cost)){
@@ -815,34 +788,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
     public void powerUpSkip(View view){
         int cost = Integer.parseInt(getString(R.string.cost_skip));
-//        if(view.getTag().toString().equals("inv")){
-//            if(powerupPurcase(cost)){
-//                mSettings.edit().putBoolean("skip",true).commit();
-//                ImageView image = (ImageView)hintSkip.findViewById(R.id.hint);
-//                image.setImageResource(R.drawable.hint_skip_vis);
-//                view.setTag("vis");
-//                String title = getString(R.string.skip_powerup_title);
-//                String body = getString(R.string.skip_powerup_body);
-//                dialog = new AlertViewOrange("Skip Playlist Powerup" , title, body, this);
-//                dialog.show();
-//                mp.pause();
-//                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-//                    @Override
-//                    public void onDismiss(DialogInterface dialog) {
-//                        mp.start();
-//                    }
-//                });
-//            }else{
-//                dialog = new AlertViewOrange("Next Playlist Powerup" , getString(R.string.alert_title), getString(R.string.alert_not_enough_money), this);
-//            }
-//        }else if(view.getTag().toString().equals("vis")){
-//            powerUpUsed = true;
-//            mSettings.edit().putBoolean("skip",false).commit();
-//            ImageView image = (ImageView)hintSkip.findViewById(R.id.hint);
-//            image.setImageResource(R.drawable.hint_skip_inv);
-//            view.setTag("inv");
-//            skipAction();
-//        }
+
 
         if(view.getTag().toString().equals("vis")){
             MusingoApp.soundButton();
@@ -857,34 +803,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
     public void powerUpReplay(View view){
         int cost = Integer.parseInt(getString(R.string.cost_replay));
-//        if(view.getTag().toString().equals("inv")){
-//            if(powerupPurcase(cost)){
-//                mSettings.edit().putBoolean("replay",true).commit();
-//                ImageView image = (ImageView)hintReplay.findViewById(R.id.hint);
-//                image.setImageResource(R.drawable.hint_replay_vis);
-//                view.setTag("vis");
-//                String title = getString(R.string.replay_powerup_title);
-//                String body = getString(R.string.replay_powerup_body);
-//                dialog = new AlertViewOrange("Replay Powerup" , title, body, this);
-//                dialog.show();
-//                mp.pause();
-//                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-//                    @Override
-//                    public void onDismiss(DialogInterface dialog) {
-//                        mp.start();
-//                    }
-//                });
-//            }else{
-//                dialog = new AlertViewOrange("Next Playlist Powerup" , getString(R.string.alert_title), getString(R.string.alert_not_enough_money), this);
-//            }
-//        }else if(view.getTag().toString().equals("vis")){
-//            powerUpUsed = true;
-//            mSettings.edit().putBoolean("replay",false).commit();
-//            ImageView image = (ImageView)hintReplay.findViewById(R.id.hint);
-//            image.setImageResource(R.drawable.hint_replay_inv);
-//            view.setTag("inv");
-//            replayAction();
-//        }
+
 
         if(view.getTag().toString().equals("vis")){
             MusingoApp.soundButton();
@@ -899,35 +818,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
     public void powerUpFreeze(View view){
         int cost = Integer.parseInt(getString(R.string.cost_freeze));
-//        if(view.getTag().toString().equals("inv")){
-//            if(powerupPurcase(cost)){
-//                mSettings.edit().putBoolean("freeze",true).commit();
-//                ImageView image = (ImageView)hintFreeze.findViewById(R.id.hint);
-//                image.setImageResource(R.drawable.hint_freeze_vis);
-//                view.setTag("vis");
-//                String title = getString(R.string.freeze_powerup_title);
-//                String body = getString(R.string.freeze_powerup_body);
-//                dialog = new AlertViewOrange("Freeze Powerup" , title, body, this);
-//                dialog.show();
-//                mp.pause();
-//                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-//                    @Override
-//                    public void onDismiss(DialogInterface dialog) {
-//                        mp.start();
-//                    }
-//                });
-//            }else{
-//                dialog = new AlertViewOrange("Next Playlist Powerup" , getString(R.string.alert_title), getString(R.string.alert_not_enough_money), this);
-//            }
-//
-//        }else if(view.getTag().toString().equals("vis")){
-//            powerUpUsed = true;
-//            mSettings.edit().putBoolean("freeze",false).commit();
-//            ImageView image = (ImageView)hintFreeze.findViewById(R.id.hint);
-//            image.setImageResource(R.drawable.hint_freeze_inv);
-//            view.setTag("inv");
-//            freezeAction();
-//        }
+
         if(view.getTag().toString().equals("vis")){
             MusingoApp.soundButton();
             powerUpUsed = true;
@@ -940,34 +831,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
     public void powerUpLonger(View view){
         int cost = Integer.parseInt(getString(R.string.cost_longer));
-//        if(view.getTag().toString().equals("inv")){
-//            if(powerupPurcase(cost)){
-//                mSettings.edit().putBoolean("longer",true).commit();
-//                ImageView image = (ImageView)hintLonger.findViewById(R.id.hint);
-//                image.setImageResource(R.drawable.hint_longer_vis);
-//                view.setTag("vis");
-//                String title = getString(R.string.longer_clip_powerup_title);
-//                String body = getString(R.string.longer_clip_powerup_body);
-//                dialog = new AlertViewOrange("Longer Clip Powerup" , title, body, this);
-//                dialog.show();
-//                mp.pause();
-//                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-//                    @Override
-//                    public void onDismiss(DialogInterface dialog) {
-//                        mp.start();
-//                    }
-//                });
-//            }else{
-//                dialog = new AlertViewOrange("Next Playlist Powerup" , getString(R.string.alert_title), getString(R.string.alert_not_enough_money), this);
-//            }
-//        }else if(view.getTag().toString().equals("vis")){
-//            powerUpUsed = true;
-//            mSettings.edit().putBoolean("longer",false).commit();
-//            ImageView image = (ImageView)hintLonger.findViewById(R.id.hint);
-//            image.setImageResource(R.drawable.hint_longer_inv);
-//            view.setTag("inv");
-//            longerAction();
-//        }
+
         if(view.getTag().toString().equals("vis")){
             MusingoApp.soundButton();
             powerUpUsed = true;
@@ -980,35 +844,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     }
     public void powerUpNextList(View view){
         int cost = Integer.parseInt(getString(R.string.cost_next));
-//        if(view.getTag().toString().equals("inv")){
-//            if(powerupPurcase(cost)){
-//                mSettings.edit().putBoolean("next",true).commit();
-//                ImageView image = (ImageView)hintNextList.findViewById(R.id.hint);
-//                image.setImageResource(R.drawable.hint_nextlist_vis);
-//                view.setTag("vis");
-//                String title = getString(R.string.next_playlist_powerup_title);
-//                String body = getString(R.string.next_playlist_powerup_body);
-//                dialog = new AlertViewOrange("Next Playlist Powerup" , title, body, this);
-//                dialog.show();
-//                mp.pause();
-//                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-//                    @Override
-//                    public void onDismiss(DialogInterface dialog) {
-//                        mp.start();
-//                    }
-//                });
-//
-//            }else{
-//                dialog = new AlertViewOrange("Next Playlist Powerup" , getString(R.string.alert_title), getString(R.string.alert_not_enough_money), this);
-//            }
-//        }else if(view.getTag().toString().equals("vis")){
-//            powerUpUsed = true;
-//            mSettings.edit().putBoolean("next",false).commit();
-//            ImageView image = (ImageView)hintNextList.findViewById(R.id.hint);
-//            image.setImageResource(R.drawable.hint_nextlist_inv);
-//            view.setTag("inv");
-//            nextAction();
-//        }
+
         if(view.getTag().toString().equals("vis")){
             MusingoApp.soundButton();
             powerUpUsed = true;
