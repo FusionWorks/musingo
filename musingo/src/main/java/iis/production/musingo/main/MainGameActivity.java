@@ -156,9 +156,12 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     boolean squaresRowBonus = true;
     boolean squaresBonus = true;
 
+    boolean tutorialBonusOpen = false;
     boolean tutorialOpen = false;
     boolean bonusOpen = false;
     boolean waitingForResultActivity;
+
+    String tutorialShow = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -309,6 +312,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
         if(firstRun.getBoolean("firstRun", true)){
             tutorial1.setVisibility(View.VISIBLE);
+            tutorialOpen = true;
 
         }else{
             // By default play first song
@@ -394,9 +398,11 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             if(waitingForResultActivity){
                 toResultsList();
             }
-            bonusOpen = false;
-            hideBonus();
 
+            if(!tutorialBonusOpen){
+                bonusOpen = false;
+                hideBonus();
+            }
         }
     };
 
@@ -502,7 +508,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         }else{
             mHandler.removeCallbacks(mUpdateTimeTask);
             mp.stop();
-            if(tutorialOpen || bonusOpen){
+            if(tutorialBonusOpen || bonusOpen){
                 waitingForResultActivity = true;
             }
             else{
@@ -511,15 +517,28 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         }
 
         if(currentSong == 5){
-            firsFbHintTutorial();
+            if(tutorialBonusOpen){
+                tutorialShow = "t5";
+            }else {
+                firsFbHintTutorial();
+            }
         }
 
         if(currentSong == 4){
-            firstTutorial4();
+            if(tutorialBonusOpen){
+                tutorialShow = "t4";
+            }else {
+                firstTutorial4();
+            }
         }
 
         if(correctSongs == 1){
-            firstTutorial3();
+            if(tutorialBonusOpen){
+                tutorialShow = "t3";
+            }else {
+                firstTutorial3();
+            }
+
         }
         freeze = false;
         findViewById(R.id.pauseIndicator).setVisibility(View.GONE);
@@ -544,7 +563,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     }
 
     public void tryToGuess(View view){
-        if(maxTryes != 9){
+        if(maxTryes != 9 && !tutorialOpen){
             maxTryes += 1;
             for(RelativeLayout hint : hintSelected){
                 Utility.setBackgroundBySDK(hint,null);
@@ -1038,18 +1057,22 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 editor.commit();
                 playSong(0);
 
+                tutorialOpen = false;
                 break;
             case R.id.tutorial3 :
                 mp.start();
                 tutorial3.setVisibility(View.GONE);
+                tutorialOpen = false;
                 break;
             case R.id.tutorial4 :
                 mp.start();
                 tutorial4.setVisibility(View.GONE);
+                tutorialOpen = false;
                 break;
             case R.id.tutorial5 :
                 mp.start();
                 tutorial5.setVisibility(View.GONE);
+                tutorialOpen = false;
                 break;
             case R.id.tutorial6 :
                 mp.start();
@@ -1058,6 +1081,18 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 if(waitingForResultActivity){
                     toResultsList();
                 }
+                tutorialOpen = false;
+                bonusOpen = false;
+                tutorialBonusOpen = false;
+
+                if (tutorialShow.equals("t3")) {
+                    firstTutorial3();
+                } else if (tutorialShow.equals("t4")) {
+                    firstTutorial4();
+                } else if (tutorialShow.equals("t5")) {
+                    firsFbHintTutorial();
+                }
+                tutorialShow = "";
                 break;
         }
     }
@@ -1154,6 +1189,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             editor.putBoolean("firstBonus", false);
             editor.commit();
 
+            tutorialBonusOpen = true;
             tutorialOpen = true;
         }
     }
@@ -1178,6 +1214,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             params = (LinearLayout.LayoutParams) tutorial5Arrow.getLayoutParams();
             params.setMargins(marginRight, 0, 0, marginBottom);
             tutorial5Arrow.setLayoutParams(params);
+
+            tutorialOpen = true;
         }
     }
 
@@ -1199,6 +1237,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
             Log.v("Musingo", "tutorial4 left : " + marginLeft);
             tutorial4Arrow.setLayoutParams(params);
+
+            tutorialOpen = true;
         }
     }
 
@@ -1221,6 +1261,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             params.setMargins(marginRight, 0, 0, 0);
             tutorial3Arrow.setLayoutParams(params);
 
+            tutorialOpen = true;
         }
     }
 }

@@ -67,6 +67,16 @@ public class AlertViewFacebook extends AlertDialog {
                 dismiss();
             }
         });
+
+        TextViewArchitects login = (TextViewArchitects) findViewById(R.id.loginFbDialog);
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RelativeLayout loadingView = (RelativeLayout) findViewById(R.id.loadingAnimation);
+                FacebookManager.SessionFb(activity, loadingView);
+                dismiss();
+            }
+        });
     }
 
 }
