@@ -562,12 +562,13 @@
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:text="HIT THE TOWN"
+                        android:layout_marginBottom="10dp"
                         android:gravity="center"
                         android:textSize="@dimen/song_title"
                         android:padding="3dp"
                         android:background="@drawable/round_song_transparent"
                         android:layout_marginRight="5dp"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginLeft="0dp"
                         android:textStyle="bold"/>
                 </RelativeLayout>
                 <RelativeLayout

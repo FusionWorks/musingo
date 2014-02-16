@@ -81,4 +81,16 @@ public class PackageTable {
         db.execSQL("DROP TABLE IF EXISTS package");
         db.close();
     }
+
+    public int getNumberOfRowsInTable(){
+        int number = 0;
+        SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
+        Cursor c = db.rawQuery("SELECT * FROM package" , null);
+        if(c.moveToFirst()) {
+            number += 1;
+        }
+        db.close();
+        Log.v("Musingo", "IN TABLE "+number);
+        return number;
+    }
 }

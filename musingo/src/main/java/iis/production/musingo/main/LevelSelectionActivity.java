@@ -110,6 +110,8 @@ public class LevelSelectionActivity extends Activity {
     ViewPager.OnPageChangeListener viewPagerListener;
     ArrayList<Playlist> playlists;
 
+    int previousSelected = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -181,19 +183,33 @@ public class LevelSelectionActivity extends Activity {
             public void onPageSelected(int i) {
                 selectedPackage = i + 1;
                 String url = Endpoints.package_url + selectedPackage;
-                Log.v("Musingo", "url "+url);
+                Log.v("Musingo", "selectedPackage ------------- "+selectedPackage);
                 changePackage();
+//
+//                for (int y = 0; y < levelViews.size(); y++) {
+//                    ImageView imageView = levelViews.get(y);
+//                    Log.v("Musingo", "level tagg tag " + imageView.getTag().toString());
+//                    if (imageView.getTag().toString().equals("selected")) {
+//
+//                    }
+//                    if (imageView.getTag().toString().equals(String.valueOf(selectedPackage))){
+//                        makeSelected(imageView);
+//                    }
+//                }
 
-                for (int y = 0; y < levelViews.size(); y++) {
-                    ImageView imageView = levelViews.get(y);
-                    Log.v("Musingo", "level tagg tag " + imageView.getTag().toString());
-                    if (imageView.getTag().toString().equals("selected")) {
-                        imageView = makeUnselected(imageView);
-                        ImageView imageNext = levelViews.get(selectedPackage - 1);
-                        imageNext = makeSelected(imageNext);
-                        break;
-                    }
-                }
+                ImageView ima = (ImageView)levels.findViewWithTag("selected");
+                final float scale = getResources().getDisplayMetrics().density;
+                int pixels = (int) (15 * scale + 0.5f);
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) ima.getLayoutParams();
+                params.height = pixels;
+                params.width = pixels;
+                ima.setLayoutParams(params);
+                ima.setTag(String.valueOf(previousSelected));
+
+                ima = (ImageView)levels.findViewWithTag(String.valueOf(selectedPackage));
+                Log.v("Musingo", "selected Package "+ selectedPackage);
+                Log.v("Musingo", "ima "+ ima);
+                makeSelected(ima);
 
             }
 
@@ -284,6 +300,7 @@ public class LevelSelectionActivity extends Activity {
         params.width = pixels;
         imageView.setLayoutParams(params);
         selectedPackage = Integer.parseInt(imageView.getTag().toString());
+        previousSelected = selectedPackage;
         imageView.setTag("selected");
         return imageView;
     }
@@ -295,7 +312,7 @@ public class LevelSelectionActivity extends Activity {
         params.height = pixels;
         params.width = pixels;
         imageView.setLayoutParams(params);
-        imageView.setTag(String.valueOf(selectedPackage));
+        imageView.setTag(String.valueOf(previousSelected));
         return imageView;
     }
 
@@ -358,6 +375,9 @@ public class LevelSelectionActivity extends Activity {
 
             ImageView unlockNow = (ImageView) findViewById(R.id.unlock_now);
             unlockNow.setVisibility(View.GONE);
+            Log.v("Musingo", "packageName BLAAA  "+packageName);
+            ImageView image = (ImageView)levels.findViewWithTag("selected");
+            image.setBackgroundResource(R.drawable.level_opened);
 
             unlocked = true;
         } else {
@@ -390,7 +410,7 @@ public class LevelSelectionActivity extends Activity {
             ImageView imageView = (ImageView)view.findViewById(R.id.image);
             TextViewArchitects textView = (TextViewArchitects)view.findViewById(R.id.title);
 
-            if (packageTable.isUnlocked(packageName)){
+            if (unlocked){
                 final RoundedCornersDrawable drawable = new RoundedCornersDrawable(getResources(), playList.getImage());
                 imageView.setImageDrawable(drawable);
             } else {
@@ -488,12 +508,12 @@ public class LevelSelectionActivity extends Activity {
         playlistViews.add(playlist9);
     }
 
-    public boolean isUnlocked(String packageName){
-        if(selectedPackage == 1)
-            return true;
-        else
-            return false;
-    }
+//    public boolean isUnlocked(String packageName){
+//        if(selectedPackage == 1)
+//            return true;
+//        else
+//            return false;
+//    }
 
     public void getStarsCollected(){
         PlaySongsTable PST = new PlaySongsTable(this);
