@@ -53,8 +53,8 @@
     <!-- Tutorial -->
     <string name="tutorial1">YOU HAVE 10 SECONDS TO GUESS THE SONG</string>
     <string name="tutorial2">TAP THE ALBUM COVER OF THE SONG YOU THINK IS PLAYNG. TRY IT NOW!</string>
-    <string name="tutorial3">YOU\'RE DOING GREAT TO! BEAT THIS LEVEL, SCORE HIGHER THAN THE OBJECTIVE! LET\'S PLAY.</string>
-    <string name="tutorial4">NICE TRY! YOUR SCORE REFLECTS HOW FAST YOU GUESSED THE SONG</string>
+    <string name="tutorial3">NICE TRY! YOUR SCORE REFLECTS HOW FAST YOU GUESSED THE SONG</string>
+    <string name="tutorial4">YOU\'RE DOING GREAT TO! BEAT THIS LEVEL, SCORE HIGHER THAN THE OBJECTIVE! LET\'S PLAY.</string>
     <string name="tutorial5">YOU\'R DOING GREAT! TO BEAT THIS LEVEL, SCORE HIGHER THAN THE OBJECTIVE! LET\'S PLAY</string>
     <string name="tutorial6">IF YOURE EVER STUCK AND NEED THE KNOWLEDGE OF YOUR FRIEND ON FB!</string>
     <string name="tap_for_next">TAP FOR NEXT</string>

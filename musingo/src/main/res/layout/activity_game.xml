@@ -1008,7 +1008,6 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
             android:id="@+id/tutorial3Arrow"
             android:src="@drawable/tutorial_arrow_up"/>
 
@@ -1052,8 +1051,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginRight="80dp"
+            android:layout_gravity="left"
             android:id="@+id/tutorial4Arrow"
             android:src="@drawable/tutorial_arrow_up"/>
 
@@ -1138,7 +1136,7 @@
         android:id="@+id/tutorial6"
         android:layout_centerVertical="true"
         android:onClick="nextTutorial"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="wrap_content"

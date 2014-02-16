@@ -16,7 +16,7 @@ import iis.production.musingo.R;
  * Created by AGalkin on 1/18/14.
  */
 public class PartnerActivity extends Activity {
-    private Chartboost chartboost;
+    public Chartboost chartboost;
     String TAG = "Musingo";
 
     @Override
@@ -29,6 +29,11 @@ public class PartnerActivity extends Activity {
         String appSignatureChartboost = getString(R.string.appSignatureChartboost);
         this.chartboost.onCreate(PartnerActivity.this, appIdChartboost, appSignatureChartboost, this.chartBoostDelegate);
 
+        this.chartboost.startSession();
+        //Log.v("Musingo", "cache : " + this.chartboost.hasCachedMoreApps());
+
+        this.chartboost.showMoreApps();
+
     }
 
     @Override
@@ -36,8 +41,7 @@ public class PartnerActivity extends Activity {
         super.onStart();
 
         this.chartboost.onStart(this);
-        this.chartboost.startSession();
-        this.chartboost.showMoreApps();
+
         //this.chartboost.showInterstitial();
     }
 
@@ -150,6 +154,7 @@ public class PartnerActivity extends Activity {
 
         @Override
         public void didDismissMoreApps() {
+            chartboost.cacheMoreApps();
             Log.i(TAG, "MORE APPS DISMISSED");
         }
 
