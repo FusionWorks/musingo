@@ -70,19 +70,15 @@
                 android:layout_height="100dp"
                 android:layout_marginTop="10dp"
                 android:layout_toRightOf="@id/madonna">
-                <ImageView
-                    android:id="@+id/didyouknowTail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:src="@drawable/didyouknow_cloud_tail"/>
                 <RelativeLayout
                     android:id="@+id/didyouknowCloud"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
                     android:layout_marginRight="10dp"
-                    android:layout_above="@id/didyouknowTail"
-                    android:background="@drawable/didyouknow_cloud">
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:paddingBottom="5dp"
+                    android:background="@drawable/round_cloud">
                     <iis.production.musingo.objects.TextViewArchitects
                         android:id="@+id/didyouknowTitle"
                         android:layout_width="wrap_content"
@@ -96,7 +92,7 @@
                     <iis.production.musingo.objects.TextViewArchitects
                         android:id="@+id/didyouknowText"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:paddingLeft="5dp"
                         android:paddingRight="5dp"
                         android:paddingTop="10dp"
@@ -109,7 +105,14 @@
                         android:textColor="#000000"
                         android:lineSpacingMultiplier="0.65"/>
                     </RelativeLayout>
-
+                <ImageView
+                    android:id="@+id/didyouknowTail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:scaleType="fitStart"
+                    android:layout_below="@id/didyouknowCloud"
+                    android:src="@drawable/didyouknow_cloud_tail"/>
                 </RelativeLayout>
             <RelativeLayout
                 android:layout_height="wrap_content"

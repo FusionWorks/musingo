@@ -1130,6 +1130,16 @@
             android:src="@drawable/tutorial_arrow_bottom"/>
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/bonusText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:layout_centerHorizontal="true"
+        android:onClick="hideBonus"
+        android:visibility="gone"
+        android:scaleType="fitEnd"/>
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="wrap_content"
@@ -1137,6 +1147,7 @@
         android:id="@+id/tutorial6"
         android:layout_centerVertical="true"
         android:onClick="nextTutorial"
+        android:layout_below="@id/bonusText"
         android:visibility="gone">
 
         <ImageView
@@ -1173,15 +1184,6 @@
                 android:textSize="10sp"/>
         </LinearLayout>
     </LinearLayout>
-    <ImageView
-        android:id="@+id/bonusText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:layout_centerHorizontal="true"
-        android:onClick="hideBonus"
-        android:visibility="gone"
-        />
 </RelativeLayout>
 
 

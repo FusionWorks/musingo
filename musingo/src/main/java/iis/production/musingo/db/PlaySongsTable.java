@@ -130,9 +130,9 @@ public class PlaySongsTable {
     public int getPlayedLevelsByPackage(String packageName){
         int number = 0;
         SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
-        Cursor c = db.rawQuery("SELECT * FROM play_songs WHERE PackageName = '" + packageName + "'", null);
+        Cursor c = db.rawQuery("SELECT COUNT(*) FROM play_songs WHERE PackageName = '" + packageName + "'", null);
         if(c.moveToFirst()) {
-            number++;
+            number = c.getInt(0);
         }
         db.close();
         return number;
