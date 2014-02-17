@@ -3,8 +3,8 @@
     <dimen name="did_you_know1">10sp</dimen>
     <dimen name="did_you_know2">12sp</dimen>
     <dimen name="did_you_know3">14sp</dimen>
-    <dimen name="change_package">8sp</dimen>
-    <dimen name="song_title">14sp</dimen>
-    <dimen name="star">16sp</dimen>
+    <dimen name="change_package">7sp</dimen>
+    <dimen name="song_title">8sp</dimen>
+    <dimen name="star">15sp</dimen>
     <dimen name="top_bar_button">80dp</dimen>
 </resources>

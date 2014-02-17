@@ -118,6 +118,9 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     ArrayList<Integer> correctIndexes;
     SharedPreferences firstRun = null;
     SharedPreferences firstBonus = null;
+    SharedPreferences firstFbHint = null;
+    SharedPreferences tutorial4SP = null;
+    SharedPreferences tutorial3SP = null;
 
     //Media Player vars
     SharedPreferences mSettings;
@@ -153,9 +156,13 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     boolean squaresRowBonus = true;
     boolean squaresBonus = true;
 
-    boolean tutorialOpen;
-    boolean bonusOpen;
+    boolean tutorial3open = false;
+    boolean tutorialBonusOpen = false;
+    boolean tutorialOpen = false;
+    boolean bonusOpen = false;
     boolean waitingForResultActivity;
+
+    String tutorialShow = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -300,8 +307,13 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
         firstRun = getSharedPreferences("iis.production.musingo.main", MODE_PRIVATE);
         firstBonus = getSharedPreferences("iis.production.musingo.main", MODE_PRIVATE);
+        firstFbHint = getSharedPreferences("iis.production.musingo.main", MODE_PRIVATE);
+        tutorial4SP = getSharedPreferences("iis.production.musingo.main", MODE_PRIVATE);
+        tutorial3SP = getSharedPreferences("iis.production.musingo.main", MODE_PRIVATE);
+
         if(firstRun.getBoolean("firstRun", true)){
             tutorial1.setVisibility(View.VISIBLE);
+            tutorialOpen = true;
 
         }else{
             // By default play first song
@@ -336,7 +348,9 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             mp.reset();
             mp.setDataSource(songsList.get(songIndex).get("songPath"));
             mp.prepare();
-            mp.start();
+            if(!tutorialBonusOpen){
+                mp.start();
+            }
             updateProgressBar();
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
@@ -345,7 +359,6 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         showPowerups();
     }
     /**
@@ -385,11 +398,13 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     private Runnable mBonusTask = new Runnable() {
         public void run() {
             if(waitingForResultActivity){
-                toResultsList();
+                endGame();
             }
-            bonusOpen = false;
-            hideBonus();
 
+            if(!tutorialBonusOpen){
+                bonusOpen = false;
+                hideBonus(null);
+            }
         }
     };
 
@@ -458,7 +473,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             }
         }
         skipBorder = false;
-        if(currentSong != 8 && !replay){
+        if(currentSong != 8 && !replay ){
             final float scale = getResources().getDisplayMetrics().density;
             int left = Math.round(offset * ((float)currentSong+1)) + currentSong;
             int pixels = (int) (left * scale + 0.5f);
@@ -495,13 +510,36 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         }else{
             mHandler.removeCallbacks(mUpdateTimeTask);
             mp.stop();
-            if(tutorialOpen || bonusOpen){
+            if(tutorialBonusOpen || bonusOpen){
                 waitingForResultActivity = true;
             }
             else{
-                toResultsList();
+                endGame();
             }
         }
+
+        if(correctSongs == 1){
+            firstTutorial3();
+        }
+
+        if(currentSong == 4){
+            if(tutorialBonusOpen || tutorial3open){
+                tutorialShow = "t4";
+                Log.v("Musingo", "tutorial4 stop. tutorial3open : " + tutorial3open);
+            }else {
+                Log.v("Musingo", "tutorial4 open. tutorial3open : " + tutorial3open);
+                firstTutorial4();
+            }
+        }
+
+        if(currentSong == 5){
+            if(tutorialBonusOpen || tutorial3open){
+                tutorialShow = "t5";
+            }else {
+                firsFbHintTutorial();
+            }
+        }
+
         freeze = false;
         findViewById(R.id.pauseIndicator).setVisibility(View.GONE);
     }
@@ -525,10 +563,10 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     }
 
     public void tryToGuess(View view){
-        if(maxTryes != 9){
+        if(maxTryes != 9 && !tutorialOpen){
             maxTryes += 1;
             for(RelativeLayout hint : hintSelected){
-                Utility.setBackgroundBySDK(hint,null);
+                Utility.setBackgroundBySDK(hint.findViewById(R.id.borderRight),null);
             }
             hintSelected = new ArrayList<RelativeLayout>();
             if(currentSong < 9){
@@ -583,9 +621,16 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         }
     }
 
+    public void endGame(){
+        PlaySongsTable table = new PlaySongsTable(this);
+        if(table.getPlayedLevelsByPackage(packageName) < 1){
+            toResultsList();
+        }else
+            showPowerups();
+    }
+
     public void toResultsList(){
         mHandler.removeCallbacks(mBonusTask);
-        AlertViewPink view = new AlertViewPink(this, "Horray!", "you earned \n" + yourScore.getText());
         Log.v("Musingo", "Level toResult : " + level);
         if((score - neededScore) > 0){
             scoreBeaten = true;
@@ -665,88 +710,131 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         PlaySongsTable table = new PlaySongsTable(this);
         int levelsPlayed = table.getPlayedLevelsByPackage(packageName);
         boolean needToShow = false;
-
+        Log.v("Musingo", "levels played : " + levelsPlayed);
         String title = "";
         String body = "";
 
-        if(levelsPlayed == 1){
-            image = (ImageView)hintHint.findViewById(R.id.hint);
-            image.setImageResource(R.drawable.hint_hint_vis);
-            image.setTag("vis");
-            image = (ImageView)hintHint.findViewById(R.id.lock);
-            image.setVisibility(View.GONE);
-            needToShow = true;
+        if(levelsPlayed >= 1){
             title = getString(R.string.hint_powerup_title);
             body = getString(R.string.hint_powerup_body);
+
+            if(mSettings.getBoolean(title, false)){
+                image = (ImageView)hintHint.findViewById(R.id.hint);
+                image.setImageResource(R.drawable.hint_hint_vis);
+                image.setTag("vis");
+            }
+            image = (ImageView)hintHint.findViewById(R.id.lock);
+            image.setVisibility(View.GONE);
+            if(currentSong == 8 && !mp.isPlaying()){
+                needToShow = true;
+            }
         }
 
-        if(levelsPlayed == 2){
-            image = (ImageView)hintSkip.findViewById(R.id.hint);
-            image.setImageResource(R.drawable.hint_skip_vis);
-            image.setTag("vis");
-            image = (ImageView)hintSkip.findViewById(R.id.lock);
-            image.setVisibility(View.GONE);
-            needToShow = true;
+        if(levelsPlayed >= 2){
             title = getString(R.string.skip_powerup_title);
             body = getString(R.string.skip_powerup_body);
+
+            if(mSettings.getBoolean(title, false)){
+                image = (ImageView)hintSkip.findViewById(R.id.hint);
+                image.setImageResource(R.drawable.hint_skip_vis);
+                image.setTag("vis");
+            }
+            image = (ImageView)hintSkip.findViewById(R.id.lock);
+            image.setVisibility(View.GONE);
+            if(currentSong == 8 && !mp.isPlaying()){
+                needToShow = true;
+            }
+            Log.v("Musingo", "hint skip");
         }
 
-        if(levelsPlayed == 3){
-            image = (ImageView)hintReplay.findViewById(R.id.hint);
-            image.setImageResource(R.drawable.hint_replay_vis);
-            image.setTag("vis");
+        if(levelsPlayed >= 3){
+            title = getString(R.string.replay_powerup_title);
+            body = getString(R.string.replay_powerup_body);
+
+            if(mSettings.getBoolean(title, true)){
+                image = (ImageView)hintReplay.findViewById(R.id.hint);
+                image.setImageResource(R.drawable.hint_replay_vis);
+                image.setTag("vis");
+            }
+
             image = (ImageView)hintReplay.findViewById(R.id.lock);
             image.setVisibility(View.GONE);
-            needToShow = true;
-            title = getString(R.string.replay_powerup_title);
-            body = getString(R.string.replay_powerup_body);
+            if(currentSong == 8 && !mp.isPlaying()){
+                needToShow = true;
+            }
+
+            Log.v("Musingo", "hint replay");
         }
 
-        if(levelsPlayed == 5){
-            image = (ImageView)hintFreeze.findViewById(R.id.hint);
-            image.setImageResource(R.drawable.hint_freeze_vis);
-            image.setTag("vis");
+        if(levelsPlayed >= 4){
+            title = getString(R.string.freeze_powerup_title);
+            body = getString(R.string.freeze_powerup_body);
+
+            if(mSettings.getBoolean(title, false)){
+                image = (ImageView)hintFreeze.findViewById(R.id.hint);
+                image.setImageResource(R.drawable.hint_freeze_vis);
+                image.setTag("vis");
+            }
+
             image = (ImageView)hintFreeze.findViewById(R.id.lock);
             image.setVisibility(View.GONE);
-            needToShow = true;
-            title = getString(R.string.replay_powerup_title);
-            body = getString(R.string.replay_powerup_body);
+            if(currentSong == 8 && !mp.isPlaying()){
+                needToShow = true;
+            }
 
+            Log.v("Musingo", "hint freeze");
         }
 
-        if(levelsPlayed == 7){
-            image = (ImageView)hintLonger.findViewById(R.id.hint);
-            image.setImageResource(R.drawable.hint_longer_vis);
-            image.setTag("vis");
-            image = (ImageView)hintLonger.findViewById(R.id.lock);
-            image.setVisibility(View.GONE);
-            needToShow = true;
+        if(levelsPlayed >= 5){
             title = getString(R.string.longer_clip_powerup_title);
             body = getString(R.string.longer_clip_powerup_body);
+
+            if(mSettings.getBoolean(title, false)){
+                image = (ImageView)hintLonger.findViewById(R.id.hint);
+                image.setImageResource(R.drawable.hint_longer_vis);
+                image.setTag("vis");
+            }
+
+            image = (ImageView)hintLonger.findViewById(R.id.lock);
+            image.setVisibility(View.GONE);
+            if(currentSong == 8 && !mp.isPlaying()){
+                needToShow = true;
+            }
+
+            Log.v("Musingo", "hint longer");
         }
 
-        if(levelsPlayed == 8){
-            image = (ImageView)hintNextList.findViewById(R.id.hint);
-            image.setImageResource(R.drawable.hint_nextlist_vis);
-            image.setTag("vis");
-            image = (ImageView)hintNextList.findViewById(R.id.lock);
-            image.setVisibility(View.GONE);
-            needToShow = true;
+        if(levelsPlayed >= 6){
             title = getString(R.string.next_playlist_powerup_title);
             body = getString(R.string.next_playlist_powerup_body);
+
+            if(mSettings.getBoolean(title, false)){
+                image = (ImageView)hintNextList.findViewById(R.id.hint);
+                image.setImageResource(R.drawable.hint_nextlist_vis);
+                image.setTag("vis");
+            }
+
+            image = (ImageView)hintNextList.findViewById(R.id.lock);
+            image.setVisibility(View.GONE);
+            if(currentSong == 8 && !mp.isPlaying()){
+                needToShow = true;
+            }
+
+            Log.v("Musingo", "hint next list");
         }
 
         if(needToShow && !mSettings.getBoolean(title, false)){
             dialog = new AlertViewOrange("Hint Powerup" , title, body, this);
             dialog.show();
             mSettings.edit().putBoolean(title,true).commit();
-            mp.pause();
             dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
-                    mp.start();
+                    toResultsList();
                 }
             });
+        }else if(needToShow) {
+            toResultsList();
         }
 
     }
@@ -814,11 +902,13 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
         if(view.getTag().toString().equals("vis")){
             MusingoApp.soundButton();
-            powerUpUsed = true;
-            ImageView image = (ImageView)hintSkip.findViewById(R.id.hint);
-            image.setImageResource(R.drawable.hint_skip_inv);
-            view.setTag("inv");
-            skipAction();
+            if(powerupPurcase(cost)){
+                powerUpUsed = true;
+                ImageView image = (ImageView)hintSkip.findViewById(R.id.hint);
+                image.setImageResource(R.drawable.hint_skip_inv);
+                view.setTag("inv");
+                skipAction();
+            }
         }
 
     }
@@ -829,12 +919,13 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
         if(view.getTag().toString().equals("vis")){
             MusingoApp.soundButton();
-            powerUpUsed = true;
-            ImageView image = (ImageView)hintReplay.findViewById(R.id.hint);
-            image.setImageResource(R.drawable.hint_replay_inv);
-            view.setTag("inv");
-            replayAction();
-
+            if(powerupPurcase(cost)){
+                powerUpUsed = true;
+                ImageView image = (ImageView)hintReplay.findViewById(R.id.hint);
+                image.setImageResource(R.drawable.hint_replay_inv);
+                view.setTag("inv");
+                replayAction();
+            }
         }
     }
 
@@ -843,11 +934,13 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
         if(view.getTag().toString().equals("vis")){
             MusingoApp.soundButton();
-            powerUpUsed = true;
-            ImageView image = (ImageView)hintFreeze.findViewById(R.id.hint);
-            image.setImageResource(R.drawable.hint_freeze_inv);
-            view.setTag("inv");
-            freezeAction();
+            if(powerupPurcase(cost)){
+                powerUpUsed = true;
+                ImageView image = (ImageView)hintFreeze.findViewById(R.id.hint);
+                image.setImageResource(R.drawable.hint_freeze_inv);
+                view.setTag("inv");
+                freezeAction();
+            }
         }
     }
 
@@ -856,11 +949,13 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
         if(view.getTag().toString().equals("vis")){
             MusingoApp.soundButton();
-            powerUpUsed = true;
-            ImageView image = (ImageView)hintLonger.findViewById(R.id.hint);
-            image.setImageResource(R.drawable.hint_longer_inv);
-            view.setTag("inv");
-            longerAction();
+            if(powerupPurcase(cost)){
+                powerUpUsed = true;
+                ImageView image = (ImageView)hintLonger.findViewById(R.id.hint);
+                image.setImageResource(R.drawable.hint_longer_inv);
+                view.setTag("inv");
+                longerAction();
+            }
         }
 
     }
@@ -869,11 +964,13 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
         if(view.getTag().toString().equals("vis")){
             MusingoApp.soundButton();
-            powerUpUsed = true;
-            ImageView image = (ImageView)hintNextList.findViewById(R.id.hint);
-            image.setImageResource(R.drawable.hint_nextlist_inv);
-            view.setTag("inv");
-            nextAction();
+            if(powerupPurcase(cost)){
+                powerUpUsed = true;
+                ImageView image = (ImageView)hintNextList.findViewById(R.id.hint);
+                image.setImageResource(R.drawable.hint_nextlist_inv);
+                view.setTag("inv");
+                nextAction();
+            }
         }
 
     }
@@ -1007,12 +1104,6 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     }
 // - Tutorials
     public void nextTutorial(View v){
-        LinearLayout.LayoutParams params;
-        final float scale = getResources().getDisplayMetrics().density;
-        int marginLeft;
-        int marginRight;
-        int marginBottom;
-
         switch (v.getId()){
             case R.id.tutorial1 :
                 tutorial1.setVisibility(View.GONE);
@@ -1020,50 +1111,53 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 break;
             case R.id.tutorial2 :
                 tutorial2.setVisibility(View.GONE);
-                tutorial3.setVisibility(View.VISIBLE);
-
-                params = (LinearLayout.LayoutParams) tutorial3Arrow.getLayoutParams();
-                marginLeft = leftView.getLeft() + leftView.getWidth()/2;
-                params.setMargins(marginLeft, 0, 0, 0);
-                tutorial3Arrow.setLayoutParams(params);
-
-                break;
-            case R.id.tutorial3 :
-                tutorial3.setVisibility(View.GONE);
-                tutorial3.setVisibility(View.GONE);
-                tutorial4.setVisibility(View.VISIBLE);
-
-                marginRight = leftView.getLeft() + leftView.getWidth()/2;
-                params = (LinearLayout.LayoutParams) tutorial4Arrow.getLayoutParams();
-                params.setMargins(0, 0, marginRight, 0);
-                tutorial4Arrow.setLayoutParams(params);
-                break;
-            case R.id.tutorial4 :
-                tutorial4.setVisibility(View.GONE);
-                tutorial5.setVisibility(View.VISIBLE);
-
-                marginRight = (int) (17 * scale);
-                marginBottom = (int) (53 * scale);
-                Log.v("Musingo", "scale: " + scale);
-                params = (LinearLayout.LayoutParams) tutorial5Arrow.getLayoutParams();
-                params.setMargins(marginRight, 0, 0, marginBottom);
-                tutorial5Arrow.setLayoutParams(params);
-                break;
-            case R.id.tutorial5 :
-                playSong(0);
-                tutorial5.setVisibility(View.GONE);
                 SharedPreferences.Editor editor = firstRun.edit();
                 editor.putBoolean("firstRun", false);
                 editor.commit();
+                playSong(0);
+
+                tutorialOpen = false;
+                break;
+            case R.id.tutorial3 :
+                mp.start();
+                tutorial3.setVisibility(View.GONE);
+                tutorialOpen = false;
+                tutorial3open = false;
+
+                if (tutorialShow.equals("t4")) {
+                    firstTutorial4();
+                } else if (tutorialShow.equals("t5")) {
+                    firsFbHintTutorial();
+                }
+                tutorialShow = "";
+                break;
+            case R.id.tutorial4 :
+                mp.start();
+                tutorial4.setVisibility(View.GONE);
+                tutorialOpen = false;
+                break;
+            case R.id.tutorial5 :
+                mp.start();
+                tutorial5.setVisibility(View.GONE);
+                tutorialOpen = false;
                 break;
             case R.id.tutorial6 :
                 mp.start();
                 tutorial6.setVisibility(View.GONE);
-                ImageView imageView = (ImageView)findViewById(R.id.bonusText);
-                imageView.setVisibility(View.GONE);
+                hideBonus(null);
                 if(waitingForResultActivity){
-                    toResultsList();
+                    endGame();
                 }
+                tutorialOpen = false;
+                bonusOpen = false;
+                tutorialBonusOpen = false;
+
+                if (tutorialShow.equals("t4")) {
+                    firstTutorial4();
+                } else if (tutorialShow.equals("t5")) {
+                    firsFbHintTutorial();
+                }
+                tutorialShow = "";
                 break;
         }
     }
@@ -1073,10 +1167,13 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         for(Integer i : correctIndexes){
             Log.v("Musingo", "index "+i);
         }
+
+
         if(correctSongs == 9){
             setBonusImage(R.drawable.bonus_leave_no);
             score = score * 4;
-            firstBonusTutorial(R.drawable.bonus_leave_no);
+
+            firstBonusTutorial();
             bonusOpen = true;
             mHandler.postDelayed(mBonusTask, 2000);
         }else if(correctIndexes.contains(0) && correctIndexes.contains(4) && correctIndexes.contains(8)){
@@ -1084,7 +1181,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 setBonusImage(R.drawable.bonus_criss_cross);
                 crissCrossBonus = false;
                 score = score * 2;
-                firstBonusTutorial(R.drawable.bonus_criss_cross);
+
+                firstBonusTutorial();
                 bonusOpen = true;
                 mHandler.postDelayed(mBonusTask, 2000);
             }
@@ -1093,7 +1191,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 setBonusImage(R.drawable.bonus_new_diagonal);
                 diagonalsBonus = false;
                 score = score + 100;
-                firstBonusTutorial(R.drawable.bonus_new_diagonal);
+
+                firstBonusTutorial();
                 bonusOpen = true;
                 mHandler.postDelayed(mBonusTask, 2000);
             }
@@ -1104,7 +1203,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 setBonusImage(R.drawable.bonus_three_squares_inrow);
                 squaresRowBonus = false;
                 score = score + 50;
-                firstBonusTutorial(R.drawable.bonus_three_squares_inrow);
+
+                firstBonusTutorial();
                 bonusOpen = true;
                 mHandler.postDelayed(mBonusTask, 2000);
             }
@@ -1115,7 +1215,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 setBonusImage(R.drawable.bonus_three_squares);
                 squaresBonus = false;
                 score = score + 50;
-                firstBonusTutorial(R.drawable.bonus_three_squares);
+
+                firstBonusTutorial();
                 bonusOpen = true;
                 mHandler.postDelayed(mBonusTask, 2000);
             }
@@ -1124,7 +1225,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 setBonusImage(R.drawable.bonus_4_corners);
                 cornersBonus = false;
                 score = score + 150;
-                firstBonusTutorial(R.drawable.bonus_4_corners);
+
+                firstBonusTutorial();
                 bonusOpen = true;
                 mHandler.postDelayed(mBonusTask, 2000);
             }
@@ -1138,23 +1240,96 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         ImageView imageView = (ImageView)findViewById(R.id.bonusText);
         imageView.setVisibility(View.VISIBLE);
         imageView.setImageResource(res);
+
+        mp.pause();
     }
 
-    public void hideBonus(){
+    public void hideBonus(View v){
         ImageView imageView = (ImageView)findViewById(R.id.bonusText);
         imageView.setVisibility(View.GONE);
     }
 
-    public void firstBonusTutorial(int bonusMessage){
+    public void firstBonusTutorial(){
         if(firstBonus.getBoolean("firstBonus", true)){
             mp.pause();
-//            ImageView imageView = (ImageView) findViewById(R.id.bonusTutorial);
+
             tutorial6.setVisibility(View.VISIBLE);
-//            imageView.setImageResource(bonusMessage);
             SharedPreferences.Editor editor = firstBonus.edit();
             editor.putBoolean("firstBonus", false);
             editor.commit();
 
+            tutorialBonusOpen = true;
+            tutorialOpen = true;
+        }
+    }
+
+    public void firsFbHintTutorial(){
+        if(firstFbHint.getBoolean("firstFbHint", true)){
+            mp.pause();
+
+            LinearLayout.LayoutParams params;
+            final float scale = getResources().getDisplayMetrics().density;
+            int marginRight;
+            int marginBottom;
+
+            tutorial5.setVisibility(View.VISIBLE);
+            SharedPreferences.Editor editor = firstFbHint.edit();
+            editor.putBoolean("firstFbHint", false);
+            editor.commit();
+
+            marginRight = (int) (17 * scale);
+            marginBottom = (int) (53 * scale);
+            Log.v("Musingo", "scale: " + scale);
+            params = (LinearLayout.LayoutParams) tutorial5Arrow.getLayoutParams();
+            params.setMargins(marginRight, 0, 0, marginBottom);
+            tutorial5Arrow.setLayoutParams(params);
+
+            tutorialOpen = true;
+        }
+    }
+
+    public void firstTutorial4(){
+        if(tutorial4SP.getBoolean("tutorial4SP", true)){
+            mp.pause();
+
+            LinearLayout.LayoutParams params;
+            int marginLeft;
+
+            tutorial4.setVisibility(View.VISIBLE);
+            SharedPreferences.Editor editor = tutorial4SP.edit();
+            editor.putBoolean("tutorial4SP", false);
+            editor.commit();
+
+            params = (LinearLayout.LayoutParams) tutorial3Arrow.getLayoutParams();
+            marginLeft = leftView.getLeft() + leftView.getWidth()/2;
+            params.setMargins(marginLeft, 0, 0, 0);
+
+            Log.v("Musingo", "tutorial4 left : " + marginLeft);
+            tutorial4Arrow.setLayoutParams(params);
+
+            tutorialOpen = true;
+        }
+    }
+
+    private void firstTutorial3() {
+        if(tutorial3SP.getBoolean("tutorial3SP", true)){
+            mp.pause();
+
+            LinearLayout.LayoutParams params;
+            int marginRight;
+
+            tutorial3.setVisibility(View.VISIBLE);
+            SharedPreferences.Editor editor = tutorial3SP.edit();
+            editor.putBoolean("tutorial3SP", false);
+            editor.commit();
+
+            RelativeLayout rightView = (RelativeLayout) findViewById(R.id.rightView);
+            marginRight = rightView.getLeft() + rightView.getWidth()/2;
+            Log.v("Musingo", "tutorial3 right : " + marginRight);
+            params = (LinearLayout.LayoutParams) tutorial3Arrow.getLayoutParams();
+            params.setMargins(marginRight, 0, 0, 0);
+            tutorial3Arrow.setLayoutParams(params);
+            tutorial3open = true;
             tutorialOpen = true;
         }
     }
