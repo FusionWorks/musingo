@@ -346,7 +346,6 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             e.printStackTrace();
         }
 
-        showPowerups();
     }
     /**
      *  Move seek bar on position
