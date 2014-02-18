@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.facebook.android.Facebook;
@@ -16,8 +15,6 @@ import org.json.JSONObject;
 
 import iis.production.musingo.MusingoApp;
 import iis.production.musingo.R;
-import iis.production.musingo.db.PackageTable;
-import iis.production.musingo.db.PlaySongsTable;
 import iis.production.musingo.utility.FacebookManager;
 
 /**
@@ -35,15 +32,21 @@ public class FirstActivity extends Activity {
         setupMixpanel();
         setupFacebook();
         getMyTokens();
+//        ImageView playNow = (ImageView)findViewById(R.id.settings);
+//        StateListDrawable states = new StateListDrawable();
+//        states.addState(new int[] {android.R.attr.state_pressed},
+//                getResources().getDrawable(R.drawable.pressed));
+//        states.addState(new int[] {android.R.attr.state_focused},
+//                getResources().getDrawable(R.drawable.focused));
+//        states.addState(new int[] { },
+//                getResources().getDrawable(R.drawable.normal));
+//        playNow.setImageDrawable(states);
 // <<<temp
-        PlaySongsTable playSongsTable = new PlaySongsTable(this);
-        playSongsTable.deletePlaySongsTable();
-
-        PackageTable packageTable = new PackageTable(this);
-        packageTable.deletePackageTable();
-
-        Log.v("Musingo", "id: " + FacebookManager.sharedPreferences.getString(getString(R.string.user_id), "") +
-                " , name: " + FacebookManager.sharedPreferences.getString(getString(R.string.user_name), ""));
+//        PlaySongsTable playSongsTable = new PlaySongsTable(this);
+//        playSongsTable.deletePlaySongsTable();
+//
+//        PackageTable packageTable = new PackageTable(this);
+//        packageTable.deletePackageTable();
 //>>>
     }
 

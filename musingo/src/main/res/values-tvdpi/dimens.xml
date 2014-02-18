@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="did_you_know1">12sp</dimen>
+    <dimen name="did_you_know2">14sp</dimen>
+    <dimen name="did_you_know3">16sp</dimen>
+    <dimen name="change_package">9sp</dimen>
+    <dimen name="song_title">17sp</dimen>
+    <dimen name="star">18sp</dimen>
+    <dimen name="top_bar_button">90dp</dimen>
+</resources>

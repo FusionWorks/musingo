@@ -167,7 +167,10 @@ public class ResultsActivity extends Activity {
         TextViewArchitects bestResultTV = (TextViewArchitects) findViewById(R.id.bestScore);
         PlaySongsTable playSongsTable = new PlaySongsTable(this);
 
-        playSongsTable.insertIntoPlaySongsTable(packageName, levelNumber, levelName, 0, 0, 0, 0);
+        String pn = packageName.replace("'","''");
+        String ln = levelName.replace("'","''");
+
+        playSongsTable.insertIntoPlaySongsTable(pn, levelNumber, ln, 0, 0, 0, 0);
 
         int bestResultInt = playSongsTable.getBestResult(levelNumber);
 

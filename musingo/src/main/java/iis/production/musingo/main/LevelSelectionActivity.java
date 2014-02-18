@@ -98,7 +98,7 @@ public class LevelSelectionActivity extends Activity {
     public static boolean unlocked;
 
     boolean nextLevel = false;
-
+    int scoreToBeat;
 
     List<View> pages;
     static ArrayList<Song> gameSongs;
@@ -331,6 +331,11 @@ public class LevelSelectionActivity extends Activity {
             playlistDownloading = true;
             MusingoApp.soundButton();
             selectedLevel = Integer.valueOf(view.getTag().toString());
+            for(Playlist playlist : playlists){
+                if(selectedLevel == playlist.getListNumber()){
+                    scoreToBeat = playlist.getScoreToBeat();
+                }
+            }
             Log.v("Musingo","tag tap " + view.getTag().toString());
             String url = Endpoints.playlist_url + selectedLevel;
             ATS = new ATSongs(this, url, loadingAnimation);
@@ -446,7 +451,7 @@ public class LevelSelectionActivity extends Activity {
         viewPager.setPagingEnabled(clickable);
     }
 
-    public void downloadResultForGame(ArrayList<Song> songs, int scoreToBeat, String name, int cost){
+    public void downloadResultForGame(ArrayList<Song> songs, String name, int cost){
         gameSongs = songs;
         Log.v("Musingo", "Level selection : " + selectedLevel);
         Intent intent = new Intent();
