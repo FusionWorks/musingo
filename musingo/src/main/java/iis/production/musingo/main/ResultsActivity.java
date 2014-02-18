@@ -2,7 +2,9 @@ package iis.production.musingo.main;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -43,11 +45,14 @@ public class ResultsActivity extends Activity {
     boolean beatStar;
     boolean completeStar;
 
+    public static final String APP_PREFERENCES = "settings";
+    SharedPreferences mSettings;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
 
+        mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         TextViewPacifico barTitle = (TextViewPacifico)findViewById(R.id.barTitle);
         levelName = getIntent().getStringExtra("levelName");
         if(levelName.length() > 14){
@@ -220,9 +225,13 @@ public class ResultsActivity extends Activity {
     }
 
     public void facebookLogin(){
-        if(!FacebookManager.userFb.isSessionValid()){
+        int playlistsPlayed = mSettings.getInt("playlistsPlayed", 0);
+        if(!FacebookManager.userFb.isSessionValid() && playlistsPlayed == 4){
+            mSettings.edit().putInt("playlistsPlayed", 0).commit();
             AlertViewFacebook dialog = new AlertViewFacebook(this, "Save Yo'self", "SAVE YOUR PROGRESS BY LOGGING INTO FACEBOOK NOW.", ResultsActivity.this);
             dialog.show();
+        } else {
+            mSettings.edit().putInt("playlistsPlayed", ++playlistsPlayed).commit();
         }
     }
 

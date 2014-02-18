@@ -138,6 +138,34 @@ public class PlaySongsTable {
         return number;
     }
 
+    public boolean isUnlockedLevel(String packageName){
+        int number = 0;
+        SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
+        Cursor c = db.rawQuery("SELECT * FROM play_songs WHERE PackageName = '" + packageName + "' AND BeatStar = 1", null);
+        if(c.moveToFirst()) {
+            number = c.getInt(0);
+        }
+        db.close();
+
+        if(number >= getPlayedLevelsByPackage(packageName)){
+            return true;
+        } else {
+            return  false;
+        }
+    }
+
+    public int getStarBeat(String packageName){
+        int number = 0;
+        SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
+        Cursor c = db.rawQuery("SELECT COUNT(*) FROM play_songs WHERE PackageName = '" + packageName + "' AND BeatStar = 1", null);
+        if(c.moveToFirst()) {
+            number = c.getInt(0);
+        }
+        db.close();
+
+        return number;
+    }
+
     public void deletePlaySongsTable(){
         SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
         db.execSQL("DROP TABLE IF EXISTS play_songs");
