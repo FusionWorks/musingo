@@ -738,7 +738,13 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         String title = "";
         String body = "";
 
-        if(levelsPlayed >= 0 ){
+        if(levelsPlayed >=0){
+            if(currentSong == 8 && !mp.isPlaying()){
+                needToShow = true;
+            }
+        }
+
+        if(levelsPlayed >= 1 ){
             title = getString(R.string.hint_powerup_title);
             body = getString(R.string.hint_powerup_body);
 
@@ -754,11 +760,10 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
             if(currentSong == 8 && !mp.isPlaying()){
                 needToShow = true;
-                Log.v("Musingo", "hint ");
             }
         }
 
-        if(levelsPlayed >= 1){
+        if(levelsPlayed >= 2){
             title = getString(R.string.skip_powerup_title);
             body = getString(R.string.skip_powerup_body);
 
@@ -778,7 +783,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             Log.v("Musingo", "hint skip");
         }
 
-        if(levelsPlayed >= 2){
+        if(levelsPlayed >= 3){
             title = getString(R.string.replay_powerup_title);
             body = getString(R.string.replay_powerup_body);
 
@@ -799,7 +804,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             Log.v("Musingo", "hint replay");
         }
 
-        if(levelsPlayed >= 3){
+        if(levelsPlayed >= 4){
             title = getString(R.string.freeze_powerup_title);
             body = getString(R.string.freeze_powerup_body);
 
@@ -820,7 +825,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             Log.v("Musingo", "hint freeze");
         }
 
-        if(levelsPlayed >= 4){
+        if(levelsPlayed >= 5){
             title = getString(R.string.longer_clip_powerup_title);
             body = getString(R.string.longer_clip_powerup_body);
 
@@ -841,7 +846,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             Log.v("Musingo", "hint longer");
         }
 
-        if(levelsPlayed >= 5){
+        if(levelsPlayed >= 6){
             title = getString(R.string.next_playlist_powerup_title);
             body = getString(R.string.next_playlist_powerup_body);
 
