@@ -3,7 +3,6 @@ package iis.production.musingo.main;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.wifi.WifiManager;
@@ -99,7 +98,7 @@ public class LevelSelectionActivity extends Activity {
     public static boolean unlocked;
 
     boolean nextLevel = false;
-    SharedPreferences mSettings;
+    int scoreToBeat;
 
     List<View> pages;
     static ArrayList<Song> gameSongs;
@@ -117,7 +116,6 @@ public class LevelSelectionActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_level_selection);
-        mSettings = getSharedPreferences("iis.production.musingo.main", MODE_PRIVATE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         didyouknowText = (TextViewArchitects)findViewById(R.id.didyouknowText);
         DidYouKnow.random(didyouknowText, this);
@@ -329,28 +327,37 @@ public class LevelSelectionActivity extends Activity {
     }
 
     public void goToLevel(View view){
-        //PlaySongsTable table = new PlaySongsTable(this);
-
-        if(clickable && unlocked ){
-                playlistDownloading = true;
-                MusingoApp.soundButton();
-                selectedLevel = Integer.valueOf(view.getTag().toString());
-                Log.v("Musingo","tag tap " + view.getTag().toString());
-                String url = Endpoints.playlist_url + selectedLevel;
-                ATS = new ATSongs(this, url, loadingAnimation);
-
-                NetworkInfo networkInfo = new NetworkInfo(this);
-                if(networkInfo.isConnect()){
-                    ATS.execute();
-                    playlistDownloading = false;
+        PlaySongsTable table = new PlaySongsTable(this);
+        int starBeat = table.getStarBeat(packageName);
+        int levelId = view.getId();
+        String levelName = getResources().getResourceName(levelId);
+        int level = Integer.parseInt(levelName.substring(levelName.length()-1, levelName.length()));
+        Log.v("Musingo", "levelId : " + levelName + " , level : " + level + " , starBeat : " + starBeat);
+//         && starBeat >= level - 1
+        if(clickable && unlocked && starBeat >= level - 1){
+            playlistDownloading = true;
+            MusingoApp.soundButton();
+            selectedLevel = Integer.valueOf(view.getTag().toString());
+            for(Playlist playlist : playlists){
+                if(selectedLevel == playlist.getListNumber()){
+                    scoreToBeat = playlist.getScoreToBeat();
                 }
-                else {
-                    networkAlert();
-                }
+            }
+            Log.v("Musingo","tag tap " + view.getTag().toString());
+            String url = Endpoints.playlist_url + selectedLevel;
+            ATS = new ATSongs(this, url, loadingAnimation);
 
-                clickable = false;
-                viewPager.setPagingEnabled(clickable);
+            NetworkInfo networkInfo = new NetworkInfo(this);
+            if(networkInfo.isConnect()){
+                ATS.execute();
+                playlistDownloading = false;
+            }
+            else {
+                networkAlert();
+            }
 
+            clickable = false;
+            viewPager.setPagingEnabled(clickable);
         }
     }
 
@@ -420,7 +427,8 @@ public class LevelSelectionActivity extends Activity {
                 imageView.setImageDrawable(drawable);
             } else {
                 Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.grey_image);
-                final RoundedCornersDrawable drawable = new RoundedCornersDrawable(getResources(), image);
+                final RoundedCornersDrawable drawable = new RoundedCornersDrawable(getResources(), playList.getImage());
+                imageView.setAlpha(100);
                 imageView.setImageDrawable(drawable);
             }
 
@@ -451,7 +459,7 @@ public class LevelSelectionActivity extends Activity {
         viewPager.setPagingEnabled(clickable);
     }
 
-    public void downloadResultForGame(ArrayList<Song> songs, int scoreToBeat, String name, int cost){
+    public void downloadResultForGame(ArrayList<Song> songs, String name, int cost){
         gameSongs = songs;
         Log.v("Musingo", "Level selection : " + selectedLevel);
         Intent intent = new Intent();

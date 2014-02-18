@@ -936,7 +936,9 @@
             <iis.production.musingo.objects.TextViewArchitects
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
                 android:text="@string/tutorial1"
                 android:id="@+id/textView"
                 android:textColor="#000"/>
@@ -945,7 +947,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right"
-                android:padding="10dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginRight="5dp"
                 android:text="@string/tap_for_next"
                 android:id="@+id/textView"
                 android:textColor="#000"
@@ -973,7 +976,9 @@
             <iis.production.musingo.objects.TextViewArchitects
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
                 android:text="@string/tutorial2"
                 android:id="@+id/textView"
                 android:textColor="#000"/>
@@ -982,7 +987,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right"
-                android:padding="10dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginRight="5dp"
                 android:text="@string/tap_for_next"
                 android:id="@+id/textView"
                 android:textColor="#000"
@@ -1023,7 +1029,9 @@
             <iis.production.musingo.objects.TextViewArchitects
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
                 android:text="@string/tutorial3"
                 android:id="@+id/textView"
                 android:textColor="#000"/>
@@ -1032,7 +1040,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right"
-                android:padding="10dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginRight="5dp"
                 android:text="@string/tap_for_next"
                 android:id="@+id/textView"
                 android:textColor="#000"
@@ -1067,7 +1076,9 @@
             <iis.production.musingo.objects.TextViewArchitects
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
                 android:text="@string/tutorial4"
                 android:id="@+id/textView"
                 android:textColor="#000"/>
@@ -1076,7 +1087,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right"
-                android:padding="10dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginRight="5dp"
                 android:text="@string/tap_for_next"
                 android:id="@+id/textView"
                 android:textColor="#000"
@@ -1105,7 +1117,9 @@
             <iis.production.musingo.objects.TextViewArchitects
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
                 android:text="@string/tutorial5"
                 android:id="@+id/textView"
                 android:textColor="#000"/>
@@ -1114,7 +1128,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right"
-                android:padding="10dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginRight="5dp"
                 android:text="@string/tap_for_next"
                 android:id="@+id/textView"
                 android:textColor="#000"
@@ -1168,7 +1183,9 @@
             <iis.production.musingo.objects.TextViewArchitects
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
                 android:text="@string/tutorial6"
                 android:id="@+id/textView"
                 android:textColor="#000"/>
@@ -1177,11 +1194,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right"
-                android:padding="10dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginRight="5dp"
                 android:text="@string/tap_for_next"
                 android:id="@+id/textView"
                 android:textColor="#000"
-                android:textSize="10sp"/>
+                android:textSize="10sp"
+                android:lineSpacingMultiplier="0.7"/>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

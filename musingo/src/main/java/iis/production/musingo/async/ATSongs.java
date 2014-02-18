@@ -112,7 +112,7 @@ public class ATSongs extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void params) {
         loadingView.setVisibility(View.GONE);
-        activity.downloadResultForGame(songs, scoreToBeat, name, cost);
+        activity.downloadResultForGame(songs, name, cost);
 
     }
 

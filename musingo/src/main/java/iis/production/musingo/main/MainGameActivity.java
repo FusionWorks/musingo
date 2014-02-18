@@ -632,7 +632,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     public void toResultsList(){
         mHandler.removeCallbacks(mBonusTask);
         Log.v("Musingo", "Level toResult : " + level);
-        if((score - neededScore) > 0){
+        if((score - neededScore) >= 0){
             scoreBeaten = true;
         }
         if(correctSongs == 9){
