@@ -48,7 +48,6 @@ import iis.production.musingo.objects.TextViewPacifico;
 import iis.production.musingo.utility.FacebookManager;
 import iis.production.musingo.utility.RoundedCornersDrawable;
 import iis.production.musingo.utility.SongsManager;
-import iis.production.musingo.utility.Sounds;
 import iis.production.musingo.utility.Utility;
 
 public class MainGameActivity extends Activity implements MediaPlayer.OnCompletionListener, SeekBar.OnSeekBarChangeListener{
@@ -660,9 +659,6 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         Log.v("Musingo", "Level toResult : " + level);
         if((score - neededScore) >= 0){
             scoreBeaten = true;
-            Sounds.soundWin(this);
-        } else {
-            Sounds.soundlose(this);
         }
         if(correctSongs == 9){
             allSongsCorrect = true;
@@ -747,14 +743,16 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         if(levelsPlayed >=0){
             if(currentSong == 8 && !mp.isPlaying()){
                 needToShow = true;
+                title="playlist1";
+                mSettings.edit().putBoolean(title,true).commit();
             }
         }
 
-        if(levelsPlayed >= 1 ){
+        if(beatStar >=1){
             title = getString(R.string.hint_powerup_title);
             body = getString(R.string.hint_powerup_body);
 
-            if(mSettings.getBoolean(title, false) && beatStar >=2){
+            if(mSettings.getBoolean(title, false)){
                 image = (ImageView)hintHint.findViewById(R.id.hint);
                 image.setImageResource(R.drawable.hint_hint_vis);
                 image.setTag("vis");
@@ -769,11 +767,11 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             }
         }
 
-        if(levelsPlayed >= 2){
+        if(beatStar >=2){
             title = getString(R.string.skip_powerup_title);
             body = getString(R.string.skip_powerup_body);
 
-            if(mSettings.getBoolean(title, false) && beatStar >=3){
+            if(mSettings.getBoolean(title, false)){
                 image = (ImageView)hintSkip.findViewById(R.id.hint);
                 image.setImageResource(R.drawable.hint_skip_vis);
                 image.setTag("vis");
@@ -789,11 +787,11 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             Log.v("Musingo", "hint skip");
         }
 
-        if(levelsPlayed >= 3){
+        if(beatStar >=3){
             title = getString(R.string.replay_powerup_title);
             body = getString(R.string.replay_powerup_body);
 
-            if(mSettings.getBoolean(title, true) && beatStar >=4){
+            if(mSettings.getBoolean(title, true)){
                 image = (ImageView)hintReplay.findViewById(R.id.hint);
                 image.setImageResource(R.drawable.hint_replay_vis);
                 image.setTag("vis");
@@ -810,11 +808,11 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             Log.v("Musingo", "hint replay");
         }
 
-        if(levelsPlayed >= 4){
+        if(beatStar >=4){
             title = getString(R.string.freeze_powerup_title);
             body = getString(R.string.freeze_powerup_body);
 
-            if(mSettings.getBoolean(title, false) && beatStar >=5){
+            if(mSettings.getBoolean(title, false)){
                 image = (ImageView)hintFreeze.findViewById(R.id.hint);
                 image.setImageResource(R.drawable.hint_freeze_vis);
                 image.setTag("vis");
@@ -831,11 +829,11 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             Log.v("Musingo", "hint freeze");
         }
 
-        if(levelsPlayed >= 5){
+        if(beatStar >=5){
             title = getString(R.string.longer_clip_powerup_title);
             body = getString(R.string.longer_clip_powerup_body);
 
-            if(mSettings.getBoolean(title, false) && beatStar >=6){
+            if(mSettings.getBoolean(title, false)){
                 image = (ImageView)hintLonger.findViewById(R.id.hint);
                 image.setImageResource(R.drawable.hint_longer_vis);
                 image.setTag("vis");
@@ -852,11 +850,11 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             Log.v("Musingo", "hint longer");
         }
 
-        if(levelsPlayed >= 6){
+        if(beatStar >=6){
             title = getString(R.string.next_playlist_powerup_title);
             body = getString(R.string.next_playlist_powerup_body);
 
-            if(mSettings.getBoolean(title, false) && beatStar >=7){
+            if(mSettings.getBoolean(title, false)){
                 image = (ImageView)hintNextList.findViewById(R.id.hint);
                 image.setImageResource(R.drawable.hint_nextlist_vis);
                 image.setTag("vis");
