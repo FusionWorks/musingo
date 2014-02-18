@@ -22,7 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
@@ -33,6 +32,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -203,10 +203,6 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         float dpScreenWidth  = outMetrics.widthPixels;
         offset = dpScreenWidth / 6.0f;
         offset2 = (dpScreenWidth - pixels) / 9.0f;
-        Toast.makeText(this,"pixels "+pixels,Toast.LENGTH_LONG).show();
-        Toast.makeText(this,"dpScreenWidth "+dpScreenWidth,Toast.LENGTH_LONG).show();
-        Toast.makeText(this,"offset "+offset,Toast.LENGTH_LONG).show();
-        Toast.makeText(this,"offset2 "+offset2,Toast.LENGTH_LONG).show();
         RelativeLayout seekBar = (RelativeLayout)findViewById(R.id.seekBar);
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) seekBar.getLayoutParams();
         params.width = Math.round(offset);
@@ -559,8 +555,13 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
     public void fillSongThumbs(){
         songs = LevelSelectionActivity.gameSongs;
-
+        long seed = System.nanoTime();
+        Collections.shuffle(songs, new Random(seed));
         for (int i = 0; i<songs.size(); i++){
+//            Random rnd = new Random();
+//            while(){
+//                int index = rnd.nextInt(9);
+//            }
             Song song = songs.get(i);
             RelativeLayout view = (RelativeLayout)songThumbs.get(i);
             ImageView imageView = (ImageView)view.findViewById(R.id.image);
@@ -570,8 +571,6 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             final RoundedCornersDrawable drawable = new RoundedCornersDrawable(getResources(), song.getImage());
             imageView.setImageDrawable(drawable);
             textView.setText(song.getSongName());
-
-
         }
     }
 
