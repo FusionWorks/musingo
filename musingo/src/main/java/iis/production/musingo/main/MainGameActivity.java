@@ -319,7 +319,14 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             // By default play first song
             playSong(0);
         }
-
+        Utility.addSelecions(this, R.id.backButton, R.drawable.selected_back, R.drawable.back_button);
+        Utility.addSelecions(this, R.id.hintfb, R.drawable.selected_fb, R.drawable.hint_fb_vis);
+        Utility.addSelecionsInView(this, R.id.hintHint, R.id.hint,  R.drawable.selected_hint, R.drawable.hint_hint_vis);
+        Utility.addSelecionsInView(this, R.id.hintSkip, R.id.hint,  R.drawable.selected_skip, R.drawable.hint_skip_vis);
+        Utility.addSelecionsInView(this, R.id.hintFreeze, R.id.hint,  R.drawable.selected_freeze, R.drawable.hint_freeze_vis);
+        Utility.addSelecionsInView(this, R.id.hintReplay, R.id.hint,  R.drawable.selected_replay, R.drawable.hint_replay_vis);
+        Utility.addSelecionsInView(this, R.id.hintLonger, R.id.hint,  R.drawable.selected_longer, R.drawable.hint_longer_vis);
+        Utility.addSelecionsInView(this, R.id.hintNextList, R.id.hint,  R.drawable.selected_next_list, R.drawable.hint_nextlist_vis);
     }
 
     public void goBackButton(View view){

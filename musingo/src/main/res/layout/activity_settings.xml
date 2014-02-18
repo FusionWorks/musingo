@@ -161,7 +161,7 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="10dp"/>
                 <ImageView
-                    android:id="@+id/imageRight"
+                    android:id="@+id/imageRightCheck"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -183,7 +183,7 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="10dp"/>
                 <ImageView
-                    android:id="@+id/imageRight"
+                    android:id="@+id/imageRightCheck"
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"

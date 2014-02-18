@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import iis.production.musingo.MusingoApp;
 import iis.production.musingo.R;
+import iis.production.musingo.utility.Utility;
 
 /**
  * Created by AGalkin on 1/18/14.
@@ -24,6 +25,7 @@ public class TokenShopActivity extends Activity {
         lastClickedImage = new ImageView(this.getApplicationContext());
         lastClickedImage.setTag("0");
         removeFocus = false;
+        Utility.addSelecions(this, R.id.backButton, R.drawable.selected_back, R.drawable.back_button);
     }
 
     public void goBackButton(View view){
