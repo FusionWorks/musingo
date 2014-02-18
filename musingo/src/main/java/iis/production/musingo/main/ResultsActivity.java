@@ -110,6 +110,7 @@ public class ResultsActivity extends Activity {
         list.setAdapter(songsListAdapter);
 
         facebookLogin();
+        Utility.addSelecions(this, R.id.nextButton, R.drawable.selected_next, R.drawable.next_button);
     }
 
     public void setStarCollection() {

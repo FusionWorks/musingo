@@ -5,8 +5,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Environment;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -111,4 +114,31 @@ public class Utility {
         }
         return( path.delete() );
     }
+
+
+    public static void addSelecions(Activity activity, int resource, int selected, int normal){
+        ImageView roundSettings = (ImageView)activity.findViewById(resource);
+        StateListDrawable states = new StateListDrawable();
+        states.addState(new int[] {android.R.attr.state_pressed},
+                activity.getResources().getDrawable(selected));
+        states.addState(new int[] {android.R.attr.state_focused},
+                activity.getResources().getDrawable(selected));
+        states.addState(new int[] { },
+                activity.getResources().getDrawable(normal));
+        roundSettings.setImageDrawable(states);
+    }
+
+    public static void addSelecionsInView(Activity activity, int parentId, int resource, int selected, int normal){
+        RelativeLayout layout = (RelativeLayout)activity.findViewById(parentId);
+        ImageView roundSettings = (ImageView)layout.findViewById(resource);
+        StateListDrawable states = new StateListDrawable();
+        states.addState(new int[] {android.R.attr.state_pressed},
+                activity.getResources().getDrawable(selected));
+        states.addState(new int[] {android.R.attr.state_focused},
+                activity.getResources().getDrawable(selected));
+        states.addState(new int[] { },
+                activity.getResources().getDrawable(normal));
+        roundSettings.setImageDrawable(states);
+    }
+
 }

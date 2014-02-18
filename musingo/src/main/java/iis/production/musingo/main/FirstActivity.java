@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.facebook.android.Facebook;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
@@ -32,15 +34,17 @@ public class FirstActivity extends Activity {
         setupMixpanel();
         setupFacebook();
         getMyTokens();
-//        ImageView playNow = (ImageView)findViewById(R.id.settings);
-//        StateListDrawable states = new StateListDrawable();
-//        states.addState(new int[] {android.R.attr.state_pressed},
-//                getResources().getDrawable(R.drawable.pressed));
-//        states.addState(new int[] {android.R.attr.state_focused},
-//                getResources().getDrawable(R.drawable.focused));
-//        states.addState(new int[] { },
-//                getResources().getDrawable(R.drawable.normal));
-//        playNow.setImageDrawable(states);
+
+        ImageView roundSettings = (ImageView)findViewById(R.id.settings);
+
+        StateListDrawable states = new StateListDrawable();
+        states.addState(new int[] {android.R.attr.state_pressed},
+                getResources().getDrawable(R.drawable.selected_settings));
+        states.addState(new int[] {android.R.attr.state_focused},
+                getResources().getDrawable(R.drawable.selected_settings));
+        states.addState(new int[] { },
+                getResources().getDrawable(R.drawable.settings));
+        roundSettings.setImageDrawable(states);
 // <<<temp
 //        PlaySongsTable playSongsTable = new PlaySongsTable(this);
 //        playSongsTable.deletePlaySongsTable();

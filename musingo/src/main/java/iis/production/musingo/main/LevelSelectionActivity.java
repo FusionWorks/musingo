@@ -41,6 +41,7 @@ import iis.production.musingo.utility.DidYouKnow;
 import iis.production.musingo.utility.Endpoints;
 import iis.production.musingo.utility.NetworkInfo;
 import iis.production.musingo.utility.RoundedCornersDrawable;
+import iis.production.musingo.utility.Utility;
 
 /**
  * Created by AGalkin on 1/18/14.
@@ -237,8 +238,7 @@ public class LevelSelectionActivity extends Activity {
 
         selectedPackage = 1;
 
-
-
+        Utility.addSelecions(this, R.id.backButton, R.drawable.selected_back, R.drawable.back_button);
         getStarsCollected();
     }
 
