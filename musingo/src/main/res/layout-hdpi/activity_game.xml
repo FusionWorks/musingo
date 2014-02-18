@@ -152,8 +152,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:orientation="horizontal">
                 <RelativeLayout
                     android:id="@+id/song1"
@@ -319,6 +319,7 @@
                     </RelativeLayout>
                 </LinearLayout>
             <LinearLayout
+                android:id="@+id/seekbarLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true">
@@ -326,31 +327,32 @@
                     android:id="@+id/seekBar"
                     android:layout_width="60dp"
                     android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_centerVertical="true"
                     android:background="@drawable/round_seekbar_white">
-                        <ImageView
-                            android:id="@+id/bar"
-                            android:layout_width="5dp"
-                            android:layout_height="33dp"
-                            android:layout_marginLeft="5dp"
-                            android:layout_centerVertical="true"
-                            android:background="@drawable/round_seekbar_blue"/>
-                        <iis.production.musingo.objects.TextViewPacifico
-                            android:id="@+id/title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="16sp"
-                            android:text="song"
-                            android:layout_centerInParent="true"
-                            android:textColor="#000"/>
-                        <ImageView
-                            android:id="@+id/pauseIndicator"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/pause_icon"
-                            android:visibility="gone"/>
-                    </RelativeLayout>
-                </LinearLayout>
+                    <ImageView
+                        android:id="@+id/bar"
+                        android:layout_width="5dp"
+                        android:layout_height="33dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/round_seekbar_blue"/>
+                    <iis.production.musingo.objects.TextViewPacifico
+                        android:id="@+id/title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:text="song"
+                        android:layout_centerInParent="true"
+                        android:textColor="#000"/>
+                    <ImageView
+                        android:id="@+id/pauseIndicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/pause_icon"
+                        android:visibility="gone"/>
+                </RelativeLayout>
+            </LinearLayout>
             <View android:id="@+id/separator"
                 android:background="#3fb8cd"
                 android:layout_width = "fill_parent"

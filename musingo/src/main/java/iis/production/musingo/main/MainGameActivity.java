@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
@@ -135,6 +136,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
     int correctSongs;
     float offset;
+    float offset2;
     int packageNumber;
     String packageName;
     int neededScore;
@@ -195,11 +197,20 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         Display display = getWindowManager().getDefaultDisplay();
         DisplayMetrics outMetrics = new DisplayMetrics ();
         display.getMetrics(outMetrics);
+        float scale = getResources().getDisplayMetrics().density;
+        int pixels = (int) (20 * scale + 0.5f);
 
-        float density  = getResources().getDisplayMetrics().density;
-        float dpScreenWidth  = outMetrics.widthPixels / density;
-        offset = (dpScreenWidth - 60.0f) / 9.0f;
-
+        float dpScreenWidth  = outMetrics.widthPixels;
+        offset = dpScreenWidth / 6.0f;
+        offset2 = (dpScreenWidth - pixels) / 9.0f;
+        Toast.makeText(this,"pixels "+pixels,Toast.LENGTH_LONG).show();
+        Toast.makeText(this,"dpScreenWidth "+dpScreenWidth,Toast.LENGTH_LONG).show();
+        Toast.makeText(this,"offset "+offset,Toast.LENGTH_LONG).show();
+        Toast.makeText(this,"offset2 "+offset2,Toast.LENGTH_LONG).show();
+        RelativeLayout seekBar = (RelativeLayout)findViewById(R.id.seekBar);
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) seekBar.getLayoutParams();
+        params.width = Math.round(offset);
+        seekBar.setLayoutParams(params);
         hintSelected = new ArrayList<RelativeLayout>();
         //Powerups icons
         hintfb = (ImageView)findViewById(R.id.hintfb);
@@ -321,6 +332,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             playSong(0);
         }
 
+        Utility.addSelecions(this, R.id.backButton, R.drawable.selected_back, R.drawable.back_button);
+        Utility.addSelecions(this, R.id.hintfb, R.drawable.selected_fb, R.drawable.hint_fb_vis);
     }
 
     public void goBackButton(View view){
@@ -380,7 +393,8 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             // Displaying time completed playing
             int currentPosition = Integer.parseInt(Utility.milliSecondsToTimer(currentDuration));
             final float scale = getResources().getDisplayMetrics().density;
-            int pixels = (int) (5 * currentPosition * scale + 0.5f);
+//            int pixels = (int) ((offset/11) * currentPosition * scale + 0.5f);
+            int pixels = (int) ((offset/11) * currentPosition);
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) bar.getLayoutParams();
             if(!freeze)
                 params.width = pixels;
@@ -476,10 +490,10 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         skipBorder = false;
         if(currentSong != 8 && !replay ){
             final float scale = getResources().getDisplayMetrics().density;
-            int left = Math.round(offset * ((float)currentSong+1)) + currentSong;
+            int left = Math.round((offset2 * (currentSong + 1)));
             int pixels = (int) (left * scale + 0.5f);
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) seekBar.getLayoutParams();
-            params.setMargins(pixels, 0, 0, 0);
+            params.setMargins(left, 0, 0, 0);
             seekBar.setLayoutParams(params);
 
             pixels= (int) (30 * scale) + pixels;
@@ -490,10 +504,10 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
         }else if(skip && currentSong == 8){
             final float scale = getResources().getDisplayMetrics().density;
-            int left = Math.round(offset * ((float)currentSong+1)) + currentSong;
+            int left = Math.round((offset2 * (currentSong + 1)));
             int pixels = (int) (left * scale + 0.5f);
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) seekBar.getLayoutParams();
-            params.setMargins(pixels, 0, 0, 0);
+            params.setMargins(left, 0, 0, 0);
             seekBar.setLayoutParams(params);
             playSong(skippedSong);
             skip = false;
@@ -501,10 +515,10 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         }else if(replay){
             final float scale = getResources().getDisplayMetrics().density;
 
-            int left = Math.round(offset * ((float)currentSong+1)) + currentSong;
-            int pixels = (int) (left * scale + 0.5f);
+            int left = Math.round((offset2 * (currentSong + 1)));
+//            int pixels = (int) (left * scale + 0.5f);
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) seekBar.getLayoutParams();
-            params.setMargins(pixels, 0, 0, 0);
+            params.setMargins(left, 0, 0, 0);
             seekBar.setLayoutParams(params);
             playSong(currentSong);
             replay = false;
@@ -623,11 +637,16 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     }
 
     public void endGame(){
+
+        mHandler.removeCallbacks(mUpdateTimeTask);
+        mHandler.removeCallbacks(mBonusTask);
+
         PlaySongsTable table = new PlaySongsTable(this);
         if(table.getPlayedLevelsByPackage(packageName) < 1){
             toResultsList();
-        }else
+        }else{
             showPowerups();
+        }
     }
 
     public void toResultsList(){
@@ -708,7 +727,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         Log.v("Musingo", "after" + newArray.get(0) + "size -"+newArray.size());
         return newArray;
     }
-// ----- Powerups
+    // ----- Powerups
     public void showPowerups(){
         ImageView image;
         PlaySongsTable table = new PlaySongsTable(this);
@@ -719,51 +738,60 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         String title = "";
         String body = "";
 
-        if(beatStar >= 1 ){
+        if(levelsPlayed >= 0 ){
             title = getString(R.string.hint_powerup_title);
             body = getString(R.string.hint_powerup_body);
 
-            if(mSettings.getBoolean(title, false)){
+            if(mSettings.getBoolean(title, false) && beatStar >=2){
                 image = (ImageView)hintHint.findViewById(R.id.hint);
                 image.setImageResource(R.drawable.hint_hint_vis);
                 image.setTag("vis");
+                Utility.addSelecionsInView(this, R.id.hintHint, R.id.hint,  R.drawable.selected_hint, R.drawable.hint_hint_vis);
+
+                image = (ImageView)hintHint.findViewById(R.id.lock);
+                image.setVisibility(View.GONE);
             }
-            image = (ImageView)hintHint.findViewById(R.id.lock);
-            image.setVisibility(View.GONE);
+
             if(currentSong == 8 && !mp.isPlaying()){
                 needToShow = true;
+                Log.v("Musingo", "hint ");
             }
         }
 
-        if(beatStar >= 2){
+        if(levelsPlayed >= 1){
             title = getString(R.string.skip_powerup_title);
             body = getString(R.string.skip_powerup_body);
 
-            if(mSettings.getBoolean(title, false)){
+            if(mSettings.getBoolean(title, false) && beatStar >=3){
                 image = (ImageView)hintSkip.findViewById(R.id.hint);
                 image.setImageResource(R.drawable.hint_skip_vis);
                 image.setTag("vis");
+                Utility.addSelecionsInView(this, R.id.hintSkip, R.id.hint, R.drawable.selected_skip, R.drawable.hint_skip_vis);
+
+                image = (ImageView)hintSkip.findViewById(R.id.lock);
+                image.setVisibility(View.GONE);
             }
-            image = (ImageView)hintSkip.findViewById(R.id.lock);
-            image.setVisibility(View.GONE);
+
             if(currentSong == 8 && !mp.isPlaying()){
                 needToShow = true;
             }
             Log.v("Musingo", "hint skip");
         }
 
-        if(beatStar >= 3){
+        if(levelsPlayed >= 2){
             title = getString(R.string.replay_powerup_title);
             body = getString(R.string.replay_powerup_body);
 
-            if(mSettings.getBoolean(title, true)){
+            if(mSettings.getBoolean(title, true) && beatStar >=4){
                 image = (ImageView)hintReplay.findViewById(R.id.hint);
                 image.setImageResource(R.drawable.hint_replay_vis);
                 image.setTag("vis");
+                Utility.addSelecionsInView(this, R.id.hintReplay, R.id.hint, R.drawable.selected_replay, R.drawable.hint_replay_vis);
+
+                image = (ImageView)hintReplay.findViewById(R.id.lock);
+                image.setVisibility(View.GONE);
             }
 
-            image = (ImageView)hintReplay.findViewById(R.id.lock);
-            image.setVisibility(View.GONE);
             if(currentSong == 8 && !mp.isPlaying()){
                 needToShow = true;
             }
@@ -771,18 +799,20 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             Log.v("Musingo", "hint replay");
         }
 
-        if(beatStar >= 4){
+        if(levelsPlayed >= 3){
             title = getString(R.string.freeze_powerup_title);
             body = getString(R.string.freeze_powerup_body);
 
-            if(mSettings.getBoolean(title, false)){
+            if(mSettings.getBoolean(title, false) && beatStar >=5){
                 image = (ImageView)hintFreeze.findViewById(R.id.hint);
                 image.setImageResource(R.drawable.hint_freeze_vis);
                 image.setTag("vis");
+                Utility.addSelecionsInView(this, R.id.hintFreeze, R.id.hint, R.drawable.selected_freeze, R.drawable.hint_freeze_vis);
+
+                image = (ImageView)hintFreeze.findViewById(R.id.lock);
+                image.setVisibility(View.GONE);
             }
 
-            image = (ImageView)hintFreeze.findViewById(R.id.lock);
-            image.setVisibility(View.GONE);
             if(currentSong == 8 && !mp.isPlaying()){
                 needToShow = true;
             }
@@ -790,18 +820,20 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             Log.v("Musingo", "hint freeze");
         }
 
-        if(levelsPlayed >= 5){
+        if(levelsPlayed >= 4){
             title = getString(R.string.longer_clip_powerup_title);
             body = getString(R.string.longer_clip_powerup_body);
 
-            if(mSettings.getBoolean(title, false)){
+            if(mSettings.getBoolean(title, false) && beatStar >=6){
                 image = (ImageView)hintLonger.findViewById(R.id.hint);
                 image.setImageResource(R.drawable.hint_longer_vis);
                 image.setTag("vis");
+                Utility.addSelecionsInView(this, R.id.hintLonger, R.id.hint, R.drawable.selected_longer, R.drawable.hint_longer_vis);
+
+                image = (ImageView)hintLonger.findViewById(R.id.lock);
+                image.setVisibility(View.GONE);
             }
 
-            image = (ImageView)hintLonger.findViewById(R.id.lock);
-            image.setVisibility(View.GONE);
             if(currentSong == 8 && !mp.isPlaying()){
                 needToShow = true;
             }
@@ -809,18 +841,20 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             Log.v("Musingo", "hint longer");
         }
 
-        if(beatStar >= 6){
+        if(levelsPlayed >= 5){
             title = getString(R.string.next_playlist_powerup_title);
             body = getString(R.string.next_playlist_powerup_body);
 
-            if(mSettings.getBoolean(title, false)){
+            if(mSettings.getBoolean(title, false) && beatStar >=7){
                 image = (ImageView)hintNextList.findViewById(R.id.hint);
                 image.setImageResource(R.drawable.hint_nextlist_vis);
                 image.setTag("vis");
+                Utility.addSelecionsInView(this, R.id.hintNextList, R.id.hint, R.drawable.selected_next_list, R.drawable.hint_nextlist_vis);
+
+                image = (ImageView)hintNextList.findViewById(R.id.lock);
+                image.setVisibility(View.GONE);
             }
 
-            image = (ImageView)hintNextList.findViewById(R.id.lock);
-            image.setVisibility(View.GONE);
             if(currentSong == 8 && !mp.isPlaying()){
                 needToShow = true;
             }
@@ -1107,7 +1141,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     public void hideHint(View view){
         hintTextImage.setVisibility(View.GONE);
     }
-// - Tutorials
+    // - Tutorials
     public void nextTutorial(View v){
         switch (v.getId()){
             case R.id.tutorial1 :
@@ -1167,7 +1201,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         }
     }
 
-// -- Bonuses
+    // -- Bonuses
     public void checkForBonuses(){
         for(Integer i : correctIndexes){
             Log.v("Musingo", "index "+i);
