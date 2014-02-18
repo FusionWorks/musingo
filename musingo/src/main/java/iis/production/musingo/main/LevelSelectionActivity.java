@@ -3,6 +3,7 @@ package iis.production.musingo.main;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.wifi.WifiManager;
@@ -98,7 +99,7 @@ public class LevelSelectionActivity extends Activity {
     public static boolean unlocked;
 
     boolean nextLevel = false;
-
+    SharedPreferences mSettings;
 
     List<View> pages;
     static ArrayList<Song> gameSongs;
@@ -116,6 +117,7 @@ public class LevelSelectionActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_level_selection);
+        mSettings = getSharedPreferences("iis.production.musingo.main", MODE_PRIVATE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         didyouknowText = (TextViewArchitects)findViewById(R.id.didyouknowText);
         DidYouKnow.random(didyouknowText, this);
@@ -327,25 +329,28 @@ public class LevelSelectionActivity extends Activity {
     }
 
     public void goToLevel(View view){
-        if(clickable && unlocked){
-            playlistDownloading = true;
-            MusingoApp.soundButton();
-            selectedLevel = Integer.valueOf(view.getTag().toString());
-            Log.v("Musingo","tag tap " + view.getTag().toString());
-            String url = Endpoints.playlist_url + selectedLevel;
-            ATS = new ATSongs(this, url, loadingAnimation);
+        //PlaySongsTable table = new PlaySongsTable(this);
 
-            NetworkInfo networkInfo = new NetworkInfo(this);
-            if(networkInfo.isConnect()){
-                ATS.execute();
-                playlistDownloading = false;
-            }
-            else {
-                networkAlert();
-            }
+        if(clickable && unlocked ){
+                playlistDownloading = true;
+                MusingoApp.soundButton();
+                selectedLevel = Integer.valueOf(view.getTag().toString());
+                Log.v("Musingo","tag tap " + view.getTag().toString());
+                String url = Endpoints.playlist_url + selectedLevel;
+                ATS = new ATSongs(this, url, loadingAnimation);
 
-            clickable = false;
-            viewPager.setPagingEnabled(clickable);
+                NetworkInfo networkInfo = new NetworkInfo(this);
+                if(networkInfo.isConnect()){
+                    ATS.execute();
+                    playlistDownloading = false;
+                }
+                else {
+                    networkAlert();
+                }
+
+                clickable = false;
+                viewPager.setPagingEnabled(clickable);
+
         }
     }
 
