@@ -47,6 +47,7 @@ import iis.production.musingo.objects.TextViewPacifico;
 import iis.production.musingo.utility.FacebookManager;
 import iis.production.musingo.utility.RoundedCornersDrawable;
 import iis.production.musingo.utility.SongsManager;
+import iis.production.musingo.utility.Sounds;
 import iis.production.musingo.utility.Utility;
 
 public class MainGameActivity extends Activity implements MediaPlayer.OnCompletionListener, SeekBar.OnSeekBarChangeListener{
@@ -319,14 +320,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             // By default play first song
             playSong(0);
         }
-        Utility.addSelecions(this, R.id.backButton, R.drawable.selected_back, R.drawable.back_button);
-        Utility.addSelecions(this, R.id.hintfb, R.drawable.selected_fb, R.drawable.hint_fb_vis);
-        Utility.addSelecionsInView(this, R.id.hintHint, R.id.hint,  R.drawable.selected_hint, R.drawable.hint_hint_vis);
-        Utility.addSelecionsInView(this, R.id.hintSkip, R.id.hint,  R.drawable.selected_skip, R.drawable.hint_skip_vis);
-        Utility.addSelecionsInView(this, R.id.hintFreeze, R.id.hint,  R.drawable.selected_freeze, R.drawable.hint_freeze_vis);
-        Utility.addSelecionsInView(this, R.id.hintReplay, R.id.hint,  R.drawable.selected_replay, R.drawable.hint_replay_vis);
-        Utility.addSelecionsInView(this, R.id.hintLonger, R.id.hint,  R.drawable.selected_longer, R.drawable.hint_longer_vis);
-        Utility.addSelecionsInView(this, R.id.hintNextList, R.id.hint,  R.drawable.selected_next_list, R.drawable.hint_nextlist_vis);
+
     }
 
     public void goBackButton(View view){
@@ -641,6 +635,9 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         Log.v("Musingo", "Level toResult : " + level);
         if((score - neededScore) >= 0){
             scoreBeaten = true;
+            Sounds.soundWin(this);
+        } else {
+            Sounds.soundlose(this);
         }
         if(correctSongs == 9){
             allSongsCorrect = true;
@@ -716,12 +713,13 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         ImageView image;
         PlaySongsTable table = new PlaySongsTable(this);
         int levelsPlayed = table.getPlayedLevelsByPackage(packageName);
+        int beatStar = table.getStarBeat(packageName);
         boolean needToShow = false;
         Log.v("Musingo", "levels played : " + levelsPlayed);
         String title = "";
         String body = "";
 
-        if(levelsPlayed >= 1){
+        if(beatStar >= 1 ){
             title = getString(R.string.hint_powerup_title);
             body = getString(R.string.hint_powerup_body);
 
@@ -737,7 +735,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             }
         }
 
-        if(levelsPlayed >= 2){
+        if(beatStar >= 2){
             title = getString(R.string.skip_powerup_title);
             body = getString(R.string.skip_powerup_body);
 
@@ -754,7 +752,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             Log.v("Musingo", "hint skip");
         }
 
-        if(levelsPlayed >= 3){
+        if(beatStar >= 3){
             title = getString(R.string.replay_powerup_title);
             body = getString(R.string.replay_powerup_body);
 
@@ -773,7 +771,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             Log.v("Musingo", "hint replay");
         }
 
-        if(levelsPlayed >= 4){
+        if(beatStar >= 4){
             title = getString(R.string.freeze_powerup_title);
             body = getString(R.string.freeze_powerup_body);
 
@@ -811,7 +809,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             Log.v("Musingo", "hint longer");
         }
 
-        if(levelsPlayed >= 6){
+        if(beatStar >= 6){
             title = getString(R.string.next_playlist_powerup_title);
             body = getString(R.string.next_playlist_powerup_body);
 
@@ -830,7 +828,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             Log.v("Musingo", "hint next list");
         }
 
-        if(needToShow && !mSettings.getBoolean(title, false)){
+        if(needToShow && !mSettings.getBoolean(title, false) && (score - neededScore) >= 0){
             dialog = new AlertViewOrange("Hint Powerup" , title, body, this);
             dialog.show();
             mSettings.edit().putBoolean(title,true).commit();

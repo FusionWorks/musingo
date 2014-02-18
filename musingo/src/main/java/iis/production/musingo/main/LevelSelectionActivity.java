@@ -3,8 +3,6 @@ package iis.production.musingo.main;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -422,15 +420,13 @@ public class LevelSelectionActivity extends Activity {
             ImageView imageView = (ImageView)view.findViewById(R.id.image);
             TextViewArchitects textView = (TextViewArchitects)view.findViewById(R.id.title);
 
-            if (unlocked){
-                final RoundedCornersDrawable drawable = new RoundedCornersDrawable(getResources(), playList.getImage());
-                imageView.setImageDrawable(drawable);
-            } else {
-                Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.grey_image);
-                final RoundedCornersDrawable drawable = new RoundedCornersDrawable(getResources(), playList.getImage());
-                imageView.setAlpha(100);
-                imageView.setImageDrawable(drawable);
+            final RoundedCornersDrawable drawable = new RoundedCornersDrawable(getResources(), playList.getImage());
+
+            if (!unlocked){
+                drawable.setAlpha(75);
             }
+
+            imageView.setImageDrawable(drawable);
 
 //            Utility.setBackgroundBySDK(imageView, song.getImage());
             textView.setText(playList.getName().toUpperCase());
@@ -623,5 +619,4 @@ public class LevelSelectionActivity extends Activity {
             downloadResultForLevels(playlists, packageName, starsToUnlock);
 //        }
     }
-
 }

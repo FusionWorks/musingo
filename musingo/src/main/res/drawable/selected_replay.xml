@@ -10,7 +10,7 @@
     </item>
     <item>
         <inset
-            android:drawable="@drawable/hint_replay_vis_vis"
+            android:drawable="@drawable/hint_replay_vis"
             android:insetTop="2dp"
             android:insetLeft="2dp"
             android:insetRight="2dp"
