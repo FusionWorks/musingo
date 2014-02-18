@@ -92,7 +92,7 @@ public class ATSongs extends AsyncTask<Void, Void, Void> {
                 uuid = obj.getString("uuid");
                 songName = obj.getString("name");
                 artistName = obj.getString("artist");
-                time = "0";
+                time = "";
                 mp3URL = obj.getString("mp3_url");
                 Song song = new Song(id, uuid, image, songName, artistName, time, mp3URL, imageUrl);
                 songs.add(song);
