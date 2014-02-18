@@ -11,6 +11,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
@@ -33,6 +34,7 @@ public class ATPackages extends AsyncTask<Void, Void, Void> {
     RelativeLayout loadingView;
     ArrayList<Playlist> playlists;
     String url;
+    Boolean timeOut = false;
 
     int starsToUnlock;
     String packageName;
@@ -82,6 +84,8 @@ public class ATPackages extends AsyncTask<Void, Void, Void> {
             e.printStackTrace();
         } catch (ClientProtocolException e) {
             e.printStackTrace();
+        }catch (ConnectTimeoutException e){
+            timeOut = true;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -91,8 +95,11 @@ public class ATPackages extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void params) {
         loadingView.setVisibility(View.GONE);
-        activity.downloadResultForLevels(playlists, packageName, starsToUnlock);
-
+        if(timeOut){
+            activity.changePackage();
+        }else{
+            activity.downloadResultForLevels(playlists, packageName, starsToUnlock);
+        }
     }
 
     @Override

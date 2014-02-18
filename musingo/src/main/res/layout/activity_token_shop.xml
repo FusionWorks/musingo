@@ -29,7 +29,8 @@
                 android:layout_toRightOf="@id/backButton"
                 android:textSize="30sp"
                 android:text="Token Shop"
-                android:textColor="#ffffff"/>
+                android:textColor="#ffffff"
+                style="@style/Shadow"/>
             </LinearLayout>
         </RelativeLayout>
     <LinearLayout
