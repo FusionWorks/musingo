@@ -218,9 +218,11 @@ public class ResultsActivity extends Activity {
         if(beatStar){
             beatStarImg.setImageResource(R.drawable.star_beat);
             playSongsTable.updateBeatStar(true, levelNumber);
+            MusingoApp.soundWin();
         }
         else {
             beatStarImg.setImageResource(R.drawable.star_blank);
+            MusingoApp.soundlose();
         }
     }
 
