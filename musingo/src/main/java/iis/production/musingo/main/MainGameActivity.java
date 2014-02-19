@@ -767,7 +767,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         ImageView image;
         PlaySongsTable table = new PlaySongsTable(this);
         int levelsPlayed = table.getPlayedLevelsByPackage(packageName);
-        int beatStar = table.getStarBeatByPackage(packageName);
+        int beatStar = table.getStarBeat();
         boolean needToShow = false;
         Log.v("Musingo", "levels played : " + levelsPlayed);
         String title = "";
@@ -781,7 +781,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             }
         }
 
-        if(beatStar >=1){
+        if(beatStar >=2){
             title = getString(R.string.hint_powerup_title);
             body = getString(R.string.hint_powerup_body);
 
@@ -800,7 +800,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             }
         }
 
-        if(beatStar >=2){
+        if(beatStar >=4){
             title = getString(R.string.skip_powerup_title);
             body = getString(R.string.skip_powerup_body);
 
@@ -820,7 +820,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             Log.v("Musingo", "hint skip");
         }
 
-        if(beatStar >=3){
+        if(beatStar >=6){
             title = getString(R.string.replay_powerup_title);
             body = getString(R.string.replay_powerup_body);
 
@@ -841,7 +841,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             Log.v("Musingo", "hint replay");
         }
 
-        if(beatStar >=4){
+        if(beatStar >=8){
             title = getString(R.string.freeze_powerup_title);
             body = getString(R.string.freeze_powerup_body);
 
@@ -862,7 +862,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             Log.v("Musingo", "hint freeze");
         }
 
-        if(beatStar >=5){
+        if(beatStar >=10){
             title = getString(R.string.longer_clip_powerup_title);
             body = getString(R.string.longer_clip_powerup_body);
 
@@ -883,7 +883,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             Log.v("Musingo", "hint longer");
         }
 
-        if(beatStar >=6){
+        if(beatStar >=12){
             title = getString(R.string.next_playlist_powerup_title);
             body = getString(R.string.next_playlist_powerup_body);
 

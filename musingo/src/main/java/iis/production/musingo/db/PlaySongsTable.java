@@ -166,6 +166,18 @@ public class PlaySongsTable {
         return number;
     }
 
+    public int getStarBeat(){
+        int number = 0;
+        SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
+        Cursor c = db.rawQuery("SELECT COUNT(*) FROM play_songs WHERE BeatStar = 1", null);
+        if(c.moveToFirst()) {
+            number = c.getInt(0);
+        }
+        db.close();
+
+        return number;
+    }
+
     public void deletePlaySongsTable(){
         SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
         db.execSQL("DROP TABLE IF EXISTS play_songs");

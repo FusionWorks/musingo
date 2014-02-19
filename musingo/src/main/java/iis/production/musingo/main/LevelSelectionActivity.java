@@ -326,13 +326,14 @@ public class LevelSelectionActivity extends Activity {
 
     public void goToLevel(View view){
         PlaySongsTable table = new PlaySongsTable(this);
-        int starBeat = table.getStarBeatByPackage(packageName);
-        int levelId = view.getId();
-        String levelName = getResources().getResourceName(levelId);
-        int level = Integer.parseInt(levelName.substring(levelName.length()-1, levelName.length()));
-        Log.v("Musingo", "levelId : " + levelName + " , level : " + level + " , starBeat : " + starBeat);
-//         && starBeat >= level - 1
-        if(clickable && unlocked && starBeat >= level - 1){
+//        int starBeat = table.getStarBeatByPackage(packageName);
+//        int levelId = view.getId();
+//        String levelName = getResources().getResourceName(levelId);
+//        int level = Integer.parseInt(levelName.substring(levelName.length()-1, levelName.length()));
+//        Log.v("Musingo", "levelId : " + levelName + " , level : " + level + " , starBeat : " + starBeat);
+//        if(clickable && unlocked && starBeat >= level - 1){
+
+        if(clickable && unlocked){
             playlistDownloading = true;
             MusingoApp.soundButton();
             selectedLevel = Integer.valueOf(view.getTag().toString());
