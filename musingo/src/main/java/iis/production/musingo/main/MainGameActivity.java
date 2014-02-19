@@ -22,7 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
@@ -33,6 +32,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -202,10 +202,6 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         float dpScreenWidth  = outMetrics.widthPixels;
         offset = dpScreenWidth / 6.0f;
         offset2 = (dpScreenWidth - pixels) / 9.0f;
-        Toast.makeText(this,"pixels "+pixels,Toast.LENGTH_LONG).show();
-        Toast.makeText(this,"dpScreenWidth "+dpScreenWidth,Toast.LENGTH_LONG).show();
-        Toast.makeText(this,"offset "+offset,Toast.LENGTH_LONG).show();
-        Toast.makeText(this,"offset2 "+offset2,Toast.LENGTH_LONG).show();
         RelativeLayout seekBar = (RelativeLayout)findViewById(R.id.seekBar);
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) seekBar.getLayoutParams();
         params.width = Math.round(offset);
@@ -405,7 +401,6 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 Utility.setBackgroundBySDK(wrongSelected,null);
             if(currentPosition == maximumTime)
                 playNext();
-
         }
     };
 
@@ -522,7 +517,6 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             playSong(currentSong);
             replay = false;
         }else{
-            mHandler.removeCallbacks(mUpdateTimeTask);
             mp.stop();
             if(tutorialBonusOpen || bonusOpen){
                 waitingForResultActivity = true;
@@ -560,8 +554,13 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
     public void fillSongThumbs(){
         songs = LevelSelectionActivity.gameSongs;
-
+        long seed = System.nanoTime();
+        Collections.shuffle(songs, new Random(seed));
         for (int i = 0; i<songs.size(); i++){
+//            Random rnd = new Random();
+//            while(){
+//                int index = rnd.nextInt(9);
+//            }
             Song song = songs.get(i);
             RelativeLayout view = (RelativeLayout)songThumbs.get(i);
             ImageView imageView = (ImageView)view.findViewById(R.id.image);
@@ -571,49 +570,56 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             final RoundedCornersDrawable drawable = new RoundedCornersDrawable(getResources(), song.getImage());
             imageView.setImageDrawable(drawable);
             textView.setText(song.getSongName());
-
-
         }
     }
 
     public void tryToGuess(View view){
-        if(maxTryes != 9 && !tutorialOpen){
-            maxTryes += 1;
-            for(RelativeLayout hint : hintSelected){
-                Utility.setBackgroundBySDK(hint.findViewById(R.id.borderRight),null);
-            }
-            hintSelected = new ArrayList<RelativeLayout>();
-            if(currentSong < 9){
-                String id = songsList.get(currentSong).get("songTitle");
+        for(Song song : songs){
+            if(view.getTag().toString().equals(song.getId())){
+                Log.v("Musingo","song.getTime().length() "+song.getTime().length());
+                if(song.getTime().length()<1 || song.getTime().toString().equals("-")){
+                    if(maxTryes != 9 && !tutorialOpen){
+                        maxTryes += 1;
+                        for(RelativeLayout hint : hintSelected){
+                            Utility.setBackgroundBySDK(hint.findViewById(R.id.borderRight),null);
+                        }
+                        hintSelected = new ArrayList<RelativeLayout>();
+                        if(currentSong < 9){
+                            String id = songsList.get(currentSong).get("songTitle");
 
-                if(currentSong != 0 && !userRight){
-                    Utility.setBackgroundBySDK(wrongSelected,null);
+                            if(currentSong != 0 && !userRight){
+                                Utility.setBackgroundBySDK(wrongSelected,null);
+                            }
+                            ImageView image = (ImageView)view.findViewById(R.id.image);
+                            int width = image.getMeasuredWidth();
+                            if (view.getTag().toString().equals(id)){
+                                MusingoApp.soundCorrect();
+                                ImageView borderRight = (ImageView)view.findViewById(R.id.borderRight);
+                                borderRight.setLayoutParams(new RelativeLayout.LayoutParams(width + 4, width + 4));
+                                borderRight.setBackgroundResource(R.drawable.round_song_big_right);
+                                userRight = true;
+                                score += cost;
+                                yourScore.setText(String.valueOf(score));
+                                correctSongs++;
+                                int index = allIndexes.get(view.getTag().toString());
+                                correctIndexes.add(index);
+                            }else{
+                                Log.v("Musingo", "Width "+width);
+                                MusingoApp.soundWrong();
+                                ImageView border = (ImageView) view.findViewById(R.id.border);
+                                border.setLayoutParams(new RelativeLayout.LayoutParams(width + 4, width + 4));
+                                border.setBackgroundResource(R.drawable.round_song_big_wrong);
+                                wrongSelected = border;
+                                userRight = false;
+                            }
+                            playNext();
+                        }
+                    }
+                    break;
                 }
-                ImageView image = (ImageView)view.findViewById(R.id.image);
-                int width = image.getMeasuredWidth();
-                if (view.getTag().toString().equals(id)){
-                    MusingoApp.soundCorrect();
-                    ImageView borderRight = (ImageView)view.findViewById(R.id.borderRight);
-                    borderRight.setLayoutParams(new RelativeLayout.LayoutParams(width + 4, width + 4));
-                    borderRight.setBackgroundResource(R.drawable.round_song_big_right);
-                    userRight = true;
-                    score += cost;
-                    yourScore.setText(String.valueOf(score));
-                    correctSongs++;
-                    int index = allIndexes.get(view.getTag().toString());
-                    correctIndexes.add(index);
-                }else{
-                    Log.v("Musingo", "Width "+width);
-                    MusingoApp.soundWrong();
-                    ImageView border = (ImageView) view.findViewById(R.id.border);
-                    border.setLayoutParams(new RelativeLayout.LayoutParams(width + 4, width + 4));
-                    border.setBackgroundResource(R.drawable.round_song_big_wrong);
-                    wrongSelected = border;
-                    userRight = false;
-                }
-                playNext();
             }
         }
+
     }
 
     public void saveSongResult(String result){
@@ -999,7 +1005,6 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 longerAction();
             }
         }
-
     }
     public void powerUpNextList(View view){
         int cost = Integer.parseInt(getString(R.string.cost_next));
