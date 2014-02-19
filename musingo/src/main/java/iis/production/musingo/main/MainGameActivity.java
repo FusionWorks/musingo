@@ -577,7 +577,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         for(Song song : songs){
             if(view.getTag().toString().equals(song.getId())){
                 Log.v("Musingo","song.getTime().length() "+song.getTime().length());
-                if(song.getTime().length()<1){
+                if(song.getTime().length()<1 || song.getTime().toString().equals("-")){
                     if(maxTryes != 9 && !tutorialOpen){
                         maxTryes += 1;
                         for(RelativeLayout hint : hintSelected){
