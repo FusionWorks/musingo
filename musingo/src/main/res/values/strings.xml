@@ -50,7 +50,7 @@
 <!-- MixPanel TOKEN -->
     <string name="mixPanel_token">52d86a1905e48f9f0bb6b10b8ff2f0cd</string>
 
-    <!-- Tutorial -->
+    <!-- Tutorial MainGame-->
     <string name="tutorial1">YOU HAVE 10 SECONDS TO GUESS THE SONG</string>
     <string name="tutorial2">TAP THE ALBUM COVER OF THE SONG YOU THINK IS PLAYNG. TRY IT NOW!</string>
     <string name="tutorial3">NICE TRY! YOUR SCORE REFLECTS HOW FAST YOU GUESSED THE SONG</string>
@@ -58,6 +58,11 @@
     <string name="tutorial5">IF YOU\'RE EVER STUCK AND NEED THE KNOWLEDGE OF YOUR FRIENDS ON FB!</string>
     <string name="tutorial6"><p>YOU ARE ROCKIN\' THIS PLAYLIST! PSSST... YOU CAN EARN BONUS POINTS TOO! <b>KEEP GOING!</b></p></string>
     <string name="tap_for_next">TAP FOR NEXT</string>
+
+    <!-- Tutorial Package Selection -->
+    <string name="tutorial1Package">YOU JUST PLAYED YOUR FIRST PLAYLIST! YOU CAN EARN UP TO 3 STARS PER PLAYLIST.</string>
+    <string name="tutorial2Package">THE STAR LEGEND LIVES HERE. EARNING <u>STARS</u></string>
+    <string name="tutorial3Package">TAKE ON ANY PLAYLIST IN WHATEVER ORDER YOU LIKE. <b>TRY ONE NOW!</b></string>
 
     <!-- Powerup -->
     <string name="hint_powerup_title">You ve unlocked the \n HINT POWERUP.</string>
@@ -146,4 +151,9 @@
     <string name="access_expires">access_expires</string>
     <string name="user_id">user_id</string>
     <string name="user_name">user_name</string>
+
+<!-- Lock package alert -->
+    <string name="lock_package_title">Oops!</string>
+    <string name="lock_package_body">Not enough stars.</string>
+    <string name="lock_package_detail">Need # stars to open this package.</string>
 </resources>

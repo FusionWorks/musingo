@@ -1,8 +1,10 @@
 package iis.production.musingo.main;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -95,6 +97,7 @@ public class LevelSelectionActivity extends Activity {
 
     public static boolean clickable;
     public static boolean unlocked;
+    boolean tutorialOpen = false;
 
     boolean nextLevel = false;
     int scoreToBeat;
@@ -111,10 +114,18 @@ public class LevelSelectionActivity extends Activity {
 
     int previousSelected = 1;
 
+    SharedPreferences mSettings;
+    public static final String APP_PREFERENCES = "settings";
+
+    LinearLayout tutorial1Package;
+    LinearLayout tutorial2Package;
+    LinearLayout tutorial3Package;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_level_selection);
+        mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         didyouknowText = (TextViewArchitects)findViewById(R.id.didyouknowText);
         DidYouKnow.random(didyouknowText, this);
@@ -238,6 +249,10 @@ public class LevelSelectionActivity extends Activity {
 
         Utility.addSelecions(this, R.id.backButton, R.drawable.selected_back, R.drawable.back_button);
         getStarsCollected();
+
+        tutorial1Package = (LinearLayout) findViewById(R.id.tutorial1Package);
+        tutorial2Package = (LinearLayout) findViewById(R.id.tutorial2Package);
+        tutorial3Package = (LinearLayout) findViewById(R.id.tutorial3Package);
     }
 
     public void dropDown(View view){
@@ -327,13 +342,14 @@ public class LevelSelectionActivity extends Activity {
     public void goToLevel(View view){
         PlaySongsTable table = new PlaySongsTable(this);
 //        int starBeat = table.getStarBeatByPackage(packageName);
-//        int levelId = view.getId();
-//        String levelName = getResources().getResourceName(levelId);
-//        int level = Integer.parseInt(levelName.substring(levelName.length()-1, levelName.length()));
+        int levelId = view.getId();
+        String levelName = getResources().getResourceName(levelId);
+        int level = Integer.parseInt(levelName.substring(levelName.length()-1, levelName.length()));
 //        Log.v("Musingo", "levelId : " + levelName + " , level : " + level + " , starBeat : " + starBeat);
 //        if(clickable && unlocked && starBeat >= level - 1){
 
-        if(clickable && unlocked){
+
+        if(mSettings.getBoolean("tutorial1Package", true) && level == 1 && viewPager.getCurrentItem() == 0){
             playlistDownloading = true;
             MusingoApp.soundButton();
             selectedLevel = Integer.valueOf(view.getTag().toString());
@@ -355,8 +371,39 @@ public class LevelSelectionActivity extends Activity {
                 networkAlert();
             }
 
+            tutorial1Package.setVisibility(View.GONE);
             clickable = false;
             viewPager.setPagingEnabled(clickable);
+        } else if(clickable && unlocked && !mSettings.getBoolean("tutorial1Package", true)){
+            playlistDownloading = true;
+            MusingoApp.soundButton();
+            selectedLevel = Integer.valueOf(view.getTag().toString());
+            for(Playlist playlist : playlists){
+                if(selectedLevel == playlist.getListNumber()){
+                    scoreToBeat = playlist.getScoreToBeat();
+                }
+            }
+            Log.v("Musingo","tag tap " + view.getTag().toString());
+            String url = Endpoints.playlist_url + selectedLevel;
+            ATS = new ATSongs(this, url, loadingAnimation);
+
+            NetworkInfo networkInfo = new NetworkInfo(this);
+            if(networkInfo.isConnect()){
+                ATS.execute();
+                playlistDownloading = false;
+            } else {
+                networkAlert();
+            }
+
+            clickable = false;
+            viewPager.setPagingEnabled(clickable);
+        } else if(!tutorialOpen){
+            String title = getString(R.string.lock_package_title);
+            String body =  getString(R.string.lock_package_body);
+            String detail = getString(R.string.lock_package_detail);
+            detail = detail.replace("#", String.valueOf(starsToUnlock));
+            AlertViewOrange alertViewOrange = new AlertViewOrange(title, body, detail, this);
+            alertViewOrange.show();
         }
     }
 
@@ -423,7 +470,7 @@ public class LevelSelectionActivity extends Activity {
 
             final RoundedCornersDrawable drawable = new RoundedCornersDrawable(getResources(), playList.getImage());
 
-            if (!unlocked){
+            if (!unlocked || (mSettings.getBoolean("tutorial1Package", true) && i != 0)){
                 drawable.setAlpha(75);
             }
 
@@ -454,6 +501,9 @@ public class LevelSelectionActivity extends Activity {
 
         clickable = true;
         viewPager.setPagingEnabled(clickable);
+
+        tutorial1();
+        tutorial2();
     }
 
     public void downloadResultForGame(ArrayList<Song> songs, String name, int cost){
@@ -619,5 +669,63 @@ public class LevelSelectionActivity extends Activity {
             packageTable.updateUnlocked(true, packageName);
             downloadResultForLevels(playlists, packageName, starsToUnlock);
 //        }
+    }
+
+    // - Tutorials
+    public void nextTutorial(View v){
+        switch (v.getId()){
+            case R.id.tutorial1Package :
+                tutorial1Package.setVisibility(View.GONE);
+                tutorialOpen = false;
+                break;
+            case R.id.tutorial2Package :
+                tutorial2Package.setVisibility(View.GONE);
+                hideMenu();
+                tutorial3Package.setVisibility(View.VISIBLE);
+                break;
+            case R.id.tutorial3Package :
+                tutorialOpen = false;
+                clickable = true;
+                tutorial3Package.setVisibility(View.GONE);
+                mSettings.edit().putBoolean("tutorial2Package",false).commit();
+                break;
+        }
+    }
+
+    public void tutorial1(){
+        if(mSettings.getBoolean("tutorial1Package", true) && viewPager.getCurrentItem() == 0){
+            RelativeLayout.LayoutParams params;
+            int marginTop;
+            params = (RelativeLayout.LayoutParams) tutorial1Package.getLayoutParams();
+
+            LinearLayout line1 = (LinearLayout) findViewById(R.id.line1);
+            RelativeLayout topBar = (RelativeLayout) findViewById(R.id.topBar);
+            LinearLayout packageStatus = (LinearLayout) findViewById(R.id.packageStatus);
+            marginTop = line1.getHeight() + topBar.getHeight() + packageStatus.getHeight();
+            Log.v("Musingo", "line1.getHeight() : " + line1.getHeight() + " , topBar.getHeight() : " + topBar.getHeight() + " , packageStatus.getHeight() : " + packageStatus.getHeight());
+            params.setMargins(0, marginTop, 0, 0);
+            tutorial1Package.setVisibility(View.VISIBLE);
+            tutorialOpen = true;
+        } else if(mSettings.getBoolean("tutorial1Package", true)) {
+            tutorial1Package.setVisibility(View.GONE);
+            tutorialOpen = false;
+            clickable = true;
+        }
+    }
+
+    public void tutorial2(){
+        if(!mSettings.getBoolean("tutorial1Package", true) && mSettings.getBoolean("tutorial2Package", true) && viewPager.getCurrentItem() == 0){
+            tutorialOpen = true;
+            clickable = false;
+            showMenu();
+            tutorial3Package.setVisibility(View.GONE);
+            tutorial2Package.setVisibility(View.VISIBLE);
+        } else if (!mSettings.getBoolean("tutorial1Package", true) && mSettings.getBoolean("tutorial2Package", true)){
+            hideMenu();
+            tutorial3Package.setVisibility(View.GONE);
+            tutorial2Package.setVisibility(View.GONE);
+            tutorialOpen = false;
+            clickable = true;
+        }
     }
 }
