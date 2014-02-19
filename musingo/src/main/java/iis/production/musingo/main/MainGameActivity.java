@@ -592,13 +592,46 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                             }
                             ImageView image = (ImageView)view.findViewById(R.id.image);
                             int width = image.getMeasuredWidth();
-                            if (view.getTag().toString().equals(id)){
+                            if (view.getTag().toString().equals(id) && mp.getCurrentPosition() <= 3000){
                                 MusingoApp.soundCorrect();
                                 ImageView borderRight = (ImageView)view.findViewById(R.id.borderRight);
                                 borderRight.setLayoutParams(new RelativeLayout.LayoutParams(width + 4, width + 4));
                                 borderRight.setBackgroundResource(R.drawable.round_song_big_right);
                                 userRight = true;
-                                score += cost;
+                                score += 200;
+                                yourScore.setText(String.valueOf(score));
+                                correctSongs++;
+                                int index = allIndexes.get(view.getTag().toString());
+                                correctIndexes.add(index);
+                            } else if (view.getTag().toString().equals(id) && (mp.getCurrentPosition() > 3000 && mp.getCurrentPosition() <= 6000)){
+                                MusingoApp.soundCorrect();
+                                ImageView borderRight = (ImageView)view.findViewById(R.id.borderRight);
+                                borderRight.setLayoutParams(new RelativeLayout.LayoutParams(width + 4, width + 4));
+                                borderRight.setBackgroundResource(R.drawable.round_song_big_right);
+                                userRight = true;
+                                score += 150;
+                                yourScore.setText(String.valueOf(score));
+                                correctSongs++;
+                                int index = allIndexes.get(view.getTag().toString());
+                                correctIndexes.add(index);
+                            } else if (view.getTag().toString().equals(id) && (mp.getCurrentPosition() >6000 && mp.getCurrentPosition() <= 8000)){
+                                MusingoApp.soundCorrect();
+                                ImageView borderRight = (ImageView)view.findViewById(R.id.borderRight);
+                                borderRight.setLayoutParams(new RelativeLayout.LayoutParams(width + 4, width + 4));
+                                borderRight.setBackgroundResource(R.drawable.round_song_big_right);
+                                userRight = true;
+                                score += 100;
+                                yourScore.setText(String.valueOf(score));
+                                correctSongs++;
+                                int index = allIndexes.get(view.getTag().toString());
+                                correctIndexes.add(index);
+                            } else if (view.getTag().toString().equals(id) && mp.getCurrentPosition() >8000){
+                                MusingoApp.soundCorrect();
+                                ImageView borderRight = (ImageView)view.findViewById(R.id.borderRight);
+                                borderRight.setLayoutParams(new RelativeLayout.LayoutParams(width + 4, width + 4));
+                                borderRight.setBackgroundResource(R.drawable.round_song_big_right);
+                                userRight = true;
+                                score += 50;
                                 yourScore.setText(String.valueOf(score));
                                 correctSongs++;
                                 int index = allIndexes.get(view.getTag().toString());
