@@ -728,7 +728,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         ImageView image;
         PlaySongsTable table = new PlaySongsTable(this);
         int levelsPlayed = table.getPlayedLevelsByPackage(packageName);
-        int beatStar = table.getStarBeat(packageName);
+        int beatStar = table.getStarBeatByPackage(packageName);
         boolean needToShow = false;
         Log.v("Musingo", "levels played : " + levelsPlayed);
         String title = "";

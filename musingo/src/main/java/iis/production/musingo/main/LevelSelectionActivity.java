@@ -326,7 +326,7 @@ public class LevelSelectionActivity extends Activity {
 
     public void goToLevel(View view){
         PlaySongsTable table = new PlaySongsTable(this);
-        int starBeat = table.getStarBeat(packageName);
+        int starBeat = table.getStarBeatByPackage(packageName);
         int levelId = view.getId();
         String levelName = getResources().getResourceName(levelId);
         int level = Integer.parseInt(levelName.substring(levelName.length()-1, levelName.length()));

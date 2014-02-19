@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import iis.production.musingo.MusingoApp;
 import iis.production.musingo.R;
@@ -178,12 +179,13 @@ public class ResultsActivity extends Activity {
 
         playSongsTable.insertIntoPlaySongsTable(pn, levelNumber, ln, 0, 0, 0, 0);
 
-        int bestResultInt = playSongsTable.getBestResult(levelNumber);
+        int bestResultInt = playSongsTable.getBestResultByLevel(levelNumber);
 
         int currentScoreInt = Integer.parseInt(currentScoreStr);
 
         if(bestResultInt < currentScoreInt){
             bestResultTV.setText(currentScoreStr);
+            playSongsTable.updateBestResultByLevel(currentScoreInt, levelNumber);
         }
         else {
             bestResultTV.setText("" + bestResultInt);
@@ -199,7 +201,10 @@ public class ResultsActivity extends Activity {
         ImageView beatStarImg = (ImageView) findViewById(R.id.beatStar);
         PlaySongsTable playSongsTable = new PlaySongsTable(this);
 
-        if(completeStar){
+        HashMap<String, Integer> hash = new HashMap<String, Integer>();
+        hash = playSongsTable.getSongByLevelNr(levelNumber);
+
+        if(completeStar || (hash.containsKey("completeStar") && hash.get("completeStar") == 1)){
             completeStarImg.setImageResource(R.drawable.star_complete);
             playSongsTable.updateCompleteStar(true, levelNumber);
         }
@@ -207,7 +212,7 @@ public class ResultsActivity extends Activity {
             completeStarImg.setImageResource(R.drawable.star_blank);
         }
 
-        if(boostStar){
+        if(boostStar || (hash.containsKey("boostStar") && hash.get("boostStar") == 1)){
             boostStarImg.setImageResource(R.drawable.star_boost);
             playSongsTable.updateBoostStar(true, levelNumber);
         }
@@ -215,13 +220,17 @@ public class ResultsActivity extends Activity {
             boostStarImg.setImageResource(R.drawable.star_blank);
         }
 
-        if(beatStar){
+        if(beatStar || (hash.containsKey("beatStar") && hash.get("beatStar") == 1)){
             beatStarImg.setImageResource(R.drawable.star_beat);
             playSongsTable.updateBeatStar(true, levelNumber);
-            MusingoApp.soundWin();
         }
         else {
             beatStarImg.setImageResource(R.drawable.star_blank);
+        }
+
+        if(beatStar){
+            MusingoApp.soundWin();
+        } else {
             MusingoApp.soundlose();
         }
     }
