@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -528,7 +529,8 @@ public class LevelSelectionActivity extends Activity {
 
         packageDownloading = true;
         String url = Endpoints.package_url + selectedPackage;
-        ATP = new ATPackages(this, url, loadingAnimation);
+        Drawable progressBar = getResources().getDrawable(R.drawable.progress_bar);
+        ATP = new ATPackages(this, url, loadingAnimation, progressBar);
 
         NetworkInfo networkInfo = new NetworkInfo(this);
         if(networkInfo.isConnect()){
@@ -585,7 +587,8 @@ public class LevelSelectionActivity extends Activity {
         super.onResume();
         if (packageDownloading){
             String url = Endpoints.package_url + selectedPackage;
-            ATP = new ATPackages(this, url, loadingAnimation);
+            Drawable progressBar = getResources().getDrawable(R.drawable.progress_bar);
+            ATP = new ATPackages(this, url, loadingAnimation, progressBar);
 
             NetworkInfo networkInfo = new NetworkInfo(this);
             if(networkInfo.isConnect()){
@@ -675,15 +678,18 @@ public class LevelSelectionActivity extends Activity {
     public void nextTutorial(View v){
         switch (v.getId()){
             case R.id.tutorial1Package :
+                MusingoApp.soundButton();
                 tutorial1Package.setVisibility(View.GONE);
-                tutorialOpen = false;
+//                tutorialOpen = false;
                 break;
             case R.id.tutorial2Package :
+                MusingoApp.soundButton();
                 tutorial2Package.setVisibility(View.GONE);
                 hideMenu();
                 tutorial3Package.setVisibility(View.VISIBLE);
                 break;
             case R.id.tutorial3Package :
+                MusingoApp.soundButton();
                 tutorialOpen = false;
                 clickable = true;
                 tutorial3Package.setVisibility(View.GONE);

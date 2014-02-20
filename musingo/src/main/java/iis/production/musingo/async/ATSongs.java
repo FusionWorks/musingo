@@ -2,10 +2,13 @@ package iis.production.musingo.async;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import org.apache.http.HttpResponse;
@@ -29,7 +32,9 @@ import java.util.ArrayList;
 
 import iis.production.musingo.R;
 import iis.production.musingo.main.LevelSelectionActivity;
+import iis.production.musingo.objects.CustomProgressBar;
 import iis.production.musingo.objects.Song;
+import iis.production.musingo.objects.TextViewPacifico;
 import iis.production.musingo.utility.Utility;
 
 /**
@@ -44,6 +49,12 @@ public class ATSongs extends AsyncTask<Void, Void, Void> {
     int scoreToBeat;
     String name;
     int cost;
+
+    ProgressBar pb;
+    int increment = 0;
+
+    TextViewPacifico songsLoaded;
+    LinearLayout linearLayout;
 
     public ATSongs(LevelSelectionActivity activity, String url, RelativeLayout loadingView){
         super();
@@ -98,6 +109,13 @@ public class ATSongs extends AsyncTask<Void, Void, Void> {
                 songs.add(song);
                 downloadASong(id, mp3URL);
 
+                onProgressUpdate(++increment);
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        songsLoaded.setText(increment + "/9");
+                    }
+                });
             }
 
         } catch (IOException e) {
@@ -109,9 +127,15 @@ public class ATSongs extends AsyncTask<Void, Void, Void> {
         return null;
     }
 
+    protected void onProgressUpdate(int... progress) {
+        pb.setProgress(progress[0]);
+    }
+
     @Override
     protected void onPostExecute(Void params) {
-        loadingView.setVisibility(View.GONE);
+//        loadingView.setVisibility(View.GONE);
+        linearLayout.removeView(pb);
+        linearLayout.setVisibility(View.GONE);
         activity.downloadResultForGame(songs, name, cost);
 
     }
@@ -119,7 +143,22 @@ public class ATSongs extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPreExecute() {
         songs = new ArrayList<Song>();
-        loadingView.setVisibility(View.VISIBLE);
+//        loadingView.setVisibility(View.VISIBLE);
+        songsLoaded = (TextViewPacifico) activity.findViewById(R.id.songsLoaded);
+        songsLoaded.setText("0/9");
+        linearLayout = (LinearLayout) activity.findViewById(R.id.progressBarHandler);
+        linearLayout.setVisibility(View.VISIBLE);
+
+        pb = new ProgressBar(activity, null, android.R.attr.progressBarStyleHorizontal);
+        Drawable d = new CustomProgressBar();
+        pb.setProgressDrawable(d);
+        pb.setProgress(0);
+        pb.setMax(9);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(5, 0, 2, 20);
+        pb.setLayoutParams(params);
+
+        linearLayout.addView(pb);
     }
 
     public void downloadASong(String name, String urlString){

@@ -1181,15 +1181,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:id="@+id/tutorial6Arrow"
-            android:src="@drawable/bonus_4_corners"/>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:id="@+id/tutorialArrow"
             android:src="@drawable/tutorial_arrow_up"/>
 

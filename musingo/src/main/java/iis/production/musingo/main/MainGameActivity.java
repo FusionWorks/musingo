@@ -1186,10 +1186,12 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     public void nextTutorial(View v){
         switch (v.getId()){
             case R.id.tutorial1 :
+                MusingoApp.soundButton();
                 tutorial1.setVisibility(View.GONE);
                 tutorial2.setVisibility(View.VISIBLE);
                 break;
             case R.id.tutorial2 :
+                MusingoApp.soundButton();
                 tutorial2.setVisibility(View.GONE);
                 SharedPreferences.Editor editor = firstRun.edit();
                 editor.putBoolean("firstRun", false);
@@ -1199,6 +1201,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 tutorialOpen = false;
                 break;
             case R.id.tutorial3 :
+                MusingoApp.soundButton();
                 mp.start();
                 tutorial3.setVisibility(View.GONE);
                 tutorialOpen = false;
@@ -1212,16 +1215,19 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 tutorialShow = "";
                 break;
             case R.id.tutorial4 :
+                MusingoApp.soundButton();
                 mp.start();
                 tutorial4.setVisibility(View.GONE);
                 tutorialOpen = false;
                 break;
             case R.id.tutorial5 :
+                MusingoApp.soundButton();
                 mp.start();
                 tutorial5.setVisibility(View.GONE);
                 tutorialOpen = false;
                 break;
             case R.id.tutorial6 :
+                MusingoApp.soundButton();
                 mp.start();
                 tutorial6.setVisibility(View.GONE);
                 hideBonus(null);
