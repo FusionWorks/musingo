@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
+import android.util.Log;
 
 /**
  * Created by AGalkin on 1/31/14.
@@ -28,6 +29,7 @@ public class RoundedCornersDrawable extends BitmapDrawable {
         p.setShader(bitmapShader);
         final int w = b.getWidth();
         final int h = b.getHeight();
+        Log.v("Musingo", "height : " + h + " , width : " + w);
         rect = new RectF(0, 0, w, h);
         borderRadius = 0.10f * Math.min(w, h);
     }

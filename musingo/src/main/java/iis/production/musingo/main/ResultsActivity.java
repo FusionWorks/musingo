@@ -11,7 +11,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -95,8 +94,8 @@ public class ResultsActivity extends Activity {
         });
 
         LayoutInflater inflater = getLayoutInflater();
-        ViewGroup header = (ViewGroup)inflater.inflate(R.layout.result_header_opened, list, false);
-        list.addHeaderView(header, null, false);
+//        ViewGroup header = (ViewGroup)inflater.inflate(R.layout.result_header_opened, list, false);
+//        list.addHeaderView(header, null, false);
 
         currentScoreStr = getIntent().getStringExtra("currentScore");
         TextViewArchitects currentScoreTV = (TextViewArchitects) findViewById(R.id.currentScore);

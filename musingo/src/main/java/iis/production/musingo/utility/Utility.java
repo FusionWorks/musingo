@@ -3,10 +3,12 @@ package iis.production.musingo.utility;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -88,7 +90,29 @@ public class Utility {
             x = BitmapFactory.decodeResource(activity.getResources(), R.drawable.no_album_photo);
         }
 
+        Log.v("Musingo", " height : " + x.getHeight() + " , width : " + x.getWidth());
+        if(x.getHeight() > x.getWidth()){
+            return  changeBitmapWidth(x);
+        } else if(x.getHeight() < x.getWidth()){
+            return  changeBitmapHeight(x);
+        }
         return x;
+    }
+
+    public static Bitmap changeBitmapWidth(Bitmap b) {
+       Bitmap bmOverlay = Bitmap.createBitmap(170, 170, b.getConfig());
+       Canvas canvas = new Canvas(bmOverlay);
+       canvas.drawBitmap(b, (170 - b.getWidth()) / 2, 0, null);
+       return bmOverlay;
+
+    }
+
+    public static Bitmap changeBitmapHeight(Bitmap b) {
+        Bitmap bmOverlay = Bitmap.createBitmap(170, 170, b.getConfig());
+        Canvas canvas = new Canvas(bmOverlay);
+        canvas.drawBitmap(b, 0, (170 - b.getHeight()) / 2, null);
+        return bmOverlay;
+
     }
 
     public static void setBackgroundBySDK(View view, Drawable bg){
