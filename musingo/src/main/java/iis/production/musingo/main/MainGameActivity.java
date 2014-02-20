@@ -592,13 +592,46 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                             }
                             ImageView image = (ImageView)view.findViewById(R.id.image);
                             int width = image.getMeasuredWidth();
-                            if (view.getTag().toString().equals(id)){
+                            if (view.getTag().toString().equals(id) && mp.getCurrentPosition() <= 3000){
                                 MusingoApp.soundCorrect();
                                 ImageView borderRight = (ImageView)view.findViewById(R.id.borderRight);
                                 borderRight.setLayoutParams(new RelativeLayout.LayoutParams(width + 4, width + 4));
                                 borderRight.setBackgroundResource(R.drawable.round_song_big_right);
                                 userRight = true;
-                                score += cost;
+                                score += 200;
+                                yourScore.setText(String.valueOf(score));
+                                correctSongs++;
+                                int index = allIndexes.get(view.getTag().toString());
+                                correctIndexes.add(index);
+                            } else if (view.getTag().toString().equals(id) && (mp.getCurrentPosition() > 3000 && mp.getCurrentPosition() <= 6000)){
+                                MusingoApp.soundCorrect();
+                                ImageView borderRight = (ImageView)view.findViewById(R.id.borderRight);
+                                borderRight.setLayoutParams(new RelativeLayout.LayoutParams(width + 4, width + 4));
+                                borderRight.setBackgroundResource(R.drawable.round_song_big_right);
+                                userRight = true;
+                                score += 150;
+                                yourScore.setText(String.valueOf(score));
+                                correctSongs++;
+                                int index = allIndexes.get(view.getTag().toString());
+                                correctIndexes.add(index);
+                            } else if (view.getTag().toString().equals(id) && (mp.getCurrentPosition() >6000 && mp.getCurrentPosition() <= 8000)){
+                                MusingoApp.soundCorrect();
+                                ImageView borderRight = (ImageView)view.findViewById(R.id.borderRight);
+                                borderRight.setLayoutParams(new RelativeLayout.LayoutParams(width + 4, width + 4));
+                                borderRight.setBackgroundResource(R.drawable.round_song_big_right);
+                                userRight = true;
+                                score += 100;
+                                yourScore.setText(String.valueOf(score));
+                                correctSongs++;
+                                int index = allIndexes.get(view.getTag().toString());
+                                correctIndexes.add(index);
+                            } else if (view.getTag().toString().equals(id) && mp.getCurrentPosition() >8000){
+                                MusingoApp.soundCorrect();
+                                ImageView borderRight = (ImageView)view.findViewById(R.id.borderRight);
+                                borderRight.setLayoutParams(new RelativeLayout.LayoutParams(width + 4, width + 4));
+                                borderRight.setBackgroundResource(R.drawable.round_song_big_right);
+                                userRight = true;
+                                score += 50;
                                 yourScore.setText(String.valueOf(score));
                                 correctSongs++;
                                 int index = allIndexes.get(view.getTag().toString());
@@ -734,7 +767,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         ImageView image;
         PlaySongsTable table = new PlaySongsTable(this);
         int levelsPlayed = table.getPlayedLevelsByPackage(packageName);
-        int beatStar = table.getStarBeat(packageName);
+        int beatStar = table.getStarBeat();
         boolean needToShow = false;
         Log.v("Musingo", "levels played : " + levelsPlayed);
         String title = "";
@@ -748,7 +781,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             }
         }
 
-        if(beatStar >=1){
+        if(beatStar >=2){
             title = getString(R.string.hint_powerup_title);
             body = getString(R.string.hint_powerup_body);
 
@@ -767,7 +800,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             }
         }
 
-        if(beatStar >=2){
+        if(beatStar >=4){
             title = getString(R.string.skip_powerup_title);
             body = getString(R.string.skip_powerup_body);
 
@@ -787,7 +820,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             Log.v("Musingo", "hint skip");
         }
 
-        if(beatStar >=3){
+        if(beatStar >=6){
             title = getString(R.string.replay_powerup_title);
             body = getString(R.string.replay_powerup_body);
 
@@ -808,7 +841,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             Log.v("Musingo", "hint replay");
         }
 
-        if(beatStar >=4){
+        if(beatStar >=8){
             title = getString(R.string.freeze_powerup_title);
             body = getString(R.string.freeze_powerup_body);
 
@@ -829,7 +862,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             Log.v("Musingo", "hint freeze");
         }
 
-        if(beatStar >=5){
+        if(beatStar >=10){
             title = getString(R.string.longer_clip_powerup_title);
             body = getString(R.string.longer_clip_powerup_body);
 
@@ -850,7 +883,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             Log.v("Musingo", "hint longer");
         }
 
-        if(beatStar >=6){
+        if(beatStar >=12){
             title = getString(R.string.next_playlist_powerup_title);
             body = getString(R.string.next_playlist_powerup_body);
 
@@ -1153,10 +1186,12 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     public void nextTutorial(View v){
         switch (v.getId()){
             case R.id.tutorial1 :
+                MusingoApp.soundButton();
                 tutorial1.setVisibility(View.GONE);
                 tutorial2.setVisibility(View.VISIBLE);
                 break;
             case R.id.tutorial2 :
+                MusingoApp.soundButton();
                 tutorial2.setVisibility(View.GONE);
                 SharedPreferences.Editor editor = firstRun.edit();
                 editor.putBoolean("firstRun", false);
@@ -1166,6 +1201,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 tutorialOpen = false;
                 break;
             case R.id.tutorial3 :
+                MusingoApp.soundButton();
                 mp.start();
                 tutorial3.setVisibility(View.GONE);
                 tutorialOpen = false;
@@ -1179,16 +1215,19 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 tutorialShow = "";
                 break;
             case R.id.tutorial4 :
+                MusingoApp.soundButton();
                 mp.start();
                 tutorial4.setVisibility(View.GONE);
                 tutorialOpen = false;
                 break;
             case R.id.tutorial5 :
+                MusingoApp.soundButton();
                 mp.start();
                 tutorial5.setVisibility(View.GONE);
                 tutorialOpen = false;
                 break;
             case R.id.tutorial6 :
+                MusingoApp.soundButton();
                 mp.start();
                 tutorial6.setVisibility(View.GONE);
                 hideBonus(null);

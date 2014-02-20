@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import iis.production.musingo.MusingoApp;
 import iis.production.musingo.R;
 import iis.production.musingo.main.ResultsActivity;
 import iis.production.musingo.utility.FacebookManager;
@@ -62,6 +63,7 @@ public class AlertViewFacebook extends AlertDialog {
         fbClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MusingoApp.soundButton();
                 RelativeLayout loadingView = (RelativeLayout) findViewById(R.id.loadingAnimation);
                 FacebookManager.SessionFb(activity, loadingView);
                 dismiss();
@@ -74,6 +76,7 @@ public class AlertViewFacebook extends AlertDialog {
             public void onClick(View v) {
                 RelativeLayout loadingView = (RelativeLayout) findViewById(R.id.loadingAnimation);
                 FacebookManager.SessionFb(activity, loadingView);
+                MusingoApp.soundButton();
                 dismiss();
             }
         });

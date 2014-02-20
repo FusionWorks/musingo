@@ -38,7 +38,7 @@ public class PlaySongsTable {
         db.close();
     }
 
-    public void updateBestResultInPlaySongsTable(Integer newBestResult, Integer levelNr){
+    public void updateBestResultByLevel(Integer newBestResult, Integer levelNr){
         SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
         db.execSQL("UPDATE play_songs SET BestResult = " + newBestResult + " WHERE LevelNr = " + levelNr);
         db.close();
@@ -74,7 +74,7 @@ public class PlaySongsTable {
         db.close();
     }
 
-    public int getBestResult(Integer levelNr){
+    public int getBestResultByLevel(Integer levelNr){
         int bestResult = 0;
             SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
             Cursor c = db.rawQuery("SELECT BestResult FROM play_songs WHERE LevelNr = " + levelNr, null);
@@ -154,10 +154,22 @@ public class PlaySongsTable {
         }
     }
 
-    public int getStarBeat(String packageName){
+    public int getStarBeatByPackage(String packageName){
         int number = 0;
         SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
         Cursor c = db.rawQuery("SELECT COUNT(*) FROM play_songs WHERE PackageName = '" + packageName + "' AND BeatStar = 1", null);
+        if(c.moveToFirst()) {
+            number = c.getInt(0);
+        }
+        db.close();
+
+        return number;
+    }
+
+    public int getStarBeat(){
+        int number = 0;
+        SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
+        Cursor c = db.rawQuery("SELECT COUNT(*) FROM play_songs WHERE BeatStar = 1", null);
         if(c.moveToFirst()) {
             number = c.getInt(0);
         }

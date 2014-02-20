@@ -398,4 +398,170 @@
         android:visibility="gone"
         android:layout_below="@id/packageUnlock"
         android:onClick="unlockPackage"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tutorial1Package"
+        android:onClick="nextTutorial"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginLeft="30dp"
+            android:id="@+id/tutorial1PackageArrow"
+            android:src="@drawable/tutorial_arrow_up"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/tutorial_background"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <iis.production.musingo.objects.TextViewArchitects
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:text="@string/tutorial1Package"
+                android:id="@+id/textView"
+                android:textColor="#000"/>
+
+            <iis.production.musingo.objects.TextViewArchitects
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:layout_marginBottom="3dp"
+                android:layout_marginRight="5dp"
+                android:text="@string/tap_for_next"
+                android:id="@+id/textView"
+                android:textColor="#000"
+                android:textSize="10sp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tutorial2Package"
+        android:layout_marginTop="160dp"
+        android:onClick="nextTutorial"
+        android:layout_alignParentRight="true"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="35dp"
+            android:id="@+id/tutorial2PackageArrow"
+            android:src="@drawable/tutorial_arrow_up"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/tutorial_background"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <iis.production.musingo.objects.TextViewArchitects
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:text="@string/tutorial2Package"
+                android:id="@+id/textView"
+                android:textColor="#000"/>
+
+            <iis.production.musingo.objects.TextViewArchitects
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:layout_marginBottom="3dp"
+                android:layout_marginRight="5dp"
+                android:text="@string/tap_for_next"
+                android:id="@+id/textView"
+                android:textColor="#000"
+                android:textSize="10sp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tutorial3Package"
+        android:onClick="nextTutorial"
+        android:visibility="gone"
+        android:layout_centerInParent="true">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/tutorial_background"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+
+            <iis.production.musingo.objects.TextViewArchitects
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:text="@string/tutorial3Package"
+                android:id="@+id/textView"
+                android:textColor="#000"/>
+
+            <iis.production.musingo.objects.TextViewArchitects
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:layout_marginBottom="3dp"
+                android:layout_marginRight="5dp"
+                android:text="@string/tap_for_next"
+                android:id="@+id/textView"
+                android:textColor="#000"
+                android:textSize="10sp"/>
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/tutorial3PackageArrow"
+            android:src="@drawable/tutorial_arrow_bottom"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/progressBarHandler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:background="@drawable/progress_bar_background"
+        android:alpha="50">
+
+        <iis.production.musingo.objects.TextViewPacifico
+            android:id="@+id/songsLoaded"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="50sp"
+            android:layout_centerInParent="true"
+            android:textColor="#ffffff"
+            style="@style/Shadow"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
 </RelativeLayout>

@@ -2,9 +2,12 @@ package iis.production.musingo.async;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import org.apache.http.HttpResponse;
@@ -23,7 +26,9 @@ import java.util.ArrayList;
 
 import iis.production.musingo.R;
 import iis.production.musingo.main.LevelSelectionActivity;
+import iis.production.musingo.objects.CustomProgressBar;
 import iis.production.musingo.objects.Playlist;
+import iis.production.musingo.objects.TextViewPacifico;
 import iis.production.musingo.utility.Utility;
 
 /**
@@ -35,16 +40,21 @@ public class ATPackages extends AsyncTask<Void, Void, Void> {
     ArrayList<Playlist> playlists;
     String url;
     Boolean timeOut = false;
+    int increment = 0;
+    Drawable drawable;
+    ProgressBar pb;
 
     int starsToUnlock;
     String packageName;
+    TextViewPacifico songsLoaded;
+    LinearLayout linearLayout;
 
-    public ATPackages(LevelSelectionActivity activity, String url, RelativeLayout loadingView){
+    public ATPackages(LevelSelectionActivity activity, String url, RelativeLayout loadingView, Drawable drawable){
         super();
         this.activity = activity;
         this.loadingView = loadingView;
         this.url = url;
-
+        this.drawable = drawable;
     }
 
     @Override
@@ -79,6 +89,14 @@ public class ATPackages extends AsyncTask<Void, Void, Void> {
 
                 Playlist playlist = new Playlist(name, genre, listNumber, scoreToBeat, order, image);
                 playlists.add(playlist);
+
+                onProgressUpdate(++increment);
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        songsLoaded.setText(increment + "/9");
+                    }
+                });
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -92,9 +110,14 @@ public class ATPackages extends AsyncTask<Void, Void, Void> {
         return null;
     }
 
+    protected void onProgressUpdate(int... progress) {
+        pb.setProgress(progress[0]);
+    }
+
     @Override
     protected void onPostExecute(Void params) {
-        loadingView.setVisibility(View.GONE);
+        linearLayout.removeView(pb);
+        linearLayout.setVisibility(View.GONE);
         if(timeOut){
             activity.changePackage();
         }else{
@@ -104,6 +127,21 @@ public class ATPackages extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPreExecute() {
-        loadingView.setVisibility(View.VISIBLE);
+
+        songsLoaded = (TextViewPacifico) activity.findViewById(R.id.songsLoaded);
+        songsLoaded.setText("0/9");
+        linearLayout = (LinearLayout) activity.findViewById(R.id.progressBarHandler);
+        linearLayout.setVisibility(View.VISIBLE);
+
+        pb = new ProgressBar(activity, null, android.R.attr.progressBarStyleHorizontal);
+        Drawable d = new CustomProgressBar();
+        pb.setProgressDrawable(d);
+        pb.setProgress(0);
+        pb.setMax(9);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(5, 0, 2, 20);
+        pb.setLayoutParams(params);
+
+        linearLayout.addView(pb);
     }
 }

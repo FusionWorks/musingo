@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageView;
 
+import iis.production.musingo.MusingoApp;
 import iis.production.musingo.R;
 
 /**
@@ -42,6 +43,7 @@ public class AlertViewOrange extends AlertDialog {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MusingoApp.soundButton();
                 dismiss();
             }
         });
