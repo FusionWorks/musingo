@@ -7,4 +7,5 @@ public class Endpoints {
 
     public static String playlist_url = "http://musingo.goodworldgames.com/playlist/playlist_";
     public static String package_url = "http://muzingo.fusionworks.md/?id=";
+    public static String packages_url = "http://muzingo.fusionworks.md";
 }

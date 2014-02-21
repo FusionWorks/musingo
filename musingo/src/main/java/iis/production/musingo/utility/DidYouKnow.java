@@ -34,17 +34,28 @@ public class DidYouKnow {
 
         view.setText(strValue.toUpperCase());
         int l = strValue.length();
-        if(l < 50){
+        view.setText(l + " " + strValue.toUpperCase());
+
+        if(l < 40){
+            String dimenStr = activity.getString(R.dimen.did_you_know5);
+            float dimen = Float.parseFloat(dimenStr.substring(0, dimenStr.length() - 2));
+            view.setTextSize(dimen);
+        }
+        else if(l >= 40 && l < 60){
+            String dimenStr = activity.getString(R.dimen.did_you_know4);
+            float dimen = Float.parseFloat(dimenStr.substring(0, dimenStr.length() - 2));
+            view.setTextSize(dimen);
+        }
+        else if(l >= 60 && l < 80){
             String dimenStr = activity.getString(R.dimen.did_you_know3);
             float dimen = Float.parseFloat(dimenStr.substring(0, dimenStr.length() - 2));
             view.setTextSize(dimen);
         }
-        else if(l >= 50 && l < 80){
+        else if(l >= 80 && l < 120){
             String dimenStr = activity.getString(R.dimen.did_you_know2);
             float dimen = Float.parseFloat(dimenStr.substring(0, dimenStr.length() - 2));
             view.setTextSize(dimen);
-        }
-        else if(l >= 80 && l < 150){
+        } else if(l >= 120 && l < 150){
             String dimenStr = activity.getString(R.dimen.did_you_know1);
             float dimen = Float.parseFloat(dimenStr.substring(0, dimenStr.length() - 2));
             view.setTextSize(dimen);

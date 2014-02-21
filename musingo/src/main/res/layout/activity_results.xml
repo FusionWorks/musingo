@@ -40,12 +40,259 @@
 
     </RelativeLayout>
 
+    <LinearLayout
+        android:id="@+id/results"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/topBar">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#2c2c2c">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#2c2c2c"
+                android:onClick="starCollection">
+
+                <iis.production.musingo.objects.TextViewArchitects
+                    android:id="@+id/starCollectionHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="#FFF"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_horizontal"
+                    android:text="STAR COLLECTION"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#ecf0f1"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ecf0f1"
+                android:orientation="horizontal"
+                android:id="@+id/starCollectionView">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.33">
+
+                    <iis.production.musingo.objects.TextViewArchitects
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:text="BEAT"
+                        android:id="@+id/textView"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="#000"
+                        android:textSize="@dimen/star"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:id="@+id/beatStar"
+                        android:background="@drawable/star_blank"
+                        android:layout_gravity="center_horizontal"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.33">
+
+                    <iis.production.musingo.objects.TextViewArchitects
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:text="COMPLETE"
+                        android:id="@+id/textViewComplete"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="#000"
+                        android:textSize="@dimen/star"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:id="@+id/completeStar"
+                        android:background="@drawable/star_blank"
+                        android:layout_gravity="center_horizontal"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.34">
+
+                    <iis.production.musingo.objects.TextViewArchitects
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:text="POWERUP"
+                        android:id="@+id/textViewBoost"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="#000"
+                        android:textSize="@dimen/star"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:id="@+id/boostStar"
+                        android:background="@drawable/star_blank"
+                        android:layout_gravity="center_horizontal"/>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#2c2c2c">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#2c2c2c"
+                android:onClick="score">
+
+                <iis.production.musingo.objects.TextViewArchitects
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="#FFF"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_horizontal"
+                    android:text="SCORE"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#ecf0f1"/>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#ecf0f1"
+                android:orientation="vertical"
+                android:id="@+id/scoreView">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal">
+
+                    <iis.production.musingo.objects.TextViewArchitects
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        android:textSize="18sp"
+                        android:text="CURRENT SCORE:"
+                        android:layout_centerInParent="true"
+                        android:textColor="#000"
+                        android:layout_gravity="center_vertical"/>
+
+                    <iis.production.musingo.objects.TextViewArchitects
+                        android:id="@+id/currentScore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="25sp"
+                        android:text="0"
+                        android:layout_centerInParent="true"
+                        android:textColor="#000"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal">
+
+                    <iis.production.musingo.objects.TextViewArchitects
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:textSize="18sp"
+                        android:text="BEST SCORE:"
+                        android:layout_centerInParent="true"
+                        android:textColor="#000"
+                        android:layout_gravity="center_vertical"/>
+
+                    <iis.production.musingo.objects.TextViewArchitects
+                        android:id="@+id/bestScore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:textSize="25sp"
+                        android:text="0"
+                        android:layout_centerInParent="true"
+                        android:textColor="#000"
+                        android:layout_gravity="center_vertical"/>
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#2c2c2c">
+
+            <iis.production.musingo.objects.TextViewArchitects
+                android:id="@+id/textViewSong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="#FFF"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"
+                android:text="THE 9 SONGS"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
         android:id="@+id/scrollView"
-        android:layout_below="@id/topBar">
+        android:layout_below="@id/results">
 
         <LinearLayout
             android:orientation="vertical"

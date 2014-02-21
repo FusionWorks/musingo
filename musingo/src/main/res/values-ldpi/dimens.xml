@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="did_you_know1">7sp</dimen>
-    <dimen name="did_you_know2">9sp</dimen>
-    <dimen name="did_you_know3">11sp</dimen>
+    <dimen name="did_you_know1">6sp</dimen>
+    <dimen name="did_you_know2">8sp</dimen>
+    <dimen name="did_you_know3">10sp</dimen>
+    <dimen name="did_you_know4">12sp</dimen>
+    <dimen name="did_you_know5">14sp</dimen>
     <dimen name="change_package">5sp</dimen>
     <dimen name="song_title">6sp</dimen>
     <dimen name="star">12sp</dimen>
