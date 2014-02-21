@@ -52,7 +52,7 @@ public class LevelSelectionActivity extends Activity {
     RelativeLayout dropDown;
     ImageView arrow;
     ArrayList<ImageView> levelViews;
-    LinearLayout levels;
+//    LinearLayout levels;
     ArrayList<RelativeLayout> playlistViews;
     RelativeLayout loadingAnimation;
     TextViewArchitects didyouknowText;
@@ -66,15 +66,15 @@ public class LevelSelectionActivity extends Activity {
 
     LevelViewPager viewPager;
 
-    ImageView level1;
-    ImageView level2;
-    ImageView level3;
-    ImageView level4;
-    ImageView level5;
-    ImageView level6;
-    ImageView level7;
-    ImageView level8;
-    ImageView level9;
+//    ImageView level1;
+//    ImageView level2;
+//    ImageView level3;
+//    ImageView level4;
+//    ImageView level5;
+//    ImageView level6;
+//    ImageView level7;
+//    ImageView level8;
+//    ImageView level9;
 
     RelativeLayout playlist1;
     RelativeLayout playlist2;
@@ -128,7 +128,7 @@ public class LevelSelectionActivity extends Activity {
         setContentView(R.layout.activity_level_selection);
         mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        didyouknowText = (TextViewArchitects)findViewById(R.id.didyouknowText);
+//        didyouknowText = (TextViewArchitects)findViewById(R.id.didyouknowText);
         DidYouKnow.random(didyouknowText, this);
         opened = false;
         levelViews = new ArrayList<ImageView>();
@@ -159,25 +159,25 @@ public class LevelSelectionActivity extends Activity {
         page = inflater.inflate(R.layout.package_page, null);
         pages.add(page);
 
-        level1 = (ImageView)findViewById(R.id.level1);
-        level2 = (ImageView)findViewById(R.id.level2);
-        level3 = (ImageView)findViewById(R.id.level3);
-        level4 = (ImageView)findViewById(R.id.level4);
-        level5 = (ImageView)findViewById(R.id.level5);
-        level6 = (ImageView)findViewById(R.id.level6);
-        level7 = (ImageView)findViewById(R.id.level7);
-        level8 = (ImageView)findViewById(R.id.level8);
-        level9 = (ImageView)findViewById(R.id.level9);
-        levelViews = new ArrayList<ImageView>();
-        levelViews.add(level1);
-        levelViews.add(level2);
-        levelViews.add(level3);
-        levelViews.add(level4);
-        levelViews.add(level5);
-        levelViews.add(level6);
-        levelViews.add(level7);
-        levelViews.add(level8);
-        levelViews.add(level9);
+//        level1 = (ImageView)findViewById(R.id.level1);
+//        level2 = (ImageView)findViewById(R.id.level2);
+//        level3 = (ImageView)findViewById(R.id.level3);
+//        level4 = (ImageView)findViewById(R.id.level4);
+//        level5 = (ImageView)findViewById(R.id.level5);
+//        level6 = (ImageView)findViewById(R.id.level6);
+//        level7 = (ImageView)findViewById(R.id.level7);
+//        level8 = (ImageView)findViewById(R.id.level8);
+//        level9 = (ImageView)findViewById(R.id.level9);
+//        levelViews = new ArrayList<ImageView>();
+//        levelViews.add(level1);
+//        levelViews.add(level2);
+//        levelViews.add(level3);
+//        levelViews.add(level4);
+//        levelViews.add(level5);
+//        levelViews.add(level6);
+//        levelViews.add(level7);
+//        levelViews.add(level8);
+//        levelViews.add(level9);
 
         LevelPagerAdapter pagerAdapter = new LevelPagerAdapter(pages);
         viewPager = (LevelViewPager)findViewById(R.id.pager);
@@ -208,19 +208,19 @@ public class LevelSelectionActivity extends Activity {
 //                    }
 //                }
 
-                ImageView ima = (ImageView)levels.findViewWithTag("selected");
-                final float scale = getResources().getDisplayMetrics().density;
-                int pixels = (int) (15 * scale + 0.5f);
-                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) ima.getLayoutParams();
-                params.height = pixels;
-                params.width = pixels;
-                ima.setLayoutParams(params);
-                ima.setTag(String.valueOf(previousSelected));
-
-                ima = (ImageView)levels.findViewWithTag(String.valueOf(selectedPackage));
-                Log.v("Musingo", "selected Package "+ selectedPackage);
-                Log.v("Musingo", "ima "+ ima);
-                makeSelected(ima);
+//                ImageView ima = (ImageView)levels.findViewWithTag("selected");
+//                final float scale = getResources().getDisplayMetrics().density;
+//                int pixels = (int) (15 * scale + 0.5f);
+//                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) ima.getLayoutParams();
+//                params.height = pixels;
+//                params.width = pixels;
+//                ima.setLayoutParams(params);
+//                ima.setTag(String.valueOf(previousSelected));
+//
+//                ima = (ImageView)levels.findViewWithTag(String.valueOf(selectedPackage));
+//                Log.v("Musingo", "selected Package "+ selectedPackage);
+//                Log.v("Musingo", "ima "+ ima);
+//                makeSelected(ima);
 
             }
 
@@ -232,7 +232,7 @@ public class LevelSelectionActivity extends Activity {
 
         viewPager.setOnPageChangeListener(viewPagerListener);
         loadingAnimation = (RelativeLayout)findViewById(R.id.loadingAnimation);
-        levels = (LinearLayout)findViewById(R.id.levels);
+//        levels = (LinearLayout)findViewById(R.id.levels);
         starNumber = (TextViewPacifico)findViewById(R.id.starNumber);
 
 
@@ -306,39 +306,39 @@ public class LevelSelectionActivity extends Activity {
         dropDown.startAnimation(anim);
     }
 
-    public ImageView makeSelected(ImageView imageView){
-        final float scale = getResources().getDisplayMetrics().density;
-        int pixels = (int) (20 * scale + 0.5f);
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageView.getLayoutParams();
-        params.height = pixels;
-        params.width = pixels;
-        imageView.setLayoutParams(params);
-        selectedPackage = Integer.parseInt(imageView.getTag().toString());
-        previousSelected = selectedPackage;
-        imageView.setTag("selected");
-        return imageView;
-    }
+//    public ImageView makeSelected(ImageView imageView){
+//        final float scale = getResources().getDisplayMetrics().density;
+//        int pixels = (int) (20 * scale + 0.5f);
+//        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageView.getLayoutParams();
+//        params.height = pixels;
+//        params.width = pixels;
+//        imageView.setLayoutParams(params);
+//        selectedPackage = Integer.parseInt(imageView.getTag().toString());
+//        previousSelected = selectedPackage;
+//        imageView.setTag("selected");
+//        return imageView;
+//    }
+//
+//    public ImageView makeUnselected(ImageView imageView){
+//        final float scale = getResources().getDisplayMetrics().density;
+//        int pixels = (int) (15 * scale + 0.5f);
+//        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageView.getLayoutParams();
+//        params.height = pixels;
+//        params.width = pixels;
+//        imageView.setLayoutParams(params);
+//        imageView.setTag(String.valueOf(previousSelected));
+//        return imageView;
+//    }
 
-    public ImageView makeUnselected(ImageView imageView){
-        final float scale = getResources().getDisplayMetrics().density;
-        int pixels = (int) (15 * scale + 0.5f);
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) imageView.getLayoutParams();
-        params.height = pixels;
-        params.width = pixels;
-        imageView.setLayoutParams(params);
-        imageView.setTag(String.valueOf(previousSelected));
-        return imageView;
-    }
-
-    public void onLevelsSelectionClick(View view){
-        if(clickable){
-            MusingoApp.soundButton();
-            ImageView selectedView = (ImageView)levels.findViewWithTag("selected");
-            makeUnselected(selectedView);
-            makeSelected((ImageView)view);
-            viewPager.setCurrentItem(selectedPackage-1);
-        }
-    }
+//    public void onLevelsSelectionClick(View view){
+//        if(clickable){
+//            MusingoApp.soundButton();
+//            ImageView selectedView = (ImageView)levels.findViewWithTag("selected");
+//            makeUnselected(selectedView);
+//            makeSelected((ImageView)view);
+//            viewPager.setCurrentItem(selectedPackage-1);
+//        }
+//    }
 
     public void goToLevel(View view){
         PlaySongsTable table = new PlaySongsTable(this);
@@ -435,8 +435,8 @@ public class LevelSelectionActivity extends Activity {
             ImageView unlockNow = (ImageView) findViewById(R.id.unlock_now);
             unlockNow.setVisibility(View.GONE);
             Log.v("Musingo", "packageName BLAAA  "+packageName);
-            ImageView image = (ImageView)levels.findViewWithTag("selected");
-            image.setBackgroundResource(R.drawable.level_opened);
+//            ImageView image = (ImageView)levels.findViewWithTag("selected");
+//            image.setBackgroundResource(R.drawable.level_opened);
 
             unlocked = true;
         } else {
