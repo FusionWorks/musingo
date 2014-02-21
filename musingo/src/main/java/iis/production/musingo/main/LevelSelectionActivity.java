@@ -17,8 +17,10 @@ import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
@@ -28,12 +30,15 @@ import java.util.List;
 import iis.production.musingo.MusingoApp;
 import iis.production.musingo.R;
 import iis.production.musingo.adapter.LevelPagerAdapter;
+import iis.production.musingo.adapter.PackagesListAdapter;
 import iis.production.musingo.async.ATPackages;
+import iis.production.musingo.async.ATPackagesList;
 import iis.production.musingo.async.ATSongs;
 import iis.production.musingo.db.PackageTable;
 import iis.production.musingo.db.PlaySongsTable;
 import iis.production.musingo.objects.AlertViewOrange;
 import iis.production.musingo.objects.LevelViewPager;
+import iis.production.musingo.objects.Package;
 import iis.production.musingo.objects.Playlist;
 import iis.production.musingo.objects.Song;
 import iis.production.musingo.objects.TextViewArchitects;
@@ -60,6 +65,7 @@ public class LevelSelectionActivity extends Activity {
 
     ATSongs ATS;
     ATPackages ATP;
+    ATPackagesList ATPL;
 
     int starsToUnlock;
     String packageName;
@@ -95,6 +101,7 @@ public class LevelSelectionActivity extends Activity {
     boolean beat;
     boolean complete;
     boolean powerup;
+    boolean listOpen = false;
 
     public static boolean clickable;
     public static boolean unlocked;
@@ -112,6 +119,7 @@ public class LevelSelectionActivity extends Activity {
     boolean playlistDownloading = false;
     ViewPager.OnPageChangeListener viewPagerListener;
     ArrayList<Playlist> playlists;
+    ArrayList<Package> packagesList;
 
     int previousSelected = 1;
 
@@ -122,13 +130,16 @@ public class LevelSelectionActivity extends Activity {
     LinearLayout tutorial2Package;
     LinearLayout tutorial3Package;
 
+    TextViewArchitects packageNumber;
+    ListView packagesListView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_level_selection);
         mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-//        didyouknowText = (TextViewArchitects)findViewById(R.id.didyouknowText);
+        didyouknowText = (TextViewArchitects)findViewById(R.id.didyouknowText);
         DidYouKnow.random(didyouknowText, this);
         opened = false;
         levelViews = new ArrayList<ImageView>();
@@ -254,6 +265,21 @@ public class LevelSelectionActivity extends Activity {
         tutorial1Package = (LinearLayout) findViewById(R.id.tutorial1Package);
         tutorial2Package = (LinearLayout) findViewById(R.id.tutorial2Package);
         tutorial3Package = (LinearLayout) findViewById(R.id.tutorial3Package);
+
+        packageNumber = (TextViewArchitects) findViewById(R.id.packageNumber);
+        packageNumber.setText(toString().valueOf(viewPager.getCurrentItem() + 1));
+
+        LinearLayout packagePage = (LinearLayout) findViewById(R.id.packagePage);
+        packagePage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listOpen = true;
+                packagesListView.setVisibility(View.VISIBLE);
+                getPackagesList(packagesList);
+            }
+        });
+
+        getPackagesList();
     }
 
     public void dropDown(View view){
@@ -270,12 +296,17 @@ public class LevelSelectionActivity extends Activity {
         MusingoApp.soundButton();
         if(opened)
            hideMenu();
-        else
+        else if(listOpen){
+            packagesListView.setVisibility(View.GONE);
+            listOpen = false;
+        }
+        else {
             if(ATS != null)
                 ATS.cancel(true);
             if(ATP != null)
                 ATP.cancel(true);
             finish();
+        }
     }
 
     @Override
@@ -541,6 +572,7 @@ public class LevelSelectionActivity extends Activity {
             networkAlert();
         }
 
+        packageNumber.setText(toString().valueOf(viewPager.getCurrentItem() + 1));
         clickable = false;
         viewPager.setPagingEnabled(clickable);
     }
@@ -733,5 +765,47 @@ public class LevelSelectionActivity extends Activity {
             tutorialOpen = false;
             clickable = true;
         }
+    }
+
+    public void getPackagesList(){
+
+        String url = Endpoints.packages_url;
+        Drawable progressBar = getResources().getDrawable(R.drawable.progress_bar);
+        ATPL = new ATPackagesList(this, url, loadingAnimation, progressBar);
+
+        NetworkInfo networkInfo = new NetworkInfo(this);
+        if(networkInfo.isConnect()){
+            ATPL.execute();
+        }
+        else {
+            networkAlert();
+        }
+
+        clickable = false;
+        viewPager.setPagingEnabled(clickable);
+    }
+
+    public void getPackagesList(ArrayList<Package> packagesList){
+        listOpen = true;
+        this.packagesList = packagesList;
+
+        PackagesListAdapter packagesListAdapter = new PackagesListAdapter(this, packagesList);
+        packagesListView = (ListView)findViewById(R.id.packagesList);
+        packagesListView.setAdapter(packagesListAdapter);
+
+//        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) packagesListView.getLayoutParams();
+//        LevelViewPager pager = (LevelViewPager) findViewById(R.id.pager);
+//        int marginTop = pager.getHeight();
+//        params.setMargins(0, marginTop, 0, 0);
+//        packagesListView.setLayoutParams(params);
+
+        packagesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                selectedPackage = i+1;
+                viewPager.setCurrentItem(i);
+                packagesListView.setVisibility(View.GONE);
+            }
+        });
     }
 }
