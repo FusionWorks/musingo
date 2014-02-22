@@ -5,6 +5,7 @@ import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 
 /**
@@ -31,7 +32,8 @@ public class CustomProgressBar extends Drawable {
             float left = width * i / NUM_RECTS;
             float right = left + 0.9f * width / NUM_RECTS;
             mPaint.setColor((i + 1) * 10000 / NUM_RECTS <= level? 0xff3fb8cd : 0xffb2ced4);
-            canvas.drawRect(left, b.top, right, b.bottom, mPaint);
+            RectF rect = new RectF(left, b.top, right, b.bottom);
+            canvas.drawRoundRect(rect, 10, 10, mPaint);
         }
     }
 

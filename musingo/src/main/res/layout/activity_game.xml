@@ -546,6 +546,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="2dp"
+                        android:scaleType="fitStart"
                         android:layout_centerInParent="true"/>
                     <ImageView
                         android:id="@+id/border"
@@ -585,6 +586,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="2dp"
+                        android:scaleType="fitStart"
                         android:layout_centerInParent="true"/>
                     <ImageView
                         android:id="@+id/border"
@@ -623,6 +625,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="2dp"
+                        android:scaleType="fitStart"
                         android:layout_centerInParent="true"/>
                     <ImageView
                         android:id="@+id/border"
@@ -670,6 +673,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="2dp"
+                        android:scaleType="fitStart"
                         android:layout_centerInParent="true"/>
                     <ImageView
                         android:id="@+id/border"
@@ -709,6 +713,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="2dp"
+                        android:scaleType="fitStart"
                         android:layout_centerInParent="true"/>
                     <ImageView
                         android:id="@+id/border"
@@ -747,6 +752,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="2dp"
+                        android:scaleType="fitStart"
                         android:layout_centerInParent="true"/>
                     <ImageView
                         android:id="@+id/border"
@@ -793,6 +799,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="2dp"
+                        android:scaleType="fitStart"
                         android:layout_centerInParent="true"/>
                     <ImageView
                         android:id="@+id/border"
@@ -832,6 +839,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="2dp"
+                        android:scaleType="fitStart"
                         android:layout_centerInParent="true"/>
                     <ImageView
                         android:id="@+id/border"
@@ -870,6 +878,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="2dp"
+                        android:scaleType="fitStart"
                         android:layout_centerInParent="true"/>
                     <ImageView
                         android:id="@+id/border"
@@ -1214,9 +1223,7 @@
         android:layout_marginRight="30dp"
         android:layout_marginLeft="30dp"
         android:layout_centerInParent="true"
-        android:visibility="gone"
-        android:background="@drawable/progress_bar_background"
-        android:alpha="50">
+        android:visibility="gone">
 
         <iis.production.musingo.objects.TextViewPacifico
             android:id="@+id/songsLoaded"

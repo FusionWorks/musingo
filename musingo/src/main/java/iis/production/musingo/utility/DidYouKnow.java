@@ -34,14 +34,9 @@ public class DidYouKnow {
 
         view.setText(strValue.toUpperCase());
         int l = strValue.length();
-        view.setText(l + " " + strValue.toUpperCase());
+        view.setText(strValue.toUpperCase());
 
-        if(l < 40){
-            String dimenStr = activity.getString(R.dimen.did_you_know5);
-            float dimen = Float.parseFloat(dimenStr.substring(0, dimenStr.length() - 2));
-            view.setTextSize(dimen);
-        }
-        else if(l >= 40 && l < 60){
+        if(l < 60){
             String dimenStr = activity.getString(R.dimen.did_you_know4);
             float dimen = Float.parseFloat(dimenStr.substring(0, dimenStr.length() - 2));
             view.setTextSize(dimen);

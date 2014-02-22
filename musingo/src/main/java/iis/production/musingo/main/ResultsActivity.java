@@ -53,7 +53,7 @@ public class ResultsActivity extends Activity {
         setContentView(R.layout.activity_results);
 
         mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-        mSettings.edit().putBoolean("tutorial1Package",false).commit();
+        mSettings.edit().putBoolean("firstPlay",false).commit();
         TextViewPacifico barTitle = (TextViewPacifico)findViewById(R.id.barTitle);
         levelName = getIntent().getStringExtra("levelName");
         if(levelName.length() > 14){

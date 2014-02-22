@@ -36,6 +36,7 @@ import iis.production.musingo.async.ATPackagesList;
 import iis.production.musingo.async.ATSongs;
 import iis.production.musingo.db.PackageTable;
 import iis.production.musingo.db.PlaySongsTable;
+import iis.production.musingo.objects.AlertViewFacebookLike;
 import iis.production.musingo.objects.AlertViewOrange;
 import iis.production.musingo.objects.LevelViewPager;
 import iis.production.musingo.objects.Package;
@@ -269,13 +270,36 @@ public class LevelSelectionActivity extends Activity {
         packageNumber = (TextViewArchitects) findViewById(R.id.packageNumber);
         packageNumber.setText(toString().valueOf(viewPager.getCurrentItem() + 1));
 
-        LinearLayout packagePage = (LinearLayout) findViewById(R.id.packagePage);
-        packagePage.setOnClickListener(new View.OnClickListener() {
+        packageNumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listOpen = true;
                 packagesListView.setVisibility(View.VISIBLE);
                 getPackagesList(packagesList);
+            }
+        });
+
+        ImageView backPackage =  (ImageView) findViewById(R.id.backPackage);
+        backPackage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int currentPage = viewPager.getCurrentItem();
+                if(currentPage > 0 && clickable){
+                    clickable = false;
+                    viewPager.setCurrentItem(currentPage - 1);
+                }
+            }
+        });
+
+        ImageView nextPackage =  (ImageView) findViewById(R.id.nextPackage);
+        nextPackage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int currentPage = viewPager.getCurrentItem();
+                if(clickable){
+                    clickable = false;
+                    viewPager.setCurrentItem(currentPage + 1);
+                }
             }
         });
 
@@ -381,7 +405,7 @@ public class LevelSelectionActivity extends Activity {
 //        if(clickable && unlocked && starBeat >= level - 1){
 
 
-        if(mSettings.getBoolean("tutorial1Package", true) && level == 1 && viewPager.getCurrentItem() == 0){
+        if(mSettings.getBoolean("firstPlay", true) && level == 1 && viewPager.getCurrentItem() == 0){
             playlistDownloading = true;
             MusingoApp.soundButton();
             selectedLevel = Integer.valueOf(view.getTag().toString());
@@ -406,7 +430,7 @@ public class LevelSelectionActivity extends Activity {
             tutorial1Package.setVisibility(View.GONE);
             clickable = false;
             viewPager.setPagingEnabled(clickable);
-        } else if(clickable && unlocked && !mSettings.getBoolean("tutorial1Package", true)){
+        } else if(clickable && unlocked && !mSettings.getBoolean("firstPlay", true)){
             playlistDownloading = true;
             MusingoApp.soundButton();
             selectedLevel = Integer.valueOf(view.getTag().toString());
@@ -502,7 +526,7 @@ public class LevelSelectionActivity extends Activity {
 
             final RoundedCornersDrawable drawable = new RoundedCornersDrawable(getResources(), playList.getImage());
 
-            if (!unlocked || (mSettings.getBoolean("tutorial1Package", true) && i != 0)){
+            if (!unlocked || (mSettings.getBoolean("firstPlay", true) && i != 0)){
                 drawable.setAlpha(75);
             }
 
@@ -534,8 +558,8 @@ public class LevelSelectionActivity extends Activity {
         clickable = true;
         viewPager.setPagingEnabled(clickable);
 
-        tutorial1();
-        tutorial2();
+//        tutorial1();
+        tutorial();
     }
 
     public void downloadResultForGame(ArrayList<Song> songs, String name, int cost){
@@ -575,6 +599,15 @@ public class LevelSelectionActivity extends Activity {
         packageNumber.setText(toString().valueOf(viewPager.getCurrentItem() + 1));
         clickable = false;
         viewPager.setPagingEnabled(clickable);
+
+//        facebookLike();
+    }
+
+    private void facebookLike() {
+        if(viewPager.getCurrentItem() == 2){
+            AlertViewFacebookLike like = new AlertViewFacebookLike(this);
+            like.show();
+        }
     }
 
     public void selectPageViews(){
@@ -712,6 +745,8 @@ public class LevelSelectionActivity extends Activity {
             case R.id.tutorial1Package :
                 MusingoApp.soundButton();
                 tutorial1Package.setVisibility(View.GONE);
+                showMenu();
+                tutorial2Package.setVisibility(View.VISIBLE);
 //                tutorialOpen = false;
                 break;
             case R.id.tutorial2Package :
@@ -725,13 +760,34 @@ public class LevelSelectionActivity extends Activity {
                 tutorialOpen = false;
                 clickable = true;
                 tutorial3Package.setVisibility(View.GONE);
-                mSettings.edit().putBoolean("tutorial2Package",false).commit();
+                mSettings.edit().putBoolean("tutorialPackage",false).commit();
                 break;
         }
     }
 
-    public void tutorial1(){
-        if(mSettings.getBoolean("tutorial1Package", true) && viewPager.getCurrentItem() == 0){
+//    public void tutorial1(){
+//        if(mSettings.getBoolean("firstPlay", true) && viewPager.getCurrentItem() == 0){
+//            RelativeLayout.LayoutParams params;
+//            int marginTop;
+//            params = (RelativeLayout.LayoutParams) tutorial1Package.getLayoutParams();
+//
+//            LinearLayout line1 = (LinearLayout) findViewById(R.id.line1);
+//            RelativeLayout topBar = (RelativeLayout) findViewById(R.id.topBar);
+//            LinearLayout packageStatus = (LinearLayout) findViewById(R.id.packageStatus);
+//            marginTop = line1.getHeight() + topBar.getHeight() + packageStatus.getHeight();
+//            Log.v("Musingo", "line1.getHeight() : " + line1.getHeight() + " , topBar.getHeight() : " + topBar.getHeight() + " , packageStatus.getHeight() : " + packageStatus.getHeight());
+//            params.setMargins(0, marginTop, 0, 0);
+//            tutorial1Package.setVisibility(View.VISIBLE);
+//            tutorialOpen = true;
+//        } else if(mSettings.getBoolean("firstPlay", true)) {
+//            tutorial1Package.setVisibility(View.GONE);
+//            tutorialOpen = false;
+//            clickable = true;
+//        }
+//    }
+
+    public void tutorial(){
+        if(!mSettings.getBoolean("firstPlay", true) && mSettings.getBoolean("tutorialPackage", true) && viewPager.getCurrentItem() == 0){
             RelativeLayout.LayoutParams params;
             int marginTop;
             params = (RelativeLayout.LayoutParams) tutorial1Package.getLayoutParams();
@@ -740,28 +796,18 @@ public class LevelSelectionActivity extends Activity {
             RelativeLayout topBar = (RelativeLayout) findViewById(R.id.topBar);
             LinearLayout packageStatus = (LinearLayout) findViewById(R.id.packageStatus);
             marginTop = line1.getHeight() + topBar.getHeight() + packageStatus.getHeight();
-            Log.v("Musingo", "line1.getHeight() : " + line1.getHeight() + " , topBar.getHeight() : " + topBar.getHeight() + " , packageStatus.getHeight() : " + packageStatus.getHeight());
             params.setMargins(0, marginTop, 0, 0);
-            tutorial1Package.setVisibility(View.VISIBLE);
-            tutorialOpen = true;
-        } else if(mSettings.getBoolean("tutorial1Package", true)) {
-            tutorial1Package.setVisibility(View.GONE);
-            tutorialOpen = false;
-            clickable = true;
-        }
-    }
 
-    public void tutorial2(){
-        if(!mSettings.getBoolean("tutorial1Package", true) && mSettings.getBoolean("tutorial2Package", true) && viewPager.getCurrentItem() == 0){
             tutorialOpen = true;
             clickable = false;
-            showMenu();
             tutorial3Package.setVisibility(View.GONE);
-            tutorial2Package.setVisibility(View.VISIBLE);
-        } else if (!mSettings.getBoolean("tutorial1Package", true) && mSettings.getBoolean("tutorial2Package", true)){
+            tutorial2Package.setVisibility(View.GONE);
+            tutorial1Package.setVisibility(View.VISIBLE);
+        } else if (!mSettings.getBoolean("firstPlay", true) && mSettings.getBoolean("tutorialPackage", true)){
             hideMenu();
             tutorial3Package.setVisibility(View.GONE);
             tutorial2Package.setVisibility(View.GONE);
+            tutorial1Package.setVisibility(View.GONE);
             tutorialOpen = false;
             clickable = true;
         }
