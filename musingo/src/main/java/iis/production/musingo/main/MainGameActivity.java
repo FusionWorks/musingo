@@ -162,7 +162,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     boolean tutorialBonusOpen = false;
     boolean tutorialOpen = false;
     boolean bonusOpen = false;
-    boolean waitingForResultActivity;
+    boolean waitingForResultActivity = false;
 
     String tutorialShow = "";
     @Override
@@ -406,7 +406,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
     private Runnable mBonusTask = new Runnable() {
         public void run() {
-            if(waitingForResultActivity){
+            if(waitingForResultActivity && !tutorialBonusOpen){
                 endGame();
             }
 
@@ -518,7 +518,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             replay = false;
         }else{
             mp.stop();
-            if(tutorialBonusOpen || bonusOpen){
+            if(bonusOpen){
                 waitingForResultActivity = true;
             }
             else{
@@ -1231,7 +1231,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 mp.start();
                 tutorial6.setVisibility(View.GONE);
                 hideBonus(null);
-                if(waitingForResultActivity){
+                if(currentSong == 8){
                     endGame();
                 }
                 tutorialOpen = false;

@@ -101,10 +101,10 @@ public class FirstActivity extends Activity {
         String appIdFacebook = getString(R.string.appIdFacebook);
         FacebookManager.userFb = new Facebook(appIdFacebook);
 
-        FacebookManager.sharedPreferences = getPreferences(MODE_PRIVATE);
+        FacebookManager.mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
 
-        String access_token = FacebookManager.sharedPreferences.getString("access_token", null);
-        long expires = FacebookManager.sharedPreferences.getLong("access_expires", 0);
+        String access_token = FacebookManager.mSettings.getString("access_token", null);
+        long expires = FacebookManager.mSettings.getLong("access_expires", 0);
 
         if(access_token != null){
             FacebookManager.userFb.setAccessToken(access_token);

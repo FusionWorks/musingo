@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -98,11 +99,12 @@ public class LevelSelectionActivity extends Activity {
     final static int NEXT_LEVEL = 1;
 
     //variables
-    boolean opened;
+    boolean opened = false;
     boolean beat;
     boolean complete;
     boolean powerup;
     boolean listOpen = false;
+    boolean likePageOpen = false;
 
     public static boolean clickable;
     public static boolean unlocked;
@@ -133,6 +135,8 @@ public class LevelSelectionActivity extends Activity {
 
     TextViewArchitects packageNumber;
     ListView packagesListView;
+
+    WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -323,6 +327,9 @@ public class LevelSelectionActivity extends Activity {
         else if(listOpen){
             packagesListView.setVisibility(View.GONE);
             listOpen = false;
+        } else if (likePageOpen){
+            webView.setVisibility(View.GONE);
+            likePageOpen = false;
         }
         else {
             if(ATS != null)
@@ -600,12 +607,14 @@ public class LevelSelectionActivity extends Activity {
         clickable = false;
         viewPager.setPagingEnabled(clickable);
 
-//        facebookLike();
+        facebookLike();
     }
 
     private void facebookLike() {
-        if(viewPager.getCurrentItem() == 2){
+        if(viewPager.getCurrentItem() == 2 && mSettings.getBoolean("facebookLike", true)){
             AlertViewFacebookLike like = new AlertViewFacebookLike(this);
+            likePageOpen = true;
+            webView = (WebView) findViewById(R.id.webLike);
             like.show();
         }
     }
@@ -832,18 +841,10 @@ public class LevelSelectionActivity extends Activity {
     }
 
     public void getPackagesList(ArrayList<Package> packagesList){
-        listOpen = true;
         this.packagesList = packagesList;
-
         PackagesListAdapter packagesListAdapter = new PackagesListAdapter(this, packagesList);
         packagesListView = (ListView)findViewById(R.id.packagesList);
         packagesListView.setAdapter(packagesListAdapter);
-
-//        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) packagesListView.getLayoutParams();
-//        LevelViewPager pager = (LevelViewPager) findViewById(R.id.pager);
-//        int marginTop = pager.getHeight();
-//        params.setMargins(0, marginTop, 0, 0);
-//        packagesListView.setLayoutParams(params);
 
         packagesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

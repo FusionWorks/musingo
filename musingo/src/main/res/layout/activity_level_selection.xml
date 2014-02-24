@@ -688,8 +688,15 @@
         android:layout_width="wrap_content"
         android:layout_height="160dp"
         android:id="@+id/packagesList"
+        android:background="#000"
         android:layout_alignParentBottom="true"
         android:scrollbarThumbVertical="@drawable/scrollbar"
         android:scrollbars="vertical"
+        android:visibility="gone"/>
+
+    <WebView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/webLike"
         android:visibility="gone"/>
 </RelativeLayout>

@@ -23,19 +23,19 @@ import iis.production.musingo.async.ATUser;
  */
 public class FacebookManager {
    public static Facebook userFb;
-   public static SharedPreferences sharedPreferences;
+   public static SharedPreferences mSettings;
 
    public FacebookManager(){
-
    }
 
    public static void SessionFb(Activity activity, final RelativeLayout loadingView){
        if(!userFb.isSessionValid()){
-           userFb.authorize(activity, new String[] {"email"}, new Facebook.DialogListener() {
+           userFb.authorize(activity, new String[] {"email", "publish_actions", "user_likes"}, new Facebook.DialogListener() {
                @Override
                public void onComplete(Bundle values) {
                    String userId = "";
                    String userName = "";
+                   String like = "";
                    try {
                        String jsonUser = userFb.request("me");
                        JSONObject obj = null;
@@ -48,11 +48,25 @@ public class FacebookManager {
                        e.printStackTrace();
                    }
 
-                   SharedPreferences.Editor editor = sharedPreferences.edit();
+                   try {
+                       String jsonUser = userFb.request("me/likes/168356489891715");
+                       JSONObject obj = null;
+                       obj = Util.parseJson(jsonUser);
+                       like = obj.optString("data");;
+                   } catch (IOException e) {
+                       e.printStackTrace();
+                   } catch (JSONException e) {
+                       e.printStackTrace();
+                   }
+
+                   SharedPreferences.Editor editor = mSettings.edit();
                    editor.putString("access_token", userFb.getAccessToken());
                    editor.putLong("access_expires", userFb.getAccessExpires());
                    editor.putString("user_id", userId);
                    editor.putString("user_name", userName);
+                   if(!like.equals("") && !like.equals("[]")){
+                        editor.putBoolean("facebookLike", false);
+                   }
                    editor.commit();
 
                    long unixTime = System.currentTimeMillis();
