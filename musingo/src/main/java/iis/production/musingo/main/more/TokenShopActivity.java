@@ -2,6 +2,7 @@ package iis.production.musingo.main.more;
 
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -30,6 +31,9 @@ public class TokenShopActivity extends Activity {
 
     public void goBackButton(View view){
         MusingoApp.soundButton();
+        Intent intent = new Intent();
+        intent.putExtra("token", 100);
+        setResult(RESULT_OK, intent);
         finish();
     }
 

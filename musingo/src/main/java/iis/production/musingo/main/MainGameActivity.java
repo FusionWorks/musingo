@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
@@ -337,10 +338,12 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     }
 
     public void toTokenShop(View view){
+        mp.pause();
         MusingoApp.soundButton();
         Intent intent = new Intent();
         intent.setClass(this, TokenShopActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
+//        startActivity(intent);
     }
 
     /**
@@ -447,10 +450,47 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     @Override
     public void onPause(){
         super.onPause();
+//        mHandler.removeCallbacks(mUpdateTimeTask);
+//        mHandler.removeCallbacks(mBonusTask);
+//        mp.release();
+//        finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.v("Musingo", "data : " + data);
+        mp.start();
+        if (data == null) {return;}
+        int token = data.getIntExtra("token", 0);
+        Log.v("Musingo", "token : " + token);
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        Log.v("Musingo", "onDestroy");
         mHandler.removeCallbacks(mUpdateTimeTask);
         mHandler.removeCallbacks(mBonusTask);
         mp.release();
-        finish();
+    }
+
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        this.getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if(keyCode == KeyEvent.KEYCODE_HOME)
+        {
+            mHandler.removeCallbacks(mUpdateTimeTask);
+            mHandler.removeCallbacks(mBonusTask);
+            mp.release();
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     public void playNext(){
