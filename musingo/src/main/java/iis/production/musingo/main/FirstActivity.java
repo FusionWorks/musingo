@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebView;
@@ -32,6 +33,8 @@ public class FirstActivity extends Activity {
     SharedPreferences mSettings;
     public static final String APP_PREFERENCES = "settings";
     MixpanelAPI mMixpanel;
+    WebView webView;
+    boolean fbLikeOpen = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,12 +63,13 @@ public class FirstActivity extends Activity {
 //>>>
         startService(new Intent(this, TimerService.class));
 
-        final WebView webView = (WebView) findViewById(R.id.webLike);
+        webView = (WebView) findViewById(R.id.webLike);
         ImageView fbLike = (ImageView) findViewById(R.id.fb_bottom);
         fbLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MusingoApp.soundButton();
+                fbLikeOpen = true;
                 webView.setVisibility(View.VISIBLE);
                 webView.getSettings().setJavaScriptEnabled(true);
                 webView.setWebViewClient(new FacebookWebViewClient(FirstActivity.this));
@@ -91,8 +95,36 @@ public class FirstActivity extends Activity {
                 });
             }
         });
-    }
 
+        ImageView twitter = (ImageView) findViewById(R.id.twiter_bottom);
+        twitter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MusingoApp.soundButton();
+                fbLikeOpen = true;
+                webView.setVisibility(View.VISIBLE);
+                webView.getSettings().setJavaScriptEnabled(true);
+                webView.setWebViewClient(new FacebookWebViewClient(FirstActivity.this));
+                webView.loadUrl(getString(R.string.twitter_url));
+                webView.requestFocus(View.FOCUS_DOWN);
+                webView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        switch (event.getAction()) {
+                            case MotionEvent.ACTION_DOWN:
+                            case MotionEvent.ACTION_UP:
+                                if (!v.hasFocus()) {
+                                    v.requestFocus();
+                                }
+                                break;
+                        }
+                        return false;
+                    }
+                });
+            }
+        });
+    }
+   
     public void goToGame(View view){
         MusingoApp.soundButton();
         Intent intent = new Intent();
@@ -110,6 +142,7 @@ public class FirstActivity extends Activity {
 
     @Override
     protected void onDestroy() {
+        stopService(new Intent(this, TimerService.class));
         MusingoApp app = (MusingoApp)getApplication();
         app.getMixpanelobj().flush();
         super.onDestroy();
@@ -157,6 +190,20 @@ public class FirstActivity extends Activity {
 
     public void goBackButton(View view){
         MusingoApp.soundButton();
+        if(fbLikeOpen){
+            webView.setVisibility(View.GONE);
+            fbLikeOpen = false;
+        } else {
+            finish();
+        }
+    }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            goBackButton(null);
+        }
+//        return super.onKeyDown(keyCode, event);
+        return false;
     }
 }

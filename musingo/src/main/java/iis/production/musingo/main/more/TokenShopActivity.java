@@ -61,21 +61,49 @@ public class TokenShopActivity extends Activity {
             case 120:
                 MusingoApp.soundButton();
                 img.setImageResource(R.drawable.hundred);
+
+                if(BillingHelper.isBillingSupported()){
+                    BillingHelper.requestPurchase(this, "android.test.purchased");
+                } else {
+                    Log.v(TAG,"Can't purchase on this device");
+                }
+                Toast.makeText(this, "Shirt Button", Toast.LENGTH_SHORT).show();
                 break;
 
             case 300:
                 MusingoApp.soundButton();
                 img.setImageResource(R.drawable.three_hundred);
+
+                if(BillingHelper.isBillingSupported()){
+                    BillingHelper.requestPurchase(this, "android.test.purchased");
+                } else {
+                    Log.v(TAG,"Can't purchase on this device");
+                }
+                Toast.makeText(this, "Shirt Button", Toast.LENGTH_SHORT).show();
                 break;
 
             case 650:
                 MusingoApp.soundButton();
                 img.setImageResource(R.drawable.sixty);
+
+                if(BillingHelper.isBillingSupported()){
+                    BillingHelper.requestPurchase(this, "android.test.purchased");
+                } else {
+                    Log.v(TAG,"Can't purchase on this device");
+                }
+                Toast.makeText(this, "Shirt Button", Toast.LENGTH_SHORT).show();
                 break;
 
             case 3000:
                 MusingoApp.soundButton();
                 img.setImageResource(R.drawable.three_thousend);
+
+                if(BillingHelper.isBillingSupported()){
+                    BillingHelper.requestPurchase(this, "android.test.purchased");
+                } else {
+                    Log.v(TAG,"Can't purchase on this device");
+                }
+                Toast.makeText(this, "Shirt Button", Toast.LENGTH_SHORT).show();
                 break;
         }
         if(!lastClickedImage.equals(img) || removeFocus){

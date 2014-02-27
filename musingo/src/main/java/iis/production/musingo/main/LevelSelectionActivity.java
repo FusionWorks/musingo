@@ -280,9 +280,12 @@ public class LevelSelectionActivity extends Activity {
         packageNumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listOpen = true;
+                if(clickable){
+                    listOpen = true;
+                    clickable = false;
                 packagesListView.setVisibility(View.VISIBLE);
                 getPackagesList(packagesList);
+                }
             }
         });
 
@@ -331,6 +334,7 @@ public class LevelSelectionActivity extends Activity {
         else if(listOpen){
             packagesListView.setVisibility(View.GONE);
             listOpen = false;
+            clickable = true;
         } else if (likePageOpen){
             webView.setVisibility(View.GONE);
             likePageOpen = false;

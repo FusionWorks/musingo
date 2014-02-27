@@ -190,6 +190,73 @@
                     android:paddingRight="10dp"
                     android:src="@drawable/no"/>
                 </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/fbLike">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/facebook_background"
+                    android:layout_marginLeft="10dp"
+                    style="@style/Shadow">
+                    <ImageView
+                        android:id="@+id/fb_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:src="@drawable/fb_icon"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Like Us on Facebook"
+                        android:textColor="#fff"
+                        android:layout_toRightOf="@id/fb_icon"
+                        android:layout_centerVertical="true"
+                        android:textSize="@dimen/setting_fb"
+                        android:lines="1"
+                        android:layout_marginRight="20dp"/>
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:id="@+id/twiter">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/twitter_background"
+                    android:layout_marginLeft="10dp"
+                    style="@style/Shadow">
+                    <ImageView
+                        android:id="@+id/twitter_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:src="@drawable/twitter_icon"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Follow @goodworldgames"
+                        android:textColor="#fff"
+                        android:layout_toRightOf="@id/twitter_icon"
+                        android:layout_centerVertical="true"
+                        android:textSize="@dimen/setting_fb"
+                        android:lines="1"
+                        android:layout_marginRight="20dp"/>
+                </RelativeLayout>
+            </RelativeLayout>
             </LinearLayout>
         </ScrollView>
+
+    <WebView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/webLike"
+        android:visibility="gone"/>
     </RelativeLayout>

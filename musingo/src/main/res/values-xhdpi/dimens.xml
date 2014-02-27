@@ -10,4 +10,6 @@
     <dimen name="star">16sp</dimen>
     <dimen name="top_bar_button">80dp</dimen>
     <dimen name="top_bar_result">18sp</dimen>
+    <dimen name="first_activity_bottom">19sp</dimen>
+    <dimen name="setting_fb">16sp</dimen>
 </resources>

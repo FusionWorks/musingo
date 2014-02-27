@@ -160,11 +160,14 @@
 
 <!-- Facebook like-->
     <string name="like_text">Like us on Facebook to unlock a special Playlist Package with 9 brand new playlists!</string>
-    <string name="like_url">http://m.facebook.com/168356489891715</string>
+    <string name="like_url">http://m.facebook.com/189385104418990</string>
 
 <!-- Rate app -->
     <string name="title_rate">Rate Music for good</string>
     <string name="body_rate">Having fun? Please take a moment to rate us &amp; we\'ll gift you 100 Tokens for being awesome.</string>
 
-    <string name="learn_how"><u>Learn how</u> we\'re putting the <b>GOOD</b> in Good World Games</string>
+    <string name="learn_how"><font color='red'><u>Learn how</u></font> we\'re putting the <b>GOOD</b> in Good World Games</string>
+
+<!-- Twitter -->
+    <string name="twitter_url">https://twitter.com/goodworldgames</string>
 </resources>

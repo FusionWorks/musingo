@@ -74,7 +74,7 @@
         <iis.production.musingo.objects.TextViewArchitects
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:textSize="20sp"
+            android:textSize="@dimen/first_activity_bottom"
             android:text="@string/bottom_text"
             android:layout_marginLeft="15dp"
             android:gravity="center_vertical"

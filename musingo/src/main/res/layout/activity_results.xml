@@ -34,7 +34,8 @@
                     android:layout_height="match_parent"
                     android:text="@string/learn_how"
                     android:textColor="#000"
-                    android:textSize="9sp"/>
+                    android:textSize="8sp"
+                    android:layout_marginLeft="2dp"/>
 
             </RelativeLayout>
 
