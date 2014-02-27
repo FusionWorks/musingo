@@ -138,6 +138,17 @@ public class PlaySongsTable {
         return number;
     }
 
+    public int getPlayedLevels(){
+        int number = 0;
+        SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
+        Cursor c = db.rawQuery("SELECT COUNT(*) FROM play_songs", null);
+        if(c.moveToFirst()) {
+            number = c.getInt(0);
+        }
+        db.close();
+        return number;
+    }
+
     public boolean isUnlockedLevel(String packageName){
         int number = 0;
         SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);

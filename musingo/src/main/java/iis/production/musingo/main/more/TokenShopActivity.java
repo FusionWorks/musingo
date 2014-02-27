@@ -1,16 +1,18 @@
 package iis.production.musingo.main.more;
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import iis.production.musingo.MusingoApp;
 import iis.production.musingo.R;
+import iis.production.musingo.billing.BillingHelper;
+import iis.production.musingo.billing.BillingService;
 import iis.production.musingo.utility.Utility;
 
 /**
@@ -19,6 +21,8 @@ import iis.production.musingo.utility.Utility;
 public class TokenShopActivity extends Activity {
     ImageView lastClickedImage;
     boolean removeFocus;
+
+    String TAG = "Musingo";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +31,8 @@ public class TokenShopActivity extends Activity {
         lastClickedImage.setTag("0");
         removeFocus = false;
         Utility.addSelecions(this, R.id.backButton, R.drawable.selected_back, R.drawable.back_button);
+        startService(new Intent(this, BillingService.class));
+        BillingHelper.setCompletedHandler(mTransactionHandler);
     }
 
     public void goBackButton(View view){
@@ -43,6 +49,13 @@ public class TokenShopActivity extends Activity {
             case 50:
                 MusingoApp.soundButton();
                 img.setImageResource(R.drawable.fifty);
+
+                if(BillingHelper.isBillingSupported()){
+                    BillingHelper.requestPurchase(this, "android.test.purchased");
+                } else {
+                    Log.v(TAG,"Can't purchase on this device");
+                }
+                Toast.makeText(this, "Shirt Button", Toast.LENGTH_SHORT).show();
                 break;
 
             case 120:
@@ -94,18 +107,35 @@ public class TokenShopActivity extends Activity {
         lastClickedImage = (ImageView)view;
     }
 
-    //IInAppBillingService mService;
+//    //IInAppBillingService mService;
+//
+//    ServiceConnection mServiceConn = new ServiceConnection() {
+//        @Override
+//        public void onServiceDisconnected(ComponentName name) {
+//            //mService = null;
+//        }
+//
+//        @Override
+//        public void onServiceConnected(ComponentName name,
+//                                       IBinder service) {
+//            //mService = IInAppBillingService.Stub.asInterface(service);
+//        }
+//    };
 
-    ServiceConnection mServiceConn = new ServiceConnection() {
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            //mService = null;
-        }
+    public Handler mTransactionHandler = new Handler(){
+        public void handleMessage(android.os.Message msg) {
+            Log.i(TAG, "Transaction complete");
+            Log.i(TAG, "Transaction status: " + BillingHelper.latestPurchase.purchaseState);
+            Log.i(TAG, "Item purchased is: " + BillingHelper.latestPurchase.productId);
 
-        @Override
-        public void onServiceConnected(ComponentName name,
-                                       IBinder service) {
-            //mService = IInAppBillingService.Stub.asInterface(service);
-        }
+            if(BillingHelper.latestPurchase.isPurchased()){
+                showItem();
+            }
+        };
     };
+
+    private void showItem() {
+        //purchaseableItem.setVisibility(View.VISIBLE);
+    }
+
 }

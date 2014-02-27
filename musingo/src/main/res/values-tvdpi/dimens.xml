@@ -8,5 +8,6 @@
     <dimen name="change_package">9sp</dimen>
     <dimen name="song_title">17sp</dimen>
     <dimen name="star">18sp</dimen>
-    <dimen name="top_bar_button">90dp</dimen>
+    <dimen name="top_bar_button">80dp</dimen>
+    <dimen name="top_bar_result">22sp</dimen>
 </resources>

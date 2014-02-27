@@ -151,6 +151,7 @@
     <string name="access_expires">access_expires</string>
     <string name="user_id">user_id</string>
     <string name="user_name">user_name</string>
+    <string name="timer">timer</string>
 
 <!-- Lock package alert -->
     <string name="lock_package_title">Oops!</string>
@@ -159,5 +160,11 @@
 
 <!-- Facebook like-->
     <string name="like_text">Like us on Facebook to unlock a special Playlist Package with 9 brand new playlists!</string>
-    <string name="like_link">http://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fstudentstep&amp;width&amp;layout=standard&amp;action=like&amp;show_faces=true&amp;share=true&amp;height=80&amp;appId=700956963269231</string>
+    <string name="like_url">http://m.facebook.com/168356489891715</string>
+
+<!-- Rate app -->
+    <string name="title_rate">Rate Music for good</string>
+    <string name="body_rate">Having fun? Please take a moment to rate us &amp; we\'ll gift you 100 Tokens for being awesome.</string>
+
+    <string name="learn_how"><u>Learn how</u> we\'re putting the <b>GOOD</b> in Good World Games</string>
 </resources>

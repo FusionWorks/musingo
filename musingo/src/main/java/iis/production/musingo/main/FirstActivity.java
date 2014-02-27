@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
 
 import com.facebook.android.Facebook;
@@ -19,6 +21,8 @@ import iis.production.musingo.MusingoApp;
 import iis.production.musingo.R;
 import iis.production.musingo.db.PackageTable;
 import iis.production.musingo.db.PlaySongsTable;
+import iis.production.musingo.objects.FacebookWebViewClient;
+import iis.production.musingo.service.TimerService;
 import iis.production.musingo.utility.FacebookManager;
 
 /**
@@ -54,6 +58,39 @@ public class FirstActivity extends Activity {
         PackageTable packageTable = new PackageTable(this);
         packageTable.deletePackageTable();
 //>>>
+        startService(new Intent(this, TimerService.class));
+
+        final WebView webView = (WebView) findViewById(R.id.webLike);
+        ImageView fbLike = (ImageView) findViewById(R.id.fb_bottom);
+        fbLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MusingoApp.soundButton();
+                webView.setVisibility(View.VISIBLE);
+                webView.getSettings().setJavaScriptEnabled(true);
+                webView.setWebViewClient(new FacebookWebViewClient(FirstActivity.this));
+                webView.loadUrl(getString(R.string.like_url));
+                webView.requestFocus(View.FOCUS_DOWN);
+                webView.setOnTouchListener(new View.OnTouchListener()
+                {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event)
+                    {
+                        switch (event.getAction())
+                        {
+                            case MotionEvent.ACTION_DOWN:
+                            case MotionEvent.ACTION_UP:
+                                if (!v.hasFocus())
+                                {
+                                    v.requestFocus();
+                                }
+                                break;
+                        }
+                        return false;
+                    }
+                });
+            }
+        });
     }
 
     public void goToGame(View view){
@@ -118,4 +155,8 @@ public class FirstActivity extends Activity {
         mSettings.edit().putInt("tokens",100).commit();
     }
 
+    public void goBackButton(View view){
+        MusingoApp.soundButton();
+
+    }
 }

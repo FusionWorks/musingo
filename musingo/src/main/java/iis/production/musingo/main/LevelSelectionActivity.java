@@ -39,12 +39,14 @@ import iis.production.musingo.db.PackageTable;
 import iis.production.musingo.db.PlaySongsTable;
 import iis.production.musingo.objects.AlertViewFacebookLike;
 import iis.production.musingo.objects.AlertViewOrange;
+import iis.production.musingo.objects.AlertViewRateApp;
 import iis.production.musingo.objects.LevelViewPager;
 import iis.production.musingo.objects.Package;
 import iis.production.musingo.objects.Playlist;
 import iis.production.musingo.objects.Song;
 import iis.production.musingo.objects.TextViewArchitects;
 import iis.production.musingo.objects.TextViewPacifico;
+import iis.production.musingo.service.TimerService;
 import iis.production.musingo.utility.DidYouKnow;
 import iis.production.musingo.utility.Endpoints;
 import iis.production.musingo.utility.NetworkInfo;
@@ -244,6 +246,7 @@ public class LevelSelectionActivity extends Activity {
             public void onPageScrollStateChanged(int i) {
 
             }
+
         };
 
         viewPager.setOnPageChangeListener(viewPagerListener);
@@ -308,6 +311,7 @@ public class LevelSelectionActivity extends Activity {
         });
 
         getPackagesList();
+        rateApp();
     }
 
     public void dropDown(View view){
@@ -854,5 +858,22 @@ public class LevelSelectionActivity extends Activity {
                 packagesListView.setVisibility(View.GONE);
             }
         });
+    }
+
+    public void rateApp(){
+        PlaySongsTable table = new PlaySongsTable(this);
+        int playedGames = table.getPlayedLevels();
+        if(playedGames == 3){
+            mSettings.edit().putBoolean("timerService",false).commit();
+        }
+
+        if(!mSettings.getBoolean("timerService", true)){
+            stopService(new Intent(this, TimerService.class));
+            mSettings.edit().putBoolean("timerService",true).commit();
+            String title = getString(R.string.title_rate);
+            String body = getString(R.string.body_rate);
+            AlertViewRateApp rate = new AlertViewRateApp(title, body, "", this);
+            rate.show();
+        }
     }
 }

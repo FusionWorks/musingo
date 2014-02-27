@@ -45,7 +45,7 @@
             android:onClick="goToGame"/>
 
     </RelativeLayout>
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="#2c2c2c"
@@ -56,14 +56,36 @@
             android:layout_height="40dp"
             android:layout_alignParentLeft="true"
             android:src="@drawable/bottom_tree"/>
+
+        <ImageView
+            android:id="@+id/fb_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:src="@drawable/fb_icon"
+            android:layout_alignParentRight="true"/>
+
+        <ImageView
+            android:id="@+id/twiter_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:src="@drawable/twitter_icon"
+            android:layout_toLeftOf="@id/fb_bottom"/>
+
         <iis.production.musingo.objects.TextViewArchitects
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textSize="20sp"
             android:text="@string/bottom_text"
             android:layout_marginLeft="15dp"
             android:gravity="center_vertical"
-            android:textColor="#ffffff"/>
-    </LinearLayout>
+            android:textColor="#ffffff"
+            android:layout_toRightOf="@id/bottom"
+            android:layout_toLeftOf="@id/twiter_bottom"/>
+    </RelativeLayout>
 
+    <WebView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/webLike"
+        android:visibility="gone"/>
 </RelativeLayout>

@@ -474,11 +474,11 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
         mp.release();
     }
 
-    @Override
-    public void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        this.getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD);
-    }
+//    @Override
+//    public void onAttachedToWindow() {
+//        super.onAttachedToWindow();
+//        this.getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD);
+//    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -489,7 +489,9 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             mHandler.removeCallbacks(mBonusTask);
             mp.release();
             finish();
+            Log.v("Home", "home");
         }
+        Log.v("Home", "keycode" + keyCode);
         return super.onKeyDown(keyCode, event);
     }
 
