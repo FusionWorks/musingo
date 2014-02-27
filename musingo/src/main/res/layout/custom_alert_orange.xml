@@ -13,7 +13,7 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="30sp"
+            android:textSize="25sp"
             android:gravity="center_horizontal"
             android:layout_marginTop="10dp"
             android:textColor="#000000"/>
@@ -66,5 +66,19 @@
             android:text="GOT IT"
             android:gravity="center_horizontal"
             android:textColor="#000000"/>
+
+        <iis.production.musingo.objects.TextViewArchitects
+            android:id="@+id/laterRate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:layout_gravity="center_horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_marginTop="15dp"
+            android:text="Not now"
+            android:gravity="center_horizontal"
+            android:textColor="#000000"
+            android:visibility="gone"/>
     </LinearLayout>
 </LinearLayout>

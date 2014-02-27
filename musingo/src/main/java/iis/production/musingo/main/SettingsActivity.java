@@ -5,7 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -15,6 +18,7 @@ import iis.production.musingo.main.more.AboutActivity;
 import iis.production.musingo.main.more.HowToActivity;
 import iis.production.musingo.main.more.TokenShopActivity;
 import iis.production.musingo.objects.AlertViewFacebook;
+import iis.production.musingo.objects.FacebookWebViewClient;
 import iis.production.musingo.utility.FacebookManager;
 import iis.production.musingo.utility.Utility;
 
@@ -24,6 +28,8 @@ import iis.production.musingo.utility.Utility;
 public class SettingsActivity extends Activity {
     SharedPreferences mSettings;
     public static final String APP_PREFERENCES = "settings";
+    WebView webView;
+    boolean fbLikeOpen = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,11 +55,78 @@ public class SettingsActivity extends Activity {
 
         Utility.addSelecions(this, R.id.backButton, R.drawable.selected_back, R.drawable.back_button);
         Utility.addSelecions(this, R.id.imageRight, R.drawable.selected_arrow_right, R.drawable.arrow_right);
+
+        webView = (WebView) findViewById(R.id.webLike);
+        RelativeLayout fbLike = (RelativeLayout) findViewById(R.id.fbLike);
+        fbLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MusingoApp.soundButton();
+                fbLikeOpen = true;
+                webView.setVisibility(View.VISIBLE);
+                webView.getSettings().setJavaScriptEnabled(true);
+                webView.setWebViewClient(new FacebookWebViewClient(SettingsActivity.this));
+                webView.loadUrl(getString(R.string.like_url));
+                webView.requestFocus(View.FOCUS_DOWN);
+                webView.setOnTouchListener(new View.OnTouchListener()
+                {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event)
+                    {
+                        switch (event.getAction())
+                        {
+                            case MotionEvent.ACTION_DOWN:
+                            case MotionEvent.ACTION_UP:
+                                if (!v.hasFocus())
+                                {
+                                    v.requestFocus();
+                                }
+                                break;
+                        }
+                        return false;
+                    }
+                });
+            }
+        });
+
+        RelativeLayout twitter = (RelativeLayout) findViewById(R.id.twiter);
+        twitter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MusingoApp.soundButton();
+                fbLikeOpen = true;
+                webView.setVisibility(View.VISIBLE);
+                webView.getSettings().setJavaScriptEnabled(true);
+                webView.setWebViewClient(new FacebookWebViewClient(SettingsActivity.this));
+                webView.loadUrl(getString(R.string.twitter_url));
+                webView.requestFocus(View.FOCUS_DOWN);
+                webView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        switch (event.getAction()) {
+                            case MotionEvent.ACTION_DOWN:
+                            case MotionEvent.ACTION_UP:
+                                if (!v.hasFocus()) {
+                                    v.requestFocus();
+                                }
+                                break;
+                        }
+                        return false;
+                    }
+                });
+            }
+        });
+
     }
 
     public void goBackButton(View view){
         MusingoApp.soundButton();
-        finish();
+        if(fbLikeOpen){
+            webView.setVisibility(View.GONE);
+            fbLikeOpen = false;
+        } else {
+            finish();
+        }
     }
 
     public void goToHowTo(View view){
@@ -119,6 +192,14 @@ public class SettingsActivity extends Activity {
             status.setTag("YES");
             mSettings.edit().putBoolean("sounds",true).commit();
         }
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            goBackButton(null);
+        }
+//        return super.onKeyDown(keyCode, event);
+        return false;
     }
 
 }

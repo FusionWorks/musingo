@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,13 +55,13 @@ public class ResultsActivity extends Activity {
         setContentView(R.layout.activity_results);
 
         mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
-        mSettings.edit().putBoolean("tutorial1Package",false).commit();
+        mSettings.edit().putBoolean("firstPlay",false).commit();
         TextViewPacifico barTitle = (TextViewPacifico)findViewById(R.id.barTitle);
         levelName = getIntent().getStringExtra("levelName");
         if(levelName.length() > 14){
-            barTitle.setTextSize(20);
+            barTitle.setTextSize(16);
         } else {
-            barTitle.setTextSize(25);
+            barTitle.setTextSize(21);
         }
         barTitle.setText(levelName);
 
@@ -117,6 +119,15 @@ public class ResultsActivity extends Activity {
 
         facebookLogin();
         Utility.addSelecions(this, R.id.nextButton, R.drawable.selected_next, R.drawable.next_button);
+
+        TextView learnHow = (TextView) findViewById(R.id.learnHow);
+        learnHow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.goodworldgames.com/about.html"));
+                startActivity(browserIntent);
+            }
+        });
     }
 
     public void setStarCollection() {

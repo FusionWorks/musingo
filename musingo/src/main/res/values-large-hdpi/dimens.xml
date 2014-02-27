@@ -2,10 +2,13 @@
 <resources>
     <dimen name="did_you_know1">16sp</dimen>
     <dimen name="did_you_know2">18sp</dimen>
-    <dimen name="did_you_know3">19sp</dimen>
+    <dimen name="did_you_know3">20sp</dimen>
     <dimen name="did_you_know4">22sp</dimen>
     <dimen name="change_package">9sp</dimen>
     <dimen name="song_title">17sp</dimen>
     <dimen name="star">18sp</dimen>
-    <dimen name="top_bar_button">90dp</dimen>
+    <dimen name="top_bar_button">80dp</dimen>
+    <dimen name="top_bar_result">22sp</dimen>
+    <dimen name="first_activity_bottom">20sp</dimen>
+    <dimen name="setting_fb">16sp</dimen>
 </resources>

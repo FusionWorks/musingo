@@ -27,16 +27,27 @@
                 android:layout_height="40dp"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/nextButton">
-                <iis.production.musingo.objects.TextViewPacifico
-                    android:id="@+id/barTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20sp"
-                    android:text="Boy Bands"
-                    android:layout_centerInParent="true"
-                    android:textColor="#ffffff"
-                    style="@style/Shadow"/>
+
+                <TextView
+                    android:id="@+id/learnHow"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/learn_how"
+                    android:textColor="#000"
+                    android:textSize="8sp"
+                    android:layout_marginLeft="2dp"/>
+
             </RelativeLayout>
+
+        <iis.production.musingo.objects.TextViewPacifico
+            android:id="@+id/barTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/top_bar_result"
+            android:text="Boy Bands"
+            android:layout_centerInParent="true"
+            android:textColor="#ffffff"
+            style="@style/Shadow"/>
 
     </RelativeLayout>
 

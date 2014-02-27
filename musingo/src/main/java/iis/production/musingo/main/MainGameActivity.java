@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
@@ -162,7 +163,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     boolean tutorialBonusOpen = false;
     boolean tutorialOpen = false;
     boolean bonusOpen = false;
-    boolean waitingForResultActivity;
+    boolean waitingForResultActivity = false;
 
     String tutorialShow = "";
     @Override
@@ -337,10 +338,12 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     }
 
     public void toTokenShop(View view){
+        mp.pause();
         MusingoApp.soundButton();
         Intent intent = new Intent();
         intent.setClass(this, TokenShopActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
+//        startActivity(intent);
     }
 
     /**
@@ -406,7 +409,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
 
     private Runnable mBonusTask = new Runnable() {
         public void run() {
-            if(waitingForResultActivity){
+            if(waitingForResultActivity && !tutorialBonusOpen){
                 endGame();
             }
 
@@ -447,10 +450,49 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
     @Override
     public void onPause(){
         super.onPause();
+//        mHandler.removeCallbacks(mUpdateTimeTask);
+//        mHandler.removeCallbacks(mBonusTask);
+//        mp.release();
+//        finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.v("Musingo", "data : " + data);
+        mp.start();
+        if (data == null) {return;}
+        int token = data.getIntExtra("token", 0);
+        Log.v("Musingo", "token : " + token);
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        Log.v("Musingo", "onDestroy");
         mHandler.removeCallbacks(mUpdateTimeTask);
         mHandler.removeCallbacks(mBonusTask);
         mp.release();
-        finish();
+    }
+
+//    @Override
+//    public void onAttachedToWindow() {
+//        super.onAttachedToWindow();
+//        this.getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD);
+//    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if(keyCode == KeyEvent.KEYCODE_HOME)
+        {
+            mHandler.removeCallbacks(mUpdateTimeTask);
+            mHandler.removeCallbacks(mBonusTask);
+            mp.release();
+            finish();
+            Log.v("Home", "home");
+        }
+        Log.v("Home", "keycode" + keyCode);
+        return super.onKeyDown(keyCode, event);
     }
 
     public void playNext(){
@@ -518,7 +560,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             replay = false;
         }else{
             mp.stop();
-            if(tutorialBonusOpen || bonusOpen){
+            if(bonusOpen){
                 waitingForResultActivity = true;
             }
             else{
@@ -781,7 +823,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             }
         }
 
-        if(beatStar >=2){
+        if(beatStar >=1){
             title = getString(R.string.hint_powerup_title);
             body = getString(R.string.hint_powerup_body);
 
@@ -800,7 +842,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             }
         }
 
-        if(beatStar >=4){
+        if(beatStar >=3){
             title = getString(R.string.skip_powerup_title);
             body = getString(R.string.skip_powerup_body);
 
@@ -820,7 +862,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             Log.v("Musingo", "hint skip");
         }
 
-        if(beatStar >=6){
+        if(beatStar >=5){
             title = getString(R.string.replay_powerup_title);
             body = getString(R.string.replay_powerup_body);
 
@@ -841,7 +883,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             Log.v("Musingo", "hint replay");
         }
 
-        if(beatStar >=8){
+        if(beatStar >=7){
             title = getString(R.string.freeze_powerup_title);
             body = getString(R.string.freeze_powerup_body);
 
@@ -862,7 +904,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             Log.v("Musingo", "hint freeze");
         }
 
-        if(beatStar >=10){
+        if(beatStar >=9){
             title = getString(R.string.longer_clip_powerup_title);
             body = getString(R.string.longer_clip_powerup_body);
 
@@ -883,7 +925,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
             Log.v("Musingo", "hint longer");
         }
 
-        if(beatStar >=12){
+        if(beatStar >=11){
             title = getString(R.string.next_playlist_powerup_title);
             body = getString(R.string.next_playlist_powerup_body);
 
@@ -1231,7 +1273,7 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 mp.start();
                 tutorial6.setVisibility(View.GONE);
                 hideBonus(null);
-                if(waitingForResultActivity){
+                if(currentSong == 8){
                     endGame();
                 }
                 tutorialOpen = false;

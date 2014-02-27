@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="did_you_know1">11sp</dimen>
-    <dimen name="did_you_know2">13sp</dimen>
-    <dimen name="did_you_know3">15sp</dimen>
-    <dimen name="did_you_know4">17sp</dimen>
-    <dimen name="did_you_know5">19sp</dimen>
+    <dimen name="did_you_know1">10sp</dimen>
+    <dimen name="did_you_know2">12sp</dimen>
+    <dimen name="did_you_know3">13sp</dimen>
+    <dimen name="did_you_know4">16sp</dimen>
+    <dimen name="did_you_know5">18sp</dimen>
     <dimen name="change_package">8sp</dimen>
     <dimen name="song_title">10sp</dimen>
     <dimen name="star">16sp</dimen>
-    <dimen name="top_bar_button">90dp</dimen>
+    <dimen name="top_bar_button">80dp</dimen>
+    <dimen name="top_bar_result">18sp</dimen>
+    <dimen name="first_activity_bottom">19sp</dimen>
+    <dimen name="setting_fb">16sp</dimen>
 </resources>

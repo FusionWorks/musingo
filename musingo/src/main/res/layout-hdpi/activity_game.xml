@@ -31,12 +31,6 @@
             android:layout_centerVertical="true"
             android:onClick="toTokenShop"
             android:layout_alignParentRight="true">
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/coin"/>
             <TextView
                 android:id="@+id/coins"
                 android:layout_width="wrap_content"
@@ -48,6 +42,26 @@
                 android:layout_marginRight="5dp"
                 android:textColor="#ffffff"
                 style="@style/Shadow"/>
+
+            <RelativeLayout
+                android:layout_width="45dp"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="2dp"
+                    android:background="@drawable/coin"/>
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/plus_icon"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"/>
+            </RelativeLayout>
             </LinearLayout>
         </RelativeLayout>
     <RelativeLayout
@@ -546,6 +560,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="2dp"
+                        android:scaleType="fitStart"
                         android:layout_centerInParent="true"/>
                     <ImageView
                         android:id="@+id/border"
@@ -585,6 +600,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="2dp"
+                        android:scaleType="fitStart"
                         android:layout_centerInParent="true"/>
                     <ImageView
                         android:id="@+id/border"
@@ -623,6 +639,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="2dp"
+                        android:scaleType="fitStart"
                         android:layout_centerInParent="true"/>
                     <ImageView
                         android:id="@+id/border"
@@ -670,6 +687,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="2dp"
+                        android:scaleType="fitStart"
                         android:layout_centerInParent="true"/>
                     <ImageView
                         android:id="@+id/border"
@@ -709,6 +727,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="2dp"
+                        android:scaleType="fitStart"
                         android:layout_centerInParent="true"/>
                     <ImageView
                         android:id="@+id/border"
@@ -747,6 +766,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="2dp"
+                        android:scaleType="fitStart"
                         android:layout_centerInParent="true"/>
                     <ImageView
                         android:id="@+id/border"
@@ -793,6 +813,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="2dp"
+                        android:scaleType="fitStart"
                         android:layout_centerInParent="true"/>
                     <ImageView
                         android:id="@+id/border"
@@ -832,6 +853,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="2dp"
+                        android:scaleType="fitStart"
                         android:layout_centerInParent="true"/>
                     <ImageView
                         android:id="@+id/border"
@@ -870,6 +892,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="2dp"
+                        android:scaleType="fitStart"
                         android:layout_centerInParent="true"/>
                     <ImageView
                         android:id="@+id/border"
