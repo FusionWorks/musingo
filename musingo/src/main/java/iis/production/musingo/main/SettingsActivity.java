@@ -18,7 +18,7 @@ import iis.production.musingo.main.more.AboutActivity;
 import iis.production.musingo.main.more.HowToActivity;
 import iis.production.musingo.main.more.TokenShopActivity;
 import iis.production.musingo.objects.AlertViewFacebook;
-import iis.production.musingo.objects.FacebookWebViewClient;
+import iis.production.musingo.objects.CustomWebViewClient;
 import iis.production.musingo.utility.FacebookManager;
 import iis.production.musingo.utility.Utility;
 
@@ -65,7 +65,7 @@ public class SettingsActivity extends Activity {
                 fbLikeOpen = true;
                 webView.setVisibility(View.VISIBLE);
                 webView.getSettings().setJavaScriptEnabled(true);
-                webView.setWebViewClient(new FacebookWebViewClient(SettingsActivity.this));
+                webView.setWebViewClient(new CustomWebViewClient(SettingsActivity.this, webView));
                 webView.loadUrl(getString(R.string.like_url));
                 webView.requestFocus(View.FOCUS_DOWN);
                 webView.setOnTouchListener(new View.OnTouchListener()
@@ -97,7 +97,7 @@ public class SettingsActivity extends Activity {
                 fbLikeOpen = true;
                 webView.setVisibility(View.VISIBLE);
                 webView.getSettings().setJavaScriptEnabled(true);
-                webView.setWebViewClient(new FacebookWebViewClient(SettingsActivity.this));
+                webView.setWebViewClient(new CustomWebViewClient(SettingsActivity.this, webView));
                 webView.loadUrl(getString(R.string.twitter_url));
                 webView.requestFocus(View.FOCUS_DOWN);
                 webView.setOnTouchListener(new View.OnTouchListener() {

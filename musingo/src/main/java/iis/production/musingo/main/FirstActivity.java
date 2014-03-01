@@ -22,7 +22,7 @@ import iis.production.musingo.MusingoApp;
 import iis.production.musingo.R;
 import iis.production.musingo.db.PackageTable;
 import iis.production.musingo.db.PlaySongsTable;
-import iis.production.musingo.objects.FacebookWebViewClient;
+import iis.production.musingo.objects.CustomWebViewClient;
 import iis.production.musingo.service.TimerService;
 import iis.production.musingo.utility.FacebookManager;
 
@@ -61,7 +61,11 @@ public class FirstActivity extends Activity {
         PackageTable packageTable = new PackageTable(this);
         packageTable.deletePackageTable();
 //>>>
-        startService(new Intent(this, TimerService.class));
+        int playlistsPlayed = mSettings.getInt("playlistsPlayed", 0);
+        if(playlistsPlayed == 3 || mSettings.getBoolean("played3games", false)){
+            mSettings.edit().putBoolean("played3games", true).commit();
+            startService(new Intent(this, TimerService.class));
+        }
 
         webView = (WebView) findViewById(R.id.webLike);
         ImageView fbLike = (ImageView) findViewById(R.id.fb_bottom);
@@ -72,7 +76,7 @@ public class FirstActivity extends Activity {
                 fbLikeOpen = true;
                 webView.setVisibility(View.VISIBLE);
                 webView.getSettings().setJavaScriptEnabled(true);
-                webView.setWebViewClient(new FacebookWebViewClient(FirstActivity.this));
+                webView.setWebViewClient(new CustomWebViewClient(FirstActivity.this, webView));
                 webView.loadUrl(getString(R.string.like_url));
                 webView.requestFocus(View.FOCUS_DOWN);
                 webView.setOnTouchListener(new View.OnTouchListener()
@@ -104,7 +108,7 @@ public class FirstActivity extends Activity {
                 fbLikeOpen = true;
                 webView.setVisibility(View.VISIBLE);
                 webView.getSettings().setJavaScriptEnabled(true);
-                webView.setWebViewClient(new FacebookWebViewClient(FirstActivity.this));
+                webView.setWebViewClient(new CustomWebViewClient(FirstActivity.this, webView));
                 webView.loadUrl(getString(R.string.twitter_url));
                 webView.requestFocus(View.FOCUS_DOWN);
                 webView.setOnTouchListener(new View.OnTouchListener() {

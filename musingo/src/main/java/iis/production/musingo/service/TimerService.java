@@ -46,7 +46,7 @@ public class TimerService extends Service{
         new CountDownTimer(900000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                Log.v("Musingo", "time : " + millisUntilFinished / 1000);
+//                Log.v("Musingo", "time : " + millisUntilFinished / 1000);
             }
 
             public void onFinish() {

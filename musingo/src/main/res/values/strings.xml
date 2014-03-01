@@ -61,7 +61,7 @@
 
     <!-- Tutorial Package Selection -->
     <string name="tutorial1Package">YOU JUST PLAYED YOUR FIRST PLAYLIST! YOU CAN EARN UP TO 3 STARS PER PLAYLIST.</string>
-    <string name="tutorial2Package">THE STAR LEGEND LIVES HERE. EARNING <u>STARS</u></string>
+    <string name="tutorial2Package">THE STAR LEGEND LIVES HERE. EARNING <u>STARS</u> LETS YOU UNLOCK MORE PLAYLISTS!</string>
     <string name="tutorial3Package">TAKE ON ANY PLAYLIST IN WHATEVER ORDER YOU LIKE. <b>TRY ONE NOW!</b></string>
 
     <!-- Powerup -->
@@ -169,5 +169,5 @@
     <string name="learn_how"><font color='red'><u>Learn how</u></font> we\'re putting the <b>GOOD</b> in Good World Games</string>
 
 <!-- Twitter -->
-    <string name="twitter_url">https://twitter.com/goodworldgames</string>
+    <string name="twitter_url">https://mobile.twitter.com/goodworldgames</string>
 </resources>

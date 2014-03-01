@@ -32,7 +32,6 @@ public class DidYouKnow {
         int strId = activity.getResources().getIdentifier(text, "string", activity.getPackageName());
         String strValue = activity.getString(strId);
 
-        view.setText(strValue.toUpperCase());
         int l = strValue.length();
         view.setText(strValue.toUpperCase());
 
