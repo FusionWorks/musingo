@@ -54,9 +54,9 @@
                     android:layout_marginTop="2dp"
                     android:background="@drawable/coin"/>
 
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                <ImageButton
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginTop="2dp"
                     android:layout_marginRight="5dp"
                     android:background="@drawable/plus_icon"
@@ -163,7 +163,8 @@
             <View android:id="@+id/separator"
                 android:background="#3fb8cd"
                 android:layout_width = "fill_parent"
-                android:layout_height="2dp"/>
+                android:layout_height="2dp"
+                android:layout_marginBottom="2dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -370,6 +371,7 @@
                     </RelativeLayout>
                 </LinearLayout>
             <View android:id="@+id/separator"
+                android:layout_marginTop="2dp"
                 android:background="#3fb8cd"
                 android:layout_width = "fill_parent"
                 android:layout_alignParentBottom="true"
@@ -1168,6 +1170,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
         android:layout_centerHorizontal="true"
         android:onClick="hideBonus"
         android:visibility="gone"

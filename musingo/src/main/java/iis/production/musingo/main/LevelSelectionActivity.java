@@ -15,8 +15,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -200,7 +202,9 @@ public class LevelSelectionActivity extends Activity {
         LevelPagerAdapter pagerAdapter = new LevelPagerAdapter(pages);
         viewPager = (LevelViewPager)findViewById(R.id.pager);
         viewPager.setAdapter(pagerAdapter);
-        viewPager.setCurrentItem(0);
+//        viewPager.setCurrentItem(0);
+        Log.v("Musingo", "mSettings.getInt(\"currentLevel\", 0)  : " + mSettings.getInt("currentLevel", 0));
+        viewPager.setCurrentItem(mSettings.getInt("currentLevel", 0));
 
         viewPagerListener = new ViewPager.OnPageChangeListener() {
             @Override
@@ -315,6 +319,7 @@ public class LevelSelectionActivity extends Activity {
 
         getPackagesList();
         rateApp();
+        facebookLike();
     }
 
     public void dropDown(View view){
@@ -446,6 +451,7 @@ public class LevelSelectionActivity extends Activity {
             clickable = false;
             viewPager.setPagingEnabled(clickable);
         } else if(clickable && unlocked && !mSettings.getBoolean("firstPlay", true)){
+            mSettings.edit().putInt("currentLevel",  viewPager.getCurrentItem()).commit();
             playlistDownloading = true;
             MusingoApp.soundButton();
             selectedLevel = Integer.valueOf(view.getTag().toString());
@@ -468,7 +474,7 @@ public class LevelSelectionActivity extends Activity {
 
             clickable = false;
             viewPager.setPagingEnabled(clickable);
-        } else if(!tutorialOpen){
+        } else if(!tutorialOpen && viewPager.getCurrentItem()!=0){
             String title = getString(R.string.lock_package_title);
             String body =  getString(R.string.lock_package_body);
             String detail = getString(R.string.lock_package_detail);
@@ -479,7 +485,7 @@ public class LevelSelectionActivity extends Activity {
     }
 
     public void downloadResultForLevels(ArrayList<Playlist> playLists, String packageName, int starsToUnlock){
-
+        starsToUnlock = 0;
         this.starsToUnlock = starsToUnlock;
         this.packageName = packageName;
         this.playlists = playLists;
@@ -497,12 +503,14 @@ public class LevelSelectionActivity extends Activity {
             packageTable.updateUnlocked(true, packageName);
         }
 
+        ImageView unlockNow = (ImageView) findViewById(R.id.unlock_now);
+
         if (packageTable.isUnlocked(packageName)){
             packageUnlock.setBackgroundResource(0);
             packageUnlock.setText("Unlocked:");
             songsTitle.setText(packageName);
 
-            ImageView unlockNow = (ImageView) findViewById(R.id.unlock_now);
+            unlockNow.clearAnimation();
             unlockNow.setVisibility(View.GONE);
             Log.v("Musingo", "packageName BLAAA  "+packageName);
 //            ImageView image = (ImageView)levels.findViewWithTag("selected");
@@ -515,11 +523,19 @@ public class LevelSelectionActivity extends Activity {
             songsTitle.setText(packageName);
 
             LinearLayout packageStatus = (LinearLayout) findViewById(R.id.packageStatus);
-            ImageView unlockNow = (ImageView) findViewById(R.id.unlock_now);
 
             PlaySongsTable playSongsTable = new PlaySongsTable(this);
             if(playSongsTable.getSumStars() >= starsToUnlock){
+
+                final Animation animation = new AlphaAnimation(1, 0);
+                animation.setDuration(1000);
+                animation.setInterpolator(new LinearInterpolator());
+                animation.setRepeatCount(Animation.INFINITE);
+                animation.setRepeatMode(Animation.REVERSE);
+
                 unlockNow.setVisibility(View.VISIBLE);
+                unlockNow.startAnimation(animation);
+
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) unlockNow.getLayoutParams();
                 int marginLeft = packageUnlock.getLeft();
                 int marginTop = packageStatus.getBottom() + packageUnlock.getBottom();
@@ -615,11 +631,12 @@ public class LevelSelectionActivity extends Activity {
         clickable = false;
         viewPager.setPagingEnabled(clickable);
 
-        facebookLike();
     }
 
     private void facebookLike() {
-        if(viewPager.getCurrentItem() == 2 && mSettings.getBoolean("facebookLike", true)){
+        int playlistsPlayed = mSettings.getInt("fbLikeShow", 0);
+        Log.v("Musingo", "playlistsPlayed: " + playlistsPlayed);
+        if(playlistsPlayed == 9 && mSettings.getBoolean("facebookLike", true)){
             AlertViewFacebookLike like = new AlertViewFacebookLike(this);
             likePageOpen = true;
             webView = (WebView) findViewById(R.id.webLike);
@@ -661,12 +678,13 @@ public class LevelSelectionActivity extends Activity {
 
     public void getStarsCollected(){
         PlaySongsTable PST = new PlaySongsTable(this);
-        starNumber.setText(String.valueOf(PST.getSumStars()));
+        starNumber.setText(String.valueOf(PST.getSumStars())+" ");
     }
 
     @Override
     public void onResume(){
         super.onResume();
+
         if (packageDownloading){
             String url = Endpoints.package_url + selectedPackage;
             Drawable progressBar = getResources().getDrawable(R.drawable.progress_bar);

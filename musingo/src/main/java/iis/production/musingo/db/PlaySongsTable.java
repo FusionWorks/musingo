@@ -189,6 +189,22 @@ public class PlaySongsTable {
         return number;
     }
 
+    public boolean getStarBeatByLevel(int levelNumber){
+        int number = 0;
+        SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
+        Cursor c = db.rawQuery("SELECT COUNT(*) FROM play_songs WHERE BeatStar = 1 and LevelNr = " + levelNumber, null);
+        if(c.moveToFirst()) {
+            number = c.getInt(0);
+        }
+        db.close();
+
+        if(number == 0){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public void deletePlaySongsTable(){
         SQLiteDatabase db = activity.openOrCreateDatabase(dbName, Context.MODE_PRIVATE, null);
         db.execSQL("DROP TABLE IF EXISTS play_songs");

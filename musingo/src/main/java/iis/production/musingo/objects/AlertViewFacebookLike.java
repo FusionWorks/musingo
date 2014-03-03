@@ -56,7 +56,7 @@ public class AlertViewFacebookLike  extends AlertDialog {
                 webView = (WebView) activity.findViewById(R.id.webLike);
                 webView.setVisibility(View.VISIBLE);
                 webView.getSettings().setJavaScriptEnabled(true);
-                webView.setWebViewClient(new FacebookWebViewClient(activity));
+                webView.setWebViewClient(new CustomWebViewClient(activity, webView));
                 webView.loadUrl(url);
                 webView.requestFocus(View.FOCUS_DOWN);
                 webView.setOnTouchListener(new View.OnTouchListener()
