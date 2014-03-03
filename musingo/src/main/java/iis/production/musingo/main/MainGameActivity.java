@@ -870,8 +870,22 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 image.setVisibility(View.GONE);
             }
 
-
         if(beatStar >=5 && !levelBeat){
+            title = getString(R.string.freeze_powerup_title);
+            body = getString(R.string.freeze_powerup_body);
+        }
+
+        if(mSettings.getBoolean(getString(R.string.freeze_powerup_title), false)){
+            image = (ImageView)hintFreeze.findViewById(R.id.hint);
+            image.setImageResource(R.drawable.hint_freeze_vis);
+            image.setTag("vis");
+            Utility.addSelecionsInView(this, R.id.hintFreeze, R.id.hint, R.drawable.selected_freeze, R.drawable.hint_freeze_vis);
+
+            image = (ImageView)hintFreeze.findViewById(R.id.lock);
+            image.setVisibility(View.GONE);
+        }
+
+        if(beatStar >=7 && !levelBeat){
             title = getString(R.string.replay_powerup_title);
             body = getString(R.string.replay_powerup_body);
         }
@@ -883,21 +897,6 @@ public class MainGameActivity extends Activity implements MediaPlayer.OnCompleti
                 Utility.addSelecionsInView(this, R.id.hintReplay, R.id.hint, R.drawable.selected_replay, R.drawable.hint_replay_vis);
 
                 image = (ImageView)hintReplay.findViewById(R.id.lock);
-                image.setVisibility(View.GONE);
-            }
-
-        if(beatStar >=7 && !levelBeat){
-            title = getString(R.string.freeze_powerup_title);
-            body = getString(R.string.freeze_powerup_body);
-        }
-
-            if(mSettings.getBoolean(getString(R.string.freeze_powerup_title), false)){
-                image = (ImageView)hintFreeze.findViewById(R.id.hint);
-                image.setImageResource(R.drawable.hint_freeze_vis);
-                image.setTag("vis");
-                Utility.addSelecionsInView(this, R.id.hintFreeze, R.id.hint, R.drawable.selected_freeze, R.drawable.hint_freeze_vis);
-
-                image = (ImageView)hintFreeze.findViewById(R.id.lock);
                 image.setVisibility(View.GONE);
             }
 
