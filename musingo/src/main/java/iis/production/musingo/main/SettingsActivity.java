@@ -30,6 +30,7 @@ public class SettingsActivity extends Activity {
     public static final String APP_PREFERENCES = "settings";
     WebView webView;
     boolean fbLikeOpen = false;
+    ImageView fbImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,47 +46,30 @@ public class SettingsActivity extends Activity {
             image.setImageResource(R.drawable.no);
             image.setTag("NO");
         }
+
+        webView = (WebView) findViewById(R.id.webLike);
         RelativeLayout logged = (RelativeLayout)findViewById(R.id.logedInLayout);
-        ImageView fbImage = (ImageView)logged.findViewById(R.id.imageRightCheck);
-        if(FacebookManager.userFb.isSessionValid()){
+        fbImage = (ImageView)logged.findViewById(R.id.imageRightCheck);
+        if(FacebookManager.userFb.isSessionValid() || !mSettings.getBoolean("facebookLike", true)){
             fbImage.setImageResource(R.drawable.yes);
         }else{
             fbImage.setImageResource(R.drawable.no);
+            fbImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    faceBookLike();
+                }
+            });
         }
 
         Utility.addSelecions(this, R.id.backButton, R.drawable.selected_back, R.drawable.back_button);
         Utility.addSelecions(this, R.id.imageRight, R.drawable.selected_arrow_right, R.drawable.arrow_right);
 
-        webView = (WebView) findViewById(R.id.webLike);
         RelativeLayout fbLike = (RelativeLayout) findViewById(R.id.fbLike);
         fbLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MusingoApp.soundButton();
-                fbLikeOpen = true;
-                webView.setVisibility(View.VISIBLE);
-                webView.getSettings().setJavaScriptEnabled(true);
-                webView.setWebViewClient(new CustomWebViewClient(SettingsActivity.this, webView));
-                webView.loadUrl(getString(R.string.like_url));
-                webView.requestFocus(View.FOCUS_DOWN);
-                webView.setOnTouchListener(new View.OnTouchListener()
-                {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event)
-                    {
-                        switch (event.getAction())
-                        {
-                            case MotionEvent.ACTION_DOWN:
-                            case MotionEvent.ACTION_UP:
-                                if (!v.hasFocus())
-                                {
-                                    v.requestFocus();
-                                }
-                                break;
-                        }
-                        return false;
-                    }
-                });
+                faceBookLike();
             }
         });
 
@@ -119,10 +103,41 @@ public class SettingsActivity extends Activity {
 
     }
 
+    private void faceBookLike() {
+        MusingoApp.soundButton();
+        fbLikeOpen = true;
+        webView.setVisibility(View.VISIBLE);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.setWebViewClient(new CustomWebViewClient(SettingsActivity.this, webView));
+        webView.loadUrl(getString(R.string.like_url));
+        webView.requestFocus(View.FOCUS_DOWN);
+        webView.setOnTouchListener(new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                switch (event.getAction())
+                {
+                    case MotionEvent.ACTION_DOWN:
+                    case MotionEvent.ACTION_UP:
+                        if (!v.hasFocus())
+                        {
+                            v.requestFocus();
+                        }
+                        break;
+                }
+                return false;
+            }
+        });
+    }
+
     public void goBackButton(View view){
         MusingoApp.soundButton();
         if(fbLikeOpen){
             webView.setVisibility(View.GONE);
+            if(mSettings.getBoolean("facebookLike", true)){
+                fbImage.setImageResource(R.drawable.no);
+            }
             fbLikeOpen = false;
         } else {
             finish();

@@ -50,20 +50,20 @@ public class CustomWebViewClient extends android.webkit.WebViewClient {
             boolean unfollow = url.indexOf(unfollowUrl) > -1;
 
             if (like) {
-                mSettings.edit().putBoolean("facebookLike",true).commit();
+                mSettings.edit().putBoolean("facebookLike",false).commit();
                 Toast.makeText(activity, "You have just selected 'like' ", Toast.LENGTH_LONG).show();
                 webView.setVisibility(View.GONE);
             } else if (unLike) {
-                mSettings.edit().putBoolean("facebookLike",false).commit();
+                mSettings.edit().putBoolean("facebookLike",true).commit();
                 Toast.makeText(activity, "You have just selected 'unlike' ", Toast.LENGTH_LONG).show();
             }
 
             if (follow){
-                mSettings.edit().putBoolean("twitterFollow",true).commit();
+                mSettings.edit().putBoolean("twitterFollow",false).commit();
                 Toast.makeText(activity, "You have just selected 'follow' ", Toast.LENGTH_LONG).show();
                 webView.setVisibility(View.GONE);
             } else if (unfollow){
-                mSettings.edit().putBoolean("twitterFollow",false).commit();
+                mSettings.edit().putBoolean("twitterFollow",true).commit();
                 Toast.makeText(activity, "You have just selected 'unfollow' ", Toast.LENGTH_LONG).show();
             }
         }

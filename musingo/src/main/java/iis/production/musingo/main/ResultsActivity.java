@@ -12,7 +12,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -134,24 +133,51 @@ public class ResultsActivity extends Activity {
             }
         });
 
-        list.setOnScrollListener(new AbsListView.OnScrollListener(){
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                final int lastVisibleItem = firstVisibleItem + visibleItemCount - 1;
-                if(lastVisibleItem == 8){
-                    Log.v("Musingo", "scrolling down...");
-                    score.setVisibility(View.GONE);
-                    starCollection.setVisibility(View.GONE);
+//        list.setOnScrollListener(new AbsListView.OnScrollListener(){
+//            int lastVisibleItem;
+//            int firstItem;
+//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+//                lastVisibleItem = firstVisibleItem + visibleItemCount - 1;
+//                firstItem = firstVisibleItem;
+//            }
+//            public void onScrollStateChanged(AbsListView view, int scrollState) {
+//                Log.v("Musingo", "scrollState : " + scrollState);
+//                if(firstItem !=0 && scrollState!=1){
+//                    Log.v("Musingo", "scrolling down...");
+//                    //score.setVisibility(View.GONE);
+//                    //starCollection.setVisibility(View.GONE);
+//                    Animation animation = new AlphaAnimation(1.0f, 0.0f);
+//                    animation.setDuration(800);
+//                    starCollection.startAnimation(animation);
+//                    starCollection.setVisibility(View.GONE);
+//
+//                    score.startAnimation(animation);
+//                    score.setVisibility(View.GONE);
+//                } else if(firstItem ==0 && scrollState!=2){
+//                    Log.v("Musingo", "scrolling up...");
+////                    score.setVisibility(View.VISIBLE);
+////                    starCollection.setVisibility(View.VISIBLE);
+//                    Animation animation = new AlphaAnimation(0.0f, 1.0f);
+//                    animation.setDuration(500);
+//                    starCollection.startAnimation(animation);
+//                    starCollection.setVisibility(View.VISIBLE);
+//
+//                    score.startAnimation(animation);
+//                    score.setVisibility(View.VISIBLE);
+//                }
+//            }
+//        });
 
-                } else if(firstVisibleItem == 0){
-                    Log.v("Musingo", "scrolling up...");
-                    score.setVisibility(View.VISIBLE);
-                    starCollection.setVisibility(View.VISIBLE);
-                }
-            }
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
+        playedGames();
+    }
 
-            }
-        });
+    private void playedGames() {
+        int playlistsPlayed = mSettings.getInt("fbLikeShow", 0);
+        if(mSettings.getBoolean("facebookLike", true) && playlistsPlayed == 9){
+            mSettings.edit().putInt("fbLikeShow", 0).commit();
+        } else {
+            mSettings.edit().putInt("fbLikeShow", ++playlistsPlayed).commit();
+        }
     }
 
     public void setStarCollection() {
@@ -171,7 +197,8 @@ public class ResultsActivity extends Activity {
     }
 
     public void starCollection(View v){
-        if(starCollection.getVisibility() == View.VISIBLE){
+        Log.v("Musingo", "starCollection.getVisibility(): " + starCollection.getVisibility() + " v.VISIBLE: " + v.VISIBLE);
+        if(starCollection.getVisibility() == 0 ){
             starCollection.setVisibility(View.GONE);
         }
         else {
@@ -180,7 +207,7 @@ public class ResultsActivity extends Activity {
     }
 
     public void score(View v){
-        if(score.getVisibility() == View.VISIBLE){
+        if(score.getVisibility() == 0){
             score.setVisibility(View.GONE);
         }
         else {

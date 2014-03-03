@@ -299,25 +299,26 @@
 
     </LinearLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:id="@+id/scrollView"
-        android:layout_below="@id/results">
+    <!--<ScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:fillViewport="true"-->
+        <!--android:id="@+id/scrollView"-->
+        <!--android:layout_below="@id/results">-->
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/listViewScroll">
+        <!--<LinearLayout-->
+            <!--android:orientation="vertical"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="fill_parent"-->
+            <!--android:id="@+id/listViewScroll">-->
 
             <ListView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/listViewSongs" />
+                android:id="@+id/listViewSongs"
+                android:layout_below="@id/results"/>
 
-        </LinearLayout>
-    </ScrollView>
+        <!--</LinearLayout>-->
+    <!--</ScrollView>-->
 
 </RelativeLayout>

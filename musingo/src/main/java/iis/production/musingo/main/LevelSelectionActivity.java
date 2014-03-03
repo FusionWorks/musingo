@@ -319,6 +319,7 @@ public class LevelSelectionActivity extends Activity {
 
         getPackagesList();
         rateApp();
+        facebookLike();
     }
 
     public void dropDown(View view){
@@ -484,6 +485,7 @@ public class LevelSelectionActivity extends Activity {
     }
 
     public void downloadResultForLevels(ArrayList<Playlist> playLists, String packageName, int starsToUnlock){
+        starsToUnlock = 0;
         this.starsToUnlock = starsToUnlock;
         this.packageName = packageName;
         this.playlists = playLists;
@@ -629,11 +631,12 @@ public class LevelSelectionActivity extends Activity {
         clickable = false;
         viewPager.setPagingEnabled(clickable);
 
-        facebookLike();
     }
 
     private void facebookLike() {
-        if(viewPager.getCurrentItem() == 2 && mSettings.getBoolean("facebookLike", true)){
+        int playlistsPlayed = mSettings.getInt("fbLikeShow", 0);
+        Log.v("Musingo", "playlistsPlayed: " + playlistsPlayed);
+        if(playlistsPlayed == 9 && mSettings.getBoolean("facebookLike", true)){
             AlertViewFacebookLike like = new AlertViewFacebookLike(this);
             likePageOpen = true;
             webView = (WebView) findViewById(R.id.webLike);
