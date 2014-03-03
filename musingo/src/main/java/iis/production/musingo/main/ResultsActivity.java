@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -58,6 +59,10 @@ public class ResultsActivity extends Activity {
         mSettings.edit().putBoolean("firstPlay",false).commit();
         TextViewPacifico barTitle = (TextViewPacifico)findViewById(R.id.barTitle);
         levelName = getIntent().getStringExtra("levelName");
+
+        starCollection = (LinearLayout) findViewById(R.id.starCollectionView);
+        score = (LinearLayout) findViewById(R.id.scoreView);
+
         if(levelName.length() > 14){
             barTitle.setTextSize(16);
         } else {
@@ -128,6 +133,25 @@ public class ResultsActivity extends Activity {
                 startActivity(browserIntent);
             }
         });
+
+        list.setOnScrollListener(new AbsListView.OnScrollListener(){
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                final int lastVisibleItem = firstVisibleItem + visibleItemCount - 1;
+                if(lastVisibleItem == 8){
+                    Log.v("Musingo", "scrolling down...");
+                    score.setVisibility(View.GONE);
+                    starCollection.setVisibility(View.GONE);
+
+                } else if(firstVisibleItem == 0){
+                    Log.v("Musingo", "scrolling up...");
+                    score.setVisibility(View.VISIBLE);
+                    starCollection.setVisibility(View.VISIBLE);
+                }
+            }
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+        });
     }
 
     public void setStarCollection() {
@@ -147,7 +171,6 @@ public class ResultsActivity extends Activity {
     }
 
     public void starCollection(View v){
-        starCollection = (LinearLayout) findViewById(R.id.starCollectionView);
         if(starCollection.getVisibility() == View.VISIBLE){
             starCollection.setVisibility(View.GONE);
         }
@@ -157,7 +180,6 @@ public class ResultsActivity extends Activity {
     }
 
     public void score(View v){
-        score = (LinearLayout) findViewById(R.id.scoreView);
         if(score.getVisibility() == View.VISIBLE){
             score.setVisibility(View.GONE);
         }

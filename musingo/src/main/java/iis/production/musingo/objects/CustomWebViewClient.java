@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Message;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebView;
@@ -18,6 +19,8 @@ import iis.production.musingo.R;
 public class CustomWebViewClient extends android.webkit.WebViewClient {
     public final String likeURL = "?fan&";
     public final String unlikeURL = "?unfan&";
+    public final String followUrl = "follow";
+    public final String unfollowUrl = "unfollow";
     public String url = "";
     public static final String APP_PREFERENCES = "settings";
     SharedPreferences mSettings;
@@ -40,16 +43,28 @@ public class CustomWebViewClient extends android.webkit.WebViewClient {
         public void onLoadResource(WebView view, String url) {
             super.onLoadResource(view, url);
 
-            boolean following = url.indexOf(likeURL) > -1;
-            boolean unFollowing = url.indexOf(unlikeURL) > -1;
+            Log.v("Musingo", "twitter url:" + url);
+            boolean like = url.indexOf(likeURL) > -1;
+            boolean unLike = url.indexOf(unlikeURL) > -1;
+            boolean follow = url.indexOf(followUrl) > -1;
+            boolean unfollow = url.indexOf(unfollowUrl) > -1;
 
-            if (following) {
-                mSettings.edit().putBoolean("facebookLike",false).commit();
+            if (like) {
+                mSettings.edit().putBoolean("facebookLike",true).commit();
                 Toast.makeText(activity, "You have just selected 'like' ", Toast.LENGTH_LONG).show();
                 webView.setVisibility(View.GONE);
-            } else if (unFollowing) {
+            } else if (unLike) {
                 mSettings.edit().putBoolean("facebookLike",false).commit();
                 Toast.makeText(activity, "You have just selected 'unlike' ", Toast.LENGTH_LONG).show();
+            }
+
+            if (follow){
+                mSettings.edit().putBoolean("twitterFollow",true).commit();
+                Toast.makeText(activity, "You have just selected 'follow' ", Toast.LENGTH_LONG).show();
+                webView.setVisibility(View.GONE);
+            } else if (unfollow){
+                mSettings.edit().putBoolean("twitterFollow",false).commit();
+                Toast.makeText(activity, "You have just selected 'unfollow' ", Toast.LENGTH_LONG).show();
             }
         }
 
